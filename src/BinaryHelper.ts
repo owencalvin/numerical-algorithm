@@ -43,6 +43,26 @@ export class BinaryHelper {
     return parseInt(binary, 2);
   }
 
+  /**
+   * Invert a binary number
+   * @param b 
+   * @returns 
+   */
+  public invert(b: string) {
+    b = this.decimalToBinary(this.binaryToDecimal(b) ^ this.binaryToDecimal(this.getNBit(1)));
+    b = this.addPadding(b);
+    return b;
+  }
+
+  /**
+   * Add 1 to a binary number
+   * @param b 
+   * @returns 
+   */
+  public addOne(b: string) {
+    return this.binaryAddition(b, this.getNBit(0, 7) + "1")[0];
+  }
+
   public elementaryAddition(x: string, y: string, carry = "0"): string[] {
     const res = Number(x) + Number(y) + Number(carry);
 
@@ -60,6 +80,12 @@ export class BinaryHelper {
     }
   }
 
+  /**
+   * Add 2 binary numbers
+   * @param b1 
+   * @param b2 
+   * @returns 
+   */
   public binaryAddition(b1: string, b2: string) {
     let res = "";
     let carry = "0";
@@ -73,16 +99,12 @@ export class BinaryHelper {
     return [res, carry];
   }
 
-  public invert(b: string) {
-    b = this.decimalToBinary(this.binaryToDecimal(b) ^ this.binaryToDecimal(this.getNBit(1)));
-    b = this.addPadding(b);
-    return b;
-  }
-
-  public addOne(b: string) {
-    return this.binaryAddition(b, this.getNBit(0, 7) + "1")[0];
-  }
-
+  /**
+   * Substract 2 binary numbers
+   * @param b1 
+   * @param b2 
+   * @returns 
+   */
   public binarySubstraction(b1: string, b2: string) {
     b2 = this.invert(b2);
     b2 = this.addOne(b2);
