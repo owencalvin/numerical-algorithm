@@ -3,8 +3,14 @@ const path = require('path');
 module.exports = {
   mode: 'production',
   entry: './src/index.ts',
+  devtool: 'inline-source-map',
   optimization: {
     minimize: false
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   },
   module: {
     rules: [

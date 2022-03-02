@@ -1,5 +1,7 @@
 import { BinaryHelper } from "./BinaryHelper";
 
-console.log(BinaryHelper.toBinary(5));
+const bh = new BinaryHelper(8);
 
-console.log("hello")
+const res = bh.binaryAddition("00111111", "11100011");
+
+console.log(res)
