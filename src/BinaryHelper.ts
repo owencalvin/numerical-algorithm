@@ -171,7 +171,7 @@ export class BinaryHelper {
    * @returns The result of the multiplication
    */
   public binaryMultiplication(b1: string, b2: string) {
-    let res = ""
+    let res = "";
     const addResults = [];
 
     // The binary numbers to mulitply

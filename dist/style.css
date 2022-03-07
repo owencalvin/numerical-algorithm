@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+* {
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input, select {
+  background: rgb(226, 226, 226);
+  color: black;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  border: 4px solid transparent;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  background: rgb(4, 92, 255);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+input:focus, select:focus {
+  border-color: rgb(4, 113, 255);
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100vh;
+}
+
+.mt25 {
+  margin-top: 25px;
+}
+
+.mt50 {
+  margin-top: 25px;
+}
+
+.w500 {
+  max-width: 500px;
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.big-text {
+  font-size: 1.9em;
+}
