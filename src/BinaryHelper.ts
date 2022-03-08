@@ -138,7 +138,7 @@ export class BinaryHelper {
     let res = "";
     let carry = "0";
     const [bp1, bp2] = this.addMaxPadding(b1, b2);
-
+    
     for (let i = bp1.length - 1; i >= 0; i--) {
       const [r, c] = this.elementaryAddition(bp1[i], bp2[i], carry);
       res = r + res;
