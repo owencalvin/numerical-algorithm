@@ -46,6 +46,10 @@ export class BinaryHelper {
         return res;
       }
     }
+
+    if (res === "") {
+      return "0";
+    }
   }
 
 
@@ -64,6 +68,13 @@ export class BinaryHelper {
     }
 
     return [b1, b2];
+  }
+
+  public getMaxLength(b1: string, b2: string) {
+    if (b1.length > b2.length) {
+      return b1.length;
+    }
+    return b2.length;
   }
 
   /**
@@ -85,13 +96,13 @@ export class BinaryHelper {
   }
 
   /**
-   * Add 1 to a binary number
+   * Add int to a binary number
    * @param b The binary number
    * @param n The int number to add to the binary number
    * @returns The produced result
    */
-  public add(b: string, n: number): string {
-    return this.binaryAddition(b, this.decimalToBinary(n))[0];
+  public addNumberToBinary(b: string, n: number): string[] {
+    return this.binaryAddition(b, this.decimalToBinary(n));
   }
 
   /**
@@ -100,7 +111,9 @@ export class BinaryHelper {
    * @returns The invert binary number
    */
   public invert(b: string) {
+    const initialLength = b.length;
     b = this.decimalToBinary(this.binaryToDecimal(b) ^ this.binaryToDecimal(this.getNBit(1, b.length)));
+    b = this.addPadding(initialLength, b);
     return b;
   }
 
@@ -111,7 +124,7 @@ export class BinaryHelper {
    * @param carry The carry
    * @returns The result with the carry [bit, carry]
    */
-  public elementaryAddition(x: string, y: string, carry = "0"): string[] {
+  public elementaryAddition(x: string, y: string, carry = ""): string[] {
     const res = Number(x) + Number(y) + Number(carry);
 
     switch (res) {
@@ -121,10 +134,10 @@ export class BinaryHelper {
       case 2:
         return ["0", "1"];
       case 1:
-        return ["1", "0"];
+        return ["1", ""];
       // c = 0, x = 0, y = 0
       case 0:
-        return ["0", "0"];
+        return ["0", ""];
     }
   }
 
@@ -136,9 +149,9 @@ export class BinaryHelper {
    */
   public binaryAddition(b1: string, b2: string) {
     let res = "";
-    let carry = "0";
+    let carry = "";
     const [bp1, bp2] = this.addMaxPadding(b1, b2);
-    
+
     for (let i = bp1.length - 1; i >= 0; i--) {
       const [r, c] = this.elementaryAddition(bp1[i], bp2[i], carry);
       res = r + res;
@@ -155,13 +168,13 @@ export class BinaryHelper {
    * @returns The result of the substraction
    */
   public binarySubstraction(b1: string, b2: string) {
-    b2 = this.invert(b2);
-    b2 = this.add(b2, 1);
+    const [bp1, bp2] = this.addMaxPadding(b1, b2);
+    return this.binaryAddition(bp1, this.c2(bp2));
+  }
 
-    const res = this.binaryAddition(b1, b2);
-    res[0] = this.invert(res[0]);
-    res[0] = this.add(res[0], 1);
-    return res;
+  public c2(b: string): string {
+    b = this.invert(b);
+    return this.binaryAddition(b, "1").reverse().join("");
   }
 
   /**

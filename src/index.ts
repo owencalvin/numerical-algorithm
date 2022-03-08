@@ -26,8 +26,7 @@ function onChange() {
 
   switch (mode.value) {
     case "add": {
-      const [r, c] = bh.binaryAddition(a, b);
-      res = c + r;
+      res = bh.binaryAddition(a, b).reverse().join("");
       res = bh.clean(res);
       break;
     }
@@ -37,8 +36,7 @@ function onChange() {
       break;
     }
     case "sub": {
-      const [r, c] = bh.binarySubstraction(a, b);
-      res = c + r;
+      res = bh.binarySubstraction(a, b)[0];
       res = bh.clean(res);
       break;
     }
