@@ -181,3 +181,8 @@ section {
 .big-text {
   font-size: 1.9em;
 }
+
+::-moz-selection, ::selection {
+  color: white;
+  background: rgb(4, 92, 255);
+}

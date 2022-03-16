@@ -15,13 +15,26 @@
   </nav>
   <section>
     <h1>Binary number calculator</h1>
-    <input type="text" id="input-a" placeholder="First binary number">
-    <select class="mt25" id="mode">
-      <option value="add">Add</option>
-      <option value="sub">Substract</option>
-      <option value="mult">Multiply</option>
-    </select>
-    <input class="mt25" type="text" id="input-b" placeholder="Second binary number">
+
+    <div class="flex mt25">
+      <label for="input-a">First binary number</label>
+      <input type="text" id="input-a" placeholder="101">
+    </div>
+
+    <div class="flex mt25">
+      <label for="mode">Mode</label>
+      <select id="mode" value="add">
+        <option value="add">Add</option>
+        <option value="sub">Substract</option>
+        <option value="mult">Multiply</option>
+      </select>
+    </div>
+
+    <div class="flex mt25">
+      <label for="input-a">Second binary number</label>
+      <input type="text" id="input-b" placeholder="1101">
+    </div>
+    
     <div class="mt25" id="result"></div>
   </section>
 </body>

@@ -16,8 +16,17 @@
   <section>
     <div class="flex">
       <h1>Binary floating number</h1>
-      <input type="number" id="bits-size" placeholder="Bits size" value="64" max="80" min="8">
-      <input class="mt25" type="number" id="floating-number" placeholder="Floating number">
+
+      <div class="flex">
+        <label for="bits-size">Bits size</label>
+        <input type="number" id="bits-size" placeholder="64" value="64" max="80" min="8">
+      </div>
+
+      <div class="flex mt25">
+        <label for="bits-size">Floating number</label>
+        <input type="number" id="floating-number" placeholder="3.14">
+      </div>
+
       <div class="mt25" id="result"></div>
     </div>
 
