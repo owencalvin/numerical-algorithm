@@ -86,6 +86,8 @@ nav a {
 
 section {
   margin-left: 350px;
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
