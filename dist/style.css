@@ -2,7 +2,10 @@
 
 body {
   margin: 0;
-  padding: 50px;
+  padding-bottom: 50px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 * {
@@ -42,6 +45,32 @@ h1 {
   font-weight: 800;
 }
 
+h2 {
+  padding: 0 30px;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+nav {
+  background: rgb(226, 226, 226);
+  border-radius: 20px;
+  margin-bottom: 40px;
+}
+
+a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgb(74, 74, 255);
+}
+
+a:visited {
+  color: rgb(74, 74, 255);
+}
+
+a:focus {
+  color: rgb(74, 74, 255);
+}
+
 .flex {
   display: flex;
   flex-direction: column;
@@ -77,6 +106,42 @@ h1 {
 
 .mt100 {
   margin-top: 100px;
+}
+
+.mb25 {
+  margin-bottom: 25px;
+}
+
+.mb50 {
+  margin-bottom: 50px;
+}
+
+.mb100 {
+  margin-bottom: 100px;
+}
+
+.ml25 {
+  margin-left: 25px;
+}
+
+.ml50 {
+  margin-left: 50px;
+}
+
+.ml100 {
+  margin-left: 100px;
+}
+
+.mr25 {
+  margin-right: 25px;
+}
+
+.mr50 {
+  margin-right: 50px;
+}
+
+.mr100 {
+  margin-right: 100px;
 }
 
 .w800 {
