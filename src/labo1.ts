@@ -22,7 +22,7 @@ function onChange() {
   res = `
     Taille en bits de l'exposant: ${bf.exponentBitsSize}
     <br>
-    Taille en bits de la mantisse: ${bf.precisionBitsSize}
+    Taille en bits de la mantisse: ${bf.mantissaBitsSize}
     <br>
     Résultat: ${bf.binaryFloatingNumber}
   `;
