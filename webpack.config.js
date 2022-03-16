@@ -2,7 +2,10 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: {
+    labo0: './src/labo0.ts',
+    labo1: './src/labo1.ts'
+  },
   devtool: 'inline-source-map',
   optimization: {
     minimize: false
@@ -32,7 +35,6 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
 };

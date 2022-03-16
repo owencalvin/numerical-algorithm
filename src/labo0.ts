@@ -1,4 +1,4 @@
-import { BinaryHelper } from "./BinaryHelper";
+import { BinaryHelper } from "./classes/BinaryHelper";
 
 const bh = new BinaryHelper();
 
