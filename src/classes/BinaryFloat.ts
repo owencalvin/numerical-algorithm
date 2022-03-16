@@ -30,7 +30,9 @@ export class BinaryFloat {
   }
 
   /**
-   * Get the exponent bits size 
+   * Get the exponent bits size with:
+   * - The IEEE 754 2019 formula if the bits size is greater or equal to 128
+   * - A custom formula if the bit size is less than 128 that matches the IEEE standard
    */
   get exponentBitsSize(): number {
     if (this.bitsSize < 8) {
@@ -46,10 +48,19 @@ export class BinaryFloat {
     return Math.round((Math.log2(this.bitsSize) - 1) ** (3 / 2));
   }
 
+  /**
+   * Return the bias of the number based on the exponent bit size
+   * b = 2 ^ (exponentBitsSize - 1) - 1
+   */
   get bias(): number {
     return 2 ** (this.exponentBitsSize - 1) - 1;
   }
 
+  /**
+   * Return the binary representation of the sign
+   * 0 if number >= 0
+   * 1 if number < 0
+   */
   get binarySign(): "0" | "1" {
     return this.number < 0 ? "1" : "0"; 
   }

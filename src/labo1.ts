@@ -14,20 +14,20 @@ function onChange() {
   const floatingNumber = Number(floatingNumberElement.value);
 
   if (!bitsSize || !floatingNumber) {
-    res = "Please fill all the inputs";
+    res = "Veuillez renseigner tous les champs";
   }
 
   bf.bitsSize = bitsSize;
 
   res = `
-    exponent bits size: ${bf.exponentBitsSize}
+    Taille en bits de l'exposant: ${bf.exponentBitsSize}
     <br>
-    precision bits size: ${bf.precisionBitsSize}
+    Taille en bits de la mantisse: ${bf.precisionBitsSize}
     <br>
-    result: ${bf.binaryFloatingNumber}
+    Résultat: ${bf.binaryFloatingNumber}
   `;
 
-  result.innerHTML = res || "Result...";
+  result.innerHTML = res || "Resultat...";
 }
 
 bitsSizeElement.addEventListener("change", onChange);

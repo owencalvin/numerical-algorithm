@@ -9,20 +9,19 @@ const result = document.getElementById("result");
 const regexBinary = /^[01]+$/;
 
 function onChange() {
+  let res = "";
   const a = inputA.value;
   const b = inputB.value;
 
   if (!a || !b) {
-    result.innerHTML = "Please enter binary numbers in the inputs";
+    result.innerHTML = "Veuillez entrer les deux nombres binaires";
     return;
   }
 
   if (!regexBinary.test(a) || !regexBinary.test(b)) {
-    result.innerHTML = "Your inputs are not in a binary format";
+    result.innerHTML = "Vos entrées ne sont pas des nombres binaires";
     return;
   }
-
-  let res = "";
 
   switch (mode.value) {
     case "add": {
@@ -42,7 +41,7 @@ function onChange() {
     }
   }
 
-  result.innerHTML = res ? `Result: ${res}` : "Result: ...";
+  result.innerHTML = res ? `Résultat: ${res}` : "Résultat: ...";
 }
 
 inputA.addEventListener("change", onChange);
