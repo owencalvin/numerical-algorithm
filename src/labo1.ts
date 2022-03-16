@@ -24,7 +24,7 @@ function onChange() {
     <br>
     precision bits size: ${bf.precisionBitsSize}
     <br>
-    result: ${bf.floatingNumber}
+    result: ${bf.binaryFloatingNumber}
   `;
 
   result.innerHTML = res || "Result...";

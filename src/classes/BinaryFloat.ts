@@ -1,5 +1,6 @@
 export class BinaryFloat {
   private _bitsSize = 64;
+  private _number = 0;
 
   get bitsSize(): number {
     return this._bitsSize;
@@ -9,6 +10,17 @@ export class BinaryFloat {
     this._bitsSize = value;
   }
 
+  get number(): number {
+    return this._number;
+  }
+
+  set number(value: number) {
+    this._number = value;
+  }
+
+  /**
+   * Get the "mantisse" bits size
+   */
   get precisionBitsSize(): number {
     if (this.bitsSize < 8) {
       return 0;
@@ -17,6 +29,9 @@ export class BinaryFloat {
     return this.bitsSize - this.exponentBitsSize - 1;
   }
 
+  /**
+   * Get the exponent bits size 
+   */
   get exponentBitsSize(): number {
     if (this.bitsSize < 8) {
       return 0;
@@ -26,11 +41,28 @@ export class BinaryFloat {
     if (this.bitsSize >= 128) {
       return Math.round(4 * Math.log2(this.bitsSize)) - 13;
     }
+
     // A formula that matches the values for < 128
-    return Math.round((Math.log2(this.bitsSize) - 1) ^ (3 / 2));
+    return Math.round((Math.log2(this.bitsSize) - 1) ** (3 / 2));
   }
 
-  get floatingNumber() {
+  get bias(): number {
+    return 2 ** (this.exponentBitsSize - 1) - 1;
+  }
+
+  get binarySign(): "0" | "1" {
+    return this.number < 0 ? "1" : "0"; 
+  }
+
+  get binaryExponent(): number {
     return 0;
+  }
+
+  get binaryPrecision(): number {
+    return 0;
+  }
+
+  get binaryFloatingNumber(): string {
+    return "";
   }
 }
