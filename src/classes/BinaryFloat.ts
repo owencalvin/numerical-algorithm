@@ -19,9 +19,9 @@ export class BinaryFloat {
   }
 
   /**
-   * Get the "mantisse" bits size
+   * Get the mantissa bits size
    */
-  get precisionBitsSize(): number {
+  get mantissaBitsSize(): number {
     if (this.bitsSize < 8) {
       return 0;
     }
@@ -69,7 +69,7 @@ export class BinaryFloat {
     return 0;
   }
 
-  get binaryPrecision(): number {
+  get binaryMantissa(): number {
     return 0;
   }
 

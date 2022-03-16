@@ -1,12 +1,15 @@
-const path = require('path');
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
+
+const path = require("path");
 
 module.exports = {
-  mode: 'production',
+  mode: "production",
   entry: {
-    labo0: './src/labo0.ts',
-    labo1: './src/labo1.ts'
+    labo0: "./src/labo0.ts",
+    labo1: "./src/labo1.ts"
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
   optimization: {
     minimize: false
   },
@@ -19,22 +22,22 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
     ],
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, "dist"),
     },
     compress: true,
     port: 9000,
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, "dist"),
   },
 };
