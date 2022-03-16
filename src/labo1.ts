@@ -7,8 +7,6 @@ const floatingNumberElement = <HTMLInputElement>document.getElementById("floatin
 const result = document.getElementById("result");
 
 function onChange() {
-  console.log("change");
-
   let res = "";
   const bitsSize = Number(bitsSizeElement.value);
   const floatingNumber = Number(floatingNumberElement.value);
@@ -18,13 +16,14 @@ function onChange() {
   }
 
   bf.bitsSize = bitsSize;
+  bf.number = floatingNumber;
 
   res = `
     Taille en bits de l'exposant: ${bf.exponentBitsSize}
     <br>
     Taille en bits de la mantisse: ${bf.mantissaBitsSize}
     <br>
-    Résultat: ${bf.binaryFloatingNumber}
+    Mantisse: ${bf.binaryMantissa}
   `;
 
   result.innerHTML = res || "Resultat...";

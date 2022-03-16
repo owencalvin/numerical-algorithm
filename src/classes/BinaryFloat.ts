@@ -1,5 +1,7 @@
+import { BinaryHelper } from "./BinaryHelper";
+
 export class BinaryFloat {
-  private _bitsSize = 64;
+  private _bitsSize = 32;
   private _number = 0;
 
   get bitsSize(): number {
@@ -69,8 +71,38 @@ export class BinaryFloat {
     return 0;
   }
 
-  get binaryMantissa(): number {
-    return 0;
+  get binaryMantissa(): string {
+    const bh = new BinaryHelper();
+
+    // Get the int part
+    const front = Math.trunc(this.number);
+    let res = bh.decimalToBinary(front);
+    
+    // Remove the first bit (hidden bit to 1)
+    res = res.substring(1);
+
+    const decimalsTarget = this.number - front;
+    const decimalsBitsSize = this.mantissaBitsSize - res.length;
+    let decimalsTotal = 0;
+    let i = 0;
+    while (i < decimalsBitsSize) {
+      const j = i + 1;
+      const decimal = 1 / (2 ** j);
+
+      // 0 + 0.5 <= 0.75
+      // 0 + 0.5 <= 0.123
+      if (decimalsTotal + decimal <= decimalsTarget) {
+        res = res + "1";
+        decimalsTotal += decimal;
+      } else {
+        res = res + "0";
+      }
+
+      i++;
+    }
+    console.log(decimalsTotal);
+
+    return res;
   }
 
   get binaryFloatingNumber(): string {
