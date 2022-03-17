@@ -19,21 +19,37 @@ function onChange() {
   bf.number = floatingNumber;
 
   res = `
-    Taille en bits de l'exposant: ${bf.exponentBitsSize}
-    <br>
-    Taille en bits de la mantisse: ${bf.mantissaBitsSize}
-    <br>
-    Signe: <span class="color-red">${bf.binarySign}</span>
-    <br>
-    Mantisse: <span class="color-orange">${bf.binaryMantissaFront}.${bf.binaryDecimalMantissa}</span>
-    <br>
-    Exposant: <span class="color-blue">${bf.binaryExponent}</span>
-    <br>
-    Résultat:
-    <span class="color-red">${bf.binarySign}</span>
-    <span class="color-blue">${bf.binaryExponent}</span>
-    <span class="color-orange">${bf.binaryMantissaFront}</span>
-    <span class="color-orange">${bf.binaryDecimalMantissa}</span>
+    <div class="result-group">
+      Taille en bits de l'exposant: ${bf.exponentBitsSize}
+    </div>
+    
+    <div class="result-group">
+      Taille en bits de la mantisse: ${bf.mantissaBitsSize}
+    </div>
+    
+    <div class="result-group">
+      Signe:
+      <span class="color-red">${bf.binarySign}</span>
+    </div>
+    
+    <div class="result-group">
+      Mantisse:
+      <span class="color-orange">
+        ${bf.binaryMantissaFront}<span class="color-grey">.</span>${bf.binaryDecimalMantissa}
+      </span>
+    </div>
+
+    <div class="result-group">
+      Exposant: <span class="color-blue">${bf.binaryExponent}</span>
+    </div>
+    
+    <div class="result-group">
+      Résultat:
+      <span class="color-red">${bf.binarySign}</span>
+      <span class="color-blue">${bf.binaryExponent}</span>
+      <span class="color-orange">${bf.binaryMantissaFront}</span>
+      <span class="color-orange">${bf.binaryDecimalMantissa}</span>
+    </div>
   `;
 
   result.innerHTML = res || "Resultat...";

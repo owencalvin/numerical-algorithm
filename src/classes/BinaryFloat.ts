@@ -70,6 +70,7 @@ export class BinaryFloat {
 
   get binaryExponent(): string {
     const exponent = this.mantissaFloatPosition + this.bias;
+    console.log(this.mantissaFloatPosition);
     return this._bh.decimalToBinary(exponent);
   }
 
@@ -85,8 +86,7 @@ export class BinaryFloat {
   }
 
   get mantissaFloatPosition() {
-    const front = Math.trunc(this.number);
-    return this._bh.decimalToBinary(front).length;
+    return this.binaryMantissaFront.length;
   }
 
   get binaryDecimalMantissa(): string {

@@ -94,6 +94,10 @@ section {
   flex: 1;
 }
 
+.result-group {
+  margin-top: 10px;
+}
+
 .a-active {
   font-weight: 800;
   text-decoration: none;
@@ -126,6 +130,10 @@ section {
   height: 100vh;
 }
 
+.mt10 {
+  margin-top: 10px;
+}
+
 .mt25 {
   margin-top: 25px;
 }
@@ -136,6 +144,10 @@ section {
 
 .mt100 {
   margin-top: 100px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
 }
 
 .mb25 {
@@ -150,6 +162,10 @@ section {
   margin-bottom: 100px;
 }
 
+.ml10 {
+  margin-left: 10px;
+}
+
 .ml25 {
   margin-left: 25px;
 }
@@ -160,6 +176,10 @@ section {
 
 .ml100 {
   margin-left: 100px;
+}
+
+.mr10 {
+  margin-right: 10px;
 }
 
 .mr25 {
@@ -196,11 +216,15 @@ section {
 }
 
 .color-green {
-  color: rgb(45, 255, 55);
+  color: rgb(0, 230, 19);
 }
 
 .color-orange {
   color: rgb(255, 164, 45);
+}
+
+.color-grey {
+  color: rgb(160, 160, 160);
 }
 
 ::-moz-selection, ::selection {
