@@ -148,6 +148,10 @@ export class BinaryFloat {
    * The number that is coded in memory
    */
   get computedNumber() {
+    if (Number.isNaN(this.number) || this.number === Infinity) {
+      return this.number;
+    }
+
     const sign = this.binarySign === "1" ? -1 : 1;
     const computedExponent = 2 ** (this._bh.binaryToDecimal(this.binaryExponent) - this.bias);
     const mantissa = this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
@@ -155,7 +159,11 @@ export class BinaryFloat {
     return sign * computedExponent * mantissa;
   }
 
-  get error() {
+  get error() {    
+    if (Number.isNaN(this.number) || this.number === Infinity) {
+      return 0;
+    }
+
     return Math.abs(this.number - this.computedNumber);
   }
 

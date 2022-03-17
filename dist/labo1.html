@@ -32,6 +32,23 @@
     </div>
 
     <div class="flex mt50">
+      <h1>Additionneur de réels en binaire</h1>
+
+      <div class="flex">
+        <label for="bits-size">Taille en bit</label>
+        <input type="number" id="bits-size" placeholder="32" value="32" max="80" min="8">
+      </div>
+
+      <div class="flex mt25">
+        <label for="bits-size">Nombre réel à convertir</label>
+        <input type="text" id="floating-number" placeholder="3.14159265359">
+        <span class="description">Vous pouvez utiliser une valeur NaN ou "Infinity"</span>
+      </div>
+
+      <div class="mt25" id="result"></div>
+    </div>
+
+    <div class="flex mt50">
       <h1>Fonctions déterminants le nombre de bits de l'exposant</h1>
       <iframe src="https://www.geogebra.org/calculator/cerrkdfv?embed" width="100%" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
     </div>
