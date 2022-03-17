@@ -53,6 +53,14 @@ function onChange() {
       <span class="color-blue">${bf.binaryExponent}</span>
       <span class="color-orange">${bf.binaryMantissa}</span>
     </div>
+    
+    <div class="result-group">
+      Nombre réellement codé: ${bf.computedNumber}
+    </div>
+    
+    <div class="result-group">
+      Marge d'erreur: ${bf.error}
+    </div>
   `;
 
   result.innerHTML = res || "Resultat...";
