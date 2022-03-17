@@ -35,7 +35,7 @@ function onChange() {
     <div class="result-group">
       Mantisse:
       <span class="color-orange">
-        ${bf.binaryMantissaFront}<span class="color-grey">.</span>${bf.binaryDecimalMantissa}
+        ${bf.binaryMantissa}
       </span>
     </div>
 
@@ -47,8 +47,7 @@ function onChange() {
       Résultat:
       <span class="color-red">${bf.binarySign}</span>
       <span class="color-blue">${bf.binaryExponent}</span>
-      <span class="color-orange">${bf.binaryMantissaFront}</span>
-      <span class="color-orange">${bf.binaryDecimalMantissa}</span>
+      <span class="color-orange">${bf.binaryMantissa}</span>
     </div>
   `;
 

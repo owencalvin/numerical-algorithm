@@ -3,6 +3,12 @@ import { BinaryHelper } from "./BinaryHelper";
 export class BinaryFloat {
   private _bitsSize = 32;
   private _number = 0;
+  private _binaryIntegerMantissa = "";
+  private _binaryDecimalMantissa = "";
+  private _binaryMantissa = "";
+  private _mantissaFloatPosition = 0;
+  private _binaryExponent = "";
+  private _bias = 0;
   private _bh = new BinaryHelper();
 
   get bitsSize(): number {
@@ -19,6 +25,13 @@ export class BinaryFloat {
 
   set number(value: number) {
     this._number = value;
+
+    this.calculateBias();
+    this.calculateBinaryIntegerMantissa();
+    this.calculateBinaryDecimalMantissa();
+    this.calculateBinaryMantissa();
+    this.calculateMantissaFloatPosition();
+    this.calculateBinaryExponent();
   }
 
   /**
@@ -51,12 +64,45 @@ export class BinaryFloat {
     return Math.round((Math.log2(this.bitsSize) - 1) ** (3 / 2));
   }
 
+  get positiveNumber() {
+    return Math.abs(this.number);
+  }
+
+  /**
+   * Return the truncated integer part in binary
+   * 0.09375  =>     "0"
+   * 19.59375 => "10011"
+   */
+  get binaryIntegerMantissa() {
+    return this._binaryIntegerMantissa;
+  }
+
+  get binaryDecimalMantissa(): string {
+    return this._binaryDecimalMantissa;
+  }
+
+  get mantissaFloatPosition() {
+    return this._mantissaFloatPosition;
+  }
+
+  get binaryExponent(): string {
+    return this._binaryExponent;
+  }
+
+  get binaryMantissa(): string {
+    return this._binaryMantissa;
+  }
+
+  get binaryFloatingNumber(): string {
+    return this.binarySign + this.binaryExponent + this.binaryMantissa;
+  }
+
   /**
    * Return the bias of the number based on the exponent bit size
    * b = 2 ^ (exponentBitsSize - 1) - 1
    */
   get bias(): number {
-    return 2 ** (this.exponentBitsSize - 1) - 1;
+    return this._bias;
   }
 
   /**
@@ -68,30 +114,22 @@ export class BinaryFloat {
     return this.number < 0 ? "1" : "0"; 
   }
 
-  get binaryExponent(): string {
-    const exponent = this.mantissaFloatPosition + this.bias;
-    return this._bh.decimalToBinary(exponent);
-  }
-
-  get binaryMantissaFront() {
+  private calculateBinaryIntegerMantissa() {
     // Get the int part
-    const front = Math.trunc(this.number);
+    const front = Math.trunc(this.positiveNumber);
     let res = this._bh.decimalToBinary(front);
     
-    // Remove the first bit (hidden bit to 1)
-    res = res.substring(1);
+    if (res !== "0") {
+      res = res.substring(1);
+    }
 
-    return res;
+    this._binaryIntegerMantissa = res;
   }
 
-  get mantissaFloatPosition() {
-    return this.binaryMantissaFront.length;
-  }
-
-  get binaryDecimalMantissa(): string {
+  private calculateBinaryDecimalMantissa() {
     let res = "";
-    let decimals = this.number - Math.trunc(this.number);
-    const decimalsBitsSize = this.mantissaBitsSize - this.binaryMantissaFront.length;
+    let decimals = this.positiveNumber - Math.trunc(this.positiveNumber);
+    const decimalsBitsSize = this.mantissaBitsSize - this.binaryIntegerMantissa.length - 1;
 
     for(let i = 0; i < decimalsBitsSize; i++) {
       decimals *= 2;
@@ -104,14 +142,37 @@ export class BinaryFloat {
       }
     }
 
-    return res;
+    this._binaryDecimalMantissa = res;
   }
 
-  get binaryMantissa(): string {
-    return this.binaryMantissaFront + this.binaryDecimalMantissa;
+  private calculateBinaryMantissa() {
+    let res = this.binaryIntegerMantissa + this.binaryDecimalMantissa;
+    
+    if (this.binaryIntegerMantissa === "0") {
+      res = this._bh.clean(res);
+      res = res.substring(1);
+    }
+
+    res = res.padEnd(this.mantissaBitsSize, "0");
+
+    this._binaryMantissa = res;
   }
 
-  get binaryFloatingNumber(): string {
-    return this.binarySign + this.binaryExponent + this.binaryMantissaFront + this.binaryDecimalMantissa;
+  private calculateMantissaFloatPosition() {
+    this._mantissaFloatPosition = this.binaryIntegerMantissa.length - 1;
+
+    if (this.binaryIntegerMantissa === "0") {
+      this._mantissaFloatPosition = -this.binaryDecimalMantissa.indexOf("1") - 1;
+      console.log("a", this._mantissaFloatPosition);
+    }
+  }
+
+  private calculateBinaryExponent() {
+    const exponent = this.mantissaFloatPosition + this.bias;
+    this._binaryExponent = this._bh.decimalToBinary(exponent).padStart(this.exponentBitsSize, "0");
+  }
+
+  private calculateBias() {
+    this._bias = 2 ** (this.exponentBitsSize - 1) - 1;
   }
 }
