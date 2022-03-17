@@ -169,6 +169,11 @@ export class BinaryFloat {
     }
 
     this._binaryIntegerMantissa = res;
+
+    // If the number is NaN there is no integer part
+    if (Number.isNaN(this.number)) {
+      this._binaryIntegerMantissa = "";
+    }
   }
 
   /**
@@ -198,6 +203,11 @@ export class BinaryFloat {
       } else {
         res += "0";
       }
+    }
+
+    // If the number is NaN then all the bit of the mantissa are equals to 1
+    if (Number.isNaN(this.number)) {
+      res = "".padEnd(decimalsBitsSize + 1, "1");
     }
 
     this._binaryDecimalMantissa = res;
@@ -259,10 +269,20 @@ export class BinaryFloat {
    * e = binary(mantissaFloatPosition + bias)
    */
   private calculateBinaryExponent() {
-    const exponent = this.mantissaFloatPosition + this.bias;
+    let exponent = this.mantissaFloatPosition + this.bias;
+
+    // If the number is 1 then all the bits of the exponent are equals to 0
+    if (this.number === 0) {
+      exponent = 0;
+    }
 
     // Convert the exponent to binary and add leading 0 to match the exponent bits size
     this._binaryExponent = this._bh.decimalToBinary(exponent).padStart(this.exponentBitsSize, "0");
+
+    // If the number is NaN or Infinity then all the bits of the exponent are equals to 1
+    if (Number.isNaN(this.number) || this.number === Infinity) {
+      this._binaryExponent = "".padEnd(this.exponentBitsSize, "1");
+    }
   }
 
   /**

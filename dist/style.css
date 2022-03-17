@@ -227,6 +227,12 @@ section {
   color: rgb(160, 160, 160);
 }
 
+.description {
+  margin-top: 2px;
+  color: rgb(160, 160, 160);
+  font-size: 0.8rem;
+}
+
 ::-moz-selection, ::selection {
   color: white;
   background: rgb(4, 92, 255);
