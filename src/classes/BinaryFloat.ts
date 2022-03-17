@@ -81,26 +81,23 @@ export class BinaryFloat {
     // Remove the first bit (hidden bit to 1)
     res = res.substring(1);
 
-    const decimalsTarget = this.number - front;
+    let decimals = this.number - front;
     const decimalsBitsSize = this.mantissaBitsSize - res.length;
-    let decimalsTotal = 0;
-    let i = 0;
-    while (i < decimalsBitsSize) {
-      const j = i + 1;
-      const decimal = 1 / (2 ** j);
+    let decimalsRes = 0;
 
-      // 0 + 0.5 <= 0.75
-      // 0 + 0.5 <= 0.123
-      if (decimalsTotal + decimal <= decimalsTarget) {
-        res = res + "1";
-        decimalsTotal += decimal;
+    for(let i = 0; i < decimalsBitsSize; i++) {
+      decimals *= 2;
+
+      if (decimals >= 1) {
+        decimals -= 1;
+        res += "1";
+        decimalsRes += 1 / 2 ** (i + 1);
       } else {
-        res = res + "0";
+        res += "0";
       }
-
-      i++;
     }
-    console.log(decimalsTotal);
+
+    console.log(front + decimalsRes);
 
     return res;
   }
