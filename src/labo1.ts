@@ -26,6 +26,10 @@ function onChange() {
     <div class="result-group">
       Taille en bits de la mantisse: ${bf.mantissaBitsSize}
     </div>
+
+    <div class="result-group">
+      Biais: ${bf.bias}
+    </div>
     
     <div class="result-group">
       Signe:
