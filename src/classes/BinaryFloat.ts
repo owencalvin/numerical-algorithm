@@ -153,7 +153,7 @@ export class BinaryFloat {
     }
 
     const sign = this.binarySign === "1" ? -1 : 1;
-    const computedExponent = 2 ** (this._bh.binaryToDecimal(this.binaryExponent) - this.bias);
+    const computedExponent = 2 ** (this._bh.binaryToDecimal(this.binaryExponent) - this.bias + 1);
     const mantissa = this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
 
     return sign * computedExponent * mantissa;
@@ -292,7 +292,7 @@ export class BinaryFloat {
    * e = binary(mantissaFloatPosition + bias)
    */
   private calculateBinaryExponent() {
-    let exponent = this.mantissaFloatPosition + this.bias + 1;
+    let exponent = this.mantissaFloatPosition + this.bias;
 
     // If the number is 1 then all the bits of the exponent are equals to 0
     if (this.number === 0) {
