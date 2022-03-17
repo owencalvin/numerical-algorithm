@@ -3,6 +3,7 @@ import { BinaryHelper } from "./BinaryHelper";
 export class BinaryFloat {
   private _bitsSize = 32;
   private _number = 0;
+  private _bh = new BinaryHelper();
 
   get bitsSize(): number {
     return this._bitsSize;
@@ -67,23 +68,31 @@ export class BinaryFloat {
     return this.number < 0 ? "1" : "0"; 
   }
 
-  get binaryExponent(): number {
-    return 0;
+  get binaryExponent(): string {
+    const exponent = this.mantissaFloatPosition + this.bias;
+    return this._bh.decimalToBinary(exponent);
   }
 
-  get binaryMantissa(): string {
-    const bh = new BinaryHelper();
-
+  get binaryMantissaFront() {
     // Get the int part
     const front = Math.trunc(this.number);
-    let res = bh.decimalToBinary(front);
+    let res = this._bh.decimalToBinary(front);
     
     // Remove the first bit (hidden bit to 1)
     res = res.substring(1);
 
-    let decimals = this.number - front;
-    const decimalsBitsSize = this.mantissaBitsSize - res.length;
-    let decimalsRes = 0;
+    return res;
+  }
+
+  get mantissaFloatPosition() {
+    const front = Math.trunc(this.number);
+    return this._bh.decimalToBinary(front).length;
+  }
+
+  get binaryDecimalMantissa(): string {
+    let res = "";
+    let decimals = this.number - Math.trunc(this.number);
+    const decimalsBitsSize = this.mantissaBitsSize - this.binaryMantissaFront.length;
 
     for(let i = 0; i < decimalsBitsSize; i++) {
       decimals *= 2;
@@ -91,18 +100,19 @@ export class BinaryFloat {
       if (decimals >= 1) {
         decimals -= 1;
         res += "1";
-        decimalsRes += 1 / 2 ** (i + 1);
       } else {
         res += "0";
       }
     }
 
-    console.log(front + decimalsRes);
-
     return res;
   }
 
+  get binaryMantissa(): string {
+    return this.binaryMantissaFront + this.binaryDecimalMantissa;
+  }
+
   get binaryFloatingNumber(): string {
-    return "";
+    return this.binarySign + this.binaryExponent + this.binaryMantissaFront + this.binaryDecimalMantissa;
   }
 }

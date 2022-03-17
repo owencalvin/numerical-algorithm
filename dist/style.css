@@ -187,6 +187,22 @@ section {
   font-size: 1.9em;
 }
 
+.color-red {
+  color: rgb(255, 45, 45);
+}
+
+.color-blue {
+  color: rgb(45, 94, 255);
+}
+
+.color-green {
+  color: rgb(45, 255, 55);
+}
+
+.color-orange {
+  color: rgb(255, 164, 45);
+}
+
 ::-moz-selection, ::selection {
   color: white;
   background: rgb(4, 92, 255);
