@@ -70,7 +70,6 @@ export class BinaryFloat {
 
   get binaryExponent(): string {
     const exponent = this.mantissaFloatPosition + this.bias;
-    console.log(this.mantissaFloatPosition);
     return this._bh.decimalToBinary(exponent);
   }
 
