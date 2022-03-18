@@ -9,7 +9,7 @@ function onChangeConverterFb() {
   const floatingNumber = Number(fbFloatingNumberElement.value);
   
   if (fbBitsSizeElement.value === "" || fbFloatingNumberElement.value === "") {
-    fbResultElement.innerHTML = `<span class="color-red">Veuillez renseigner tous les champs</span>`;
+    fbResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
     return;
   }
   

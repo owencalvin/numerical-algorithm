@@ -11,7 +11,7 @@ function onChangeAddition() {
   const inputB = Number(addInputBElement.value);
   
   if (addBitSizeElement.value === "" || addInputAElement.value === "" || addInputBElement.value === "") {
-    addResultElement.innerHTML = `<span class="color-red">Veuillez renseigner tous les champs</span>`;
+    addResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
     return;
   }
   

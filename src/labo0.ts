@@ -14,12 +14,12 @@ function onChange() {
   const b = inputB.value;
 
   if (!a || !b) {
-    result.innerHTML = "Veuillez entrer les deux nombres binaires";
+    result.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
     return;
   }
 
   if (!regexBinary.test(a) || !regexBinary.test(b)) {
-    result.innerHTML = "Vos entrées ne sont pas des nombres binaires";
+    result.innerHTML = `<span class="color-grey">Vos entrées ne sont pas des nombres binaires</span>`;
     return;
   }
 

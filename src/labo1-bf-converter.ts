@@ -8,7 +8,7 @@ function onChangeConverterBf() {
   const binaryNumber = bfBinaryNumberElement.value;
   
   if (bfBinaryNumberElement.value === "" ) {
-    bfResultElement.innerHTML = `<span class="color-red">Veuillez renseigner tous les champs</span>`;
+    bfResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
     return;
   }
 
