@@ -39,6 +39,7 @@ function onChangeConverterBf() {
     <div class="result-group">
       Signe:
       <span class="color-red mono">${bf.binarySign}</span>
+      <span class="mono">(${bf.computedSign})</span>
     </div>
     
     <div class="result-group">
@@ -46,10 +47,12 @@ function onChangeConverterBf() {
       <span class="color-orange mono">
         ${bf.binaryMantissa}
       </span>
+      <span class="mono">(${bf.computedMantissa})</span>
     </div>
 
     <div class="result-group">
       Exposant: <span class="color-blue mono">${bf.binaryExponent}</span>
+      <span class="mono">(2<sup>${bf.computedExponent}</sup>)</span>
     </div>
     
     <div class="result-group">

@@ -153,6 +153,27 @@ export class BinaryFloat {
   }
 
   /**
+   * The sign in it's decimal form
+   */
+  get computedSign() {
+    return this.binarySign === "1" ? -1 : 1;
+  }
+
+  /**
+   * The exponent in it's decimal form
+   */
+  get computedExponent() {
+    return this._bh.binaryToDecimal(this.binaryExponent) - this.bias;
+  }
+
+  /**
+   * The mantissa in it's decimal form
+   */
+  get computedMantissa() {
+    return this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
+  }
+
+  /**
    * The number that is coded in memory
    */
   get computedNumber() {
@@ -164,16 +185,7 @@ export class BinaryFloat {
       return this.number;
     }
 
-    // If there is no bit at 1 in the binary representation then the number is 0
-    if (this.binaryFloatingNumber.indexOf("1") <= -1) {
-      return 0;
-    }
-
-    const sign = this.binarySign === "1" ? -1 : 1;
-    const computedExponent = this._bh.binaryToDecimal(this.binaryExponent) - this.bias;
-    const mantissa = this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
-
-    return sign * 2 ** computedExponent * mantissa;
+    return this.computedSign * 2 ** this.computedExponent * this.computedMantissa;
   }
 
   /**
@@ -316,13 +328,15 @@ export class BinaryFloat {
     }
 
     // Step 2: Shift the mantissa
-    const shiftedMinMantissa = "0" + this._bh.decimalToBinary(this._bh.binaryToDecimal(bfMinBinaryExponent.binaryMantissa) >> 1);
+    const shiftValue = bfMaxBinaryExponent.computedExponent - bfMinBinaryExponent.computedExponent;
+    const shiftedMinMantissa = this._bh.decimalToBinary(this._bh.binaryToDecimal("1" + bfMinBinaryExponent.binaryMantissa) >> shiftValue);
+    bfRes.binaryMantissa = shiftedMinMantissa;
     
     // Step 3: Put the same exponent
     bfRes.binaryExponent = bfMaxBinaryExponent.binaryExponent;
-
+    
     // Step 4: Add the mantissa and the shifted one
-    bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, shiftedMinMantissa).reverse().join("");
+    bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
 
     // Step 5: Normalise the mantissa
     if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
@@ -340,11 +354,6 @@ export class BinaryFloat {
       // Add 1 to the exponent
       bfRes.binaryExponent = this._bh.decimalToBinary(this._bh.binaryToDecimal(this.binaryExponent) + 1);
     }
-
-    console.log(
-      bfRes.binaryExponent,
-      bfRes.binaryMantissa,
-    );
 
     return bfRes;
   }
