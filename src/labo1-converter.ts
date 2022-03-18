@@ -1,22 +1,19 @@
 import { BinaryFloat } from "./classes/BinaryFloat";
 
-const bf = new BinaryFloat();
-
 const bitsSizeElement = <HTMLInputElement>document.getElementById("bits-size");
 const floatingNumberElement = <HTMLInputElement>document.getElementById("floating-number");
-const result = document.getElementById("result");
+const resultElement = document.getElementById("result");
 
-function onChange() {
+function onChangeConverter() {
   let res = "";
   const bitsSize = Number(bitsSizeElement.value);
   const floatingNumber = Number(floatingNumberElement.value);
-
+  
   if (!bitsSize || !floatingNumber) {
     res = "Veuillez renseigner tous les champs";
   }
-
-  bf.bitsSize = bitsSize;
-  bf.number = floatingNumber;
+  
+  const bf = new BinaryFloat(floatingNumber, bitsSize);
 
   res = `
     <div class="result-group">
@@ -33,25 +30,25 @@ function onChange() {
     
     <div class="result-group">
       Signe:
-      <span class="color-red">${bf.binarySign}</span>
+      <span class="color-red mono">${bf.binarySign}</span>
     </div>
     
     <div class="result-group">
       Mantisse:
-      <span class="color-orange">
+      <span class="color-orange mono">
         ${bf.binaryMantissa}
       </span>
     </div>
 
     <div class="result-group">
-      Exposant: <span class="color-blue">${bf.binaryExponent}</span>
+      Exposant: <span class="color-blue mono">${bf.binaryExponent}</span>
     </div>
     
     <div class="result-group">
       Résultat:
-      <span class="color-red">${bf.binarySign}</span>
-      <span class="color-blue">${bf.binaryExponent}</span>
-      <span class="color-orange">${bf.binaryMantissa}</span>
+      <span class="color-red mono">${bf.binarySign}</span>
+      <span class="color-blue mono">${bf.binaryExponent}</span>
+      <span class="color-orange mono">${bf.binaryMantissa}</span>
     </div>
     
     <div class="result-group">
@@ -63,12 +60,12 @@ function onChange() {
     </div>
   `;
 
-  result.innerHTML = res || "Resultat...";
+  resultElement.innerHTML = res || "Resultat...";
 }
 
-bitsSizeElement.addEventListener("change", onChange);
-bitsSizeElement.addEventListener("keyup", onChange);
-floatingNumberElement.addEventListener("change", onChange);
-floatingNumberElement.addEventListener("keyup", onChange);
+bitsSizeElement.addEventListener("change", onChangeConverter);
+bitsSizeElement.addEventListener("keyup", onChangeConverter);
+floatingNumberElement.addEventListener("change", onChangeConverter);
+floatingNumberElement.addEventListener("keyup", onChangeConverter);
 
-onChange();
+onChangeConverter();

@@ -14,6 +14,11 @@ export class BinaryFloat {
   private _bias = 0;
   private _bh = new BinaryHelper();
 
+  constructor(nb: number, bitsSize: number) {
+    this.bitsSize = bitsSize;
+    this.number = nb;
+  }
+
   /**
    * The bit size to code the number
    */
@@ -47,7 +52,6 @@ export class BinaryFloat {
     this.calculateBinaryIntegerMantissa();
     this.calculateBinaryDecimalMantissa();
     this.calculateBinaryMantissa();
-    this.calculateMantissaFloatPosition();
     this.calculateBinaryExponent();
   }
 
@@ -96,12 +100,20 @@ export class BinaryFloat {
     return this._binaryIntegerMantissa;
   }
 
+  set binaryIntegerMantissa(value: string) {
+    this._binaryIntegerMantissa = value;
+  }
+
   /**
    * The decimal part of the number in binary that is coded in the mantissa
    * 19.59375 => "00111001100000000000000"
    */
   get binaryDecimalMantissa() {
     return this._binaryDecimalMantissa;
+  }
+
+  set binaryDecimalMantissa(value: string) {
+    this._binaryDecimalMantissa = value;
   }
 
   /**
@@ -123,11 +135,19 @@ export class BinaryFloat {
     return this._binaryExponent;
   }
 
+  set binaryExponent(value: string) {
+    this._binaryExponent = value;
+  }
+
   /**
    * Get the full mantissa of the number
    */
   get binaryMantissa() {
     return this._binaryMantissa;
+  }
+
+  set binaryMantissa(value: string) {
+    this._binaryMantissa = value;
   }
 
   /**
@@ -184,6 +204,46 @@ export class BinaryFloat {
     return this.number < 0 ? "1" : "0"; 
   }
 
+  add(bf2: BinaryFloat) {
+    const bfRes = new BinaryFloat(0, this.bitsSize);
+    bfRes.binaryIntegerMantissa = "";
+
+    // Step 1: Determine the lowest mantissa between this and the second number
+    let bfMinBinaryExponent: BinaryFloat = this;
+    let bfMaxBinaryExponent: BinaryFloat = bf2;
+    if (this._bh.binaryToDecimal(bf2.binaryExponent) < this._bh.binaryToDecimal(bfMinBinaryExponent.binaryExponent)) {
+      bfMinBinaryExponent = bf2;
+      bfMaxBinaryExponent = this;
+    }
+
+    // Step 2: Shift the mantissa
+    const shiftedMinMantissa = "0" + this._bh.decimalToBinary(this._bh.binaryToDecimal(bfMinBinaryExponent.binaryMantissa) >> 1);
+    
+    // Step 3: Put the same exponent
+    bfRes.binaryExponent = bfMaxBinaryExponent.binaryExponent;
+    
+    // Step 4: Add the mantissa and the shifted one
+    bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, shiftedMinMantissa).reverse().join("");
+
+    // Step 5: Normalise the mantissa
+    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
+      bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
+    }
+    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 2) {
+      bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
+      bfRes.binaryMantissa = bfRes.binaryMantissa.slice(0, -1);
+    }
+
+    console.log(
+      "max:", bfMinBinaryExponent.number,
+      shiftedMinMantissa,
+      bfRes.binaryExponent,
+      bfRes.binaryMantissa,
+      bfRes.binaryMantissa.length,
+      bfRes.computedNumber
+    );
+  }
+
   /**
    * Calculate the integer part of the number for the mantissa
    * 19.59375 => 19 => "10011"
@@ -192,11 +252,25 @@ export class BinaryFloat {
     // Get the integer part
     const front = Math.trunc(this.positiveNumber);
     let res = this._bh.decimalToBinary(front);
+
+    // "10011".length - 1 => 5 - 1 => 4
+    // -1 because we hide the first bit
+    this._mantissaFloatPosition = res.length - 1;
     
     // Do not hide the first bit if the first bit is 0
     // for number included in [0, 1[
-    if (res !== "0") {
+    if (this.positiveNumber >= 1) {
       res = res.substring(1);
+    } else {
+      // If the number is included in [0, 1[
+      // then the position of the dot is calculated by finding the number of "jumps"
+      // we have to do to to put this dot behind the first bit at 1
+      //
+      // Example with 0.09375:
+      // binaryDecimalMantissa (0.09375) in binary      => 0|0|0|1|1000000000000000000
+      // Get the position of the first bit at 1         => binaryDecimalMantissa.indexOf("1") + 1 => 4
+      // We moved to the right so position is negative  => -4
+      this._mantissaFloatPosition = -(this.binaryDecimalMantissa.indexOf("1") + 1);
     }
 
     this._binaryIntegerMantissa = res;
@@ -267,31 +341,6 @@ export class BinaryFloat {
     res = res.padEnd(this.mantissaBitsSize, "0");
 
     this._binaryMantissa = res;
-  }
-
-  /**
-   * Calculate the position of the floating point in the mantissa
-   * 
-   *                  float position
-   *                       |
-   *                       v
-   * binaryIntegerMantissa . binaryDecimalMantissa
-   */
-  private calculateMantissaFloatPosition() {
-    // "10011".length - 1 => 5 - 1 => 4
-    this._mantissaFloatPosition = this.binaryIntegerMantissa.length;
-
-    // If the number is included in [0, 1[
-    // then the position of the dot is calculated by finding the number of "jumps"
-    // we have to do to to put this dot behind the first bit at 1
-    //
-    // Example with 0.09375:
-    // binaryDecimalMantissa (0.09375) in binary      => 0|0|0|1|1000000000000000000
-    // Get the position of the first bit at 1         => binaryDecimalMantissa.indexOf("1") + 1 => 4
-    // We moved to the right so position is negative  => -4
-    if (this.binaryIntegerMantissa === "0") {
-      this._mantissaFloatPosition = -(this.binaryDecimalMantissa.indexOf("1") + 1);
-    }
   }
 
   /**
