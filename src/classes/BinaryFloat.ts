@@ -383,7 +383,7 @@ export class BinaryFloat {
     if (bfMinBinaryExponent.computedSign === bfMaxBinaryExponent.computedSign) {
       bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
     } else {
-      bfRes.binaryMantissa = this._bh.binarySubstraction("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
+      bfRes.binaryMantissa = this._bh.binarySubstraction(bfRes.binaryMantissa, "1" + bfMaxBinaryExponent.binaryMantissa).reverse().join("");
     }
 
     // Step 5: Normalise the mantissa
