@@ -1,21 +1,21 @@
 import { BinaryFloat } from "./classes/BinaryFloat";
 
-const bitsSizeElement = <HTMLInputElement>document.getElementById("bits-size");
-const floatingNumberElement = <HTMLInputElement>document.getElementById("floating-number");
-const resultElement = document.getElementById("result");
+const fbBitsSizeElement = <HTMLInputElement>document.getElementById("fb-bits-size");
+const fbFloatingNumberElement = <HTMLInputElement>document.getElementById("fb-floating-number");
+const fbResultElement = document.getElementById("fb-result");
 
-function onChangeConverter() {
-  let res = "";
-  const bitsSize = Number(bitsSizeElement.value);
-  const floatingNumber = Number(floatingNumberElement.value);
+function onChangeConverterFb() {
+  const bitsSize = Number(fbBitsSizeElement.value);
+  const floatingNumber = Number(fbFloatingNumberElement.value);
   
-  if (!bitsSize || !floatingNumber) {
-    res = "Veuillez renseigner tous les champs";
+  if (fbBitsSizeElement.value === "" || fbFloatingNumberElement.value === "") {
+    fbResultElement.innerHTML = `<span class="color-red">Veuillez renseigner tous les champs</span>`;
+    return;
   }
   
   const bf = new BinaryFloat(floatingNumber, bitsSize);
 
-  res = `
+  fbResultElement.innerHTML = `
     <div class="result-group">
       Taille en bits de l'exposant: ${bf.exponentBitsSize}
     </div>
@@ -59,13 +59,11 @@ function onChangeConverter() {
       Marge d'erreur: ${bf.error}
     </div>
   `;
-
-  resultElement.innerHTML = res || "Resultat...";
 }
 
-bitsSizeElement.addEventListener("change", onChangeConverter);
-bitsSizeElement.addEventListener("keyup", onChangeConverter);
-floatingNumberElement.addEventListener("change", onChangeConverter);
-floatingNumberElement.addEventListener("keyup", onChangeConverter);
+fbBitsSizeElement.addEventListener("change", onChangeConverterFb);
+fbBitsSizeElement.addEventListener("keyup", onChangeConverterFb);
+fbFloatingNumberElement.addEventListener("change", onChangeConverterFb);
+fbFloatingNumberElement.addEventListener("keyup", onChangeConverterFb);
 
-onChangeConverter();
+onChangeConverterFb();

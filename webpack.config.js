@@ -7,7 +7,8 @@ module.exports = {
   mode: "production",
   entry: {
     labo0: "./src/labo0.ts",
-    "labo1-converter": "./src/labo1-converter.ts",
+    "labo1-fb-converter": "./src/labo1-fb-converter.ts",
+    "labo1-bf-converter": "./src/labo1-bf-converter.ts",
     "labo1-addition": "./src/labo1-addition.ts"
   },
   devtool: "inline-source-map",

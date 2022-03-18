@@ -6,42 +6,48 @@ const addInputBElement = <HTMLInputElement>document.getElementById("add-input-b"
 const addResultElement = document.getElementById("add-result");
 
 function onChangeAddition() {
-  let res = "";
-
   const bitsSize = Number(addBitSizeElement.value);
   const inputA = Number(addInputAElement.value);
   const inputB = Number(addInputBElement.value);
   
-  if (!inputA || !inputB) {
-    res = "Veuillez renseigner tous les champs";
+  if (addBitSizeElement.value === "" || addInputAElement.value === "" || addInputBElement.value === "") {
+    addResultElement.innerHTML = `<span class="color-red">Veuillez renseigner tous les champs</span>`;
+    return;
   }
   
   const bfA = new BinaryFloat(inputA, bitsSize);
   const bfB = new BinaryFloat(inputB, bitsSize);
+  const bfRes = bfA.add(bfB);
 
-  res = `
+  addResultElement.innerHTML = `
     <div class="result-group">
-      <span class="mono">${inputA}</span>
-      en binaire:
+      Nombre <span class="mono">1</span> en binaire:
       <span class="color-red mono">${bfA.binarySign}</span>
       <span class="color-blue mono">${bfA.binaryExponent}</span>
       <span class="color-orange mono">${bfA.binaryMantissa}</span>
       (<span class="mono">${bfA.computedNumber}</span>)
     </div>
+
     <div class="result-group">
-      <span class="mono">${inputB}</span>
-      en binaire:
+      Nombre <span class="mono">2</span> en binaire:
       <span class="color-red mono">${bfB.binarySign}</span>
       <span class="color-blue mono">${bfB.binaryExponent}</span>
       <span class="color-orange mono">${bfB.binaryMantissa}</span>
       (<span class="mono">${bfB.computedNumber}</span>)
     </div>
+
+    <div class="result-group mt25">
+      Résultat en base 10:
+      <span class="mono">${bfRes.computedNumber}</span>
+    </div>
+
     <div class="result-group">
-      Résultat: ${bfA.add(bfB)}
+      Résultat en binaire:
+      <span class="color-red mono">${bfRes.binarySign}</span>
+      <span class="color-blue mono">${bfRes.binaryExponent}</span>
+      <span class="color-orange mono">${bfRes.binaryMantissa}</span>
     </div>
   `;
-
-  addResultElement.innerHTML = res || "Resultat...";
 }
 
 addInputAElement.addEventListener("change", onChangeAddition);

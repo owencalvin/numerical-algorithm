@@ -3,7 +3,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="labo1-converter.js" defer></script>
+  <script src="labo1-bf-converter.js" defer></script>
+  <script src="labo1-fb-converter.js" defer></script>
   <script src="labo1-addition.js" defer></script>
   <link rel="stylesheet" href="style.css">
   <title>Binary floating number</title>
@@ -19,20 +20,31 @@
       <h1>Convertisseur réel binaire</h1>
 
       <div class="flex">
-        <label for="bits-size">Taille en bit</label>
-        <input type="number" id="bits-size" placeholder="32" value="32" max="80" min="8">
+        <label for="fb-bits-size">Taille en bit</label>
+        <input type="number" id="fb-bits-size" placeholder="32" value="32" max="80" min="8">
       </div>
 
       <div class="flex mt25">
-        <label for="bits-size">Nombre réel à convertir</label>
-        <input type="text" id="floating-number" placeholder="3.14159265359">
+        <label for="fb-floating-number">Nombre réel à convertir</label>
+        <input type="text" id="fb-floating-number" placeholder="3.14159265359">
         <span class="description">Vous pouvez utiliser une valeur NaN ou "Infinity"</span>
       </div>
 
-      <div class="mt25" id="result"></div>
+      <div class="mt10" id="fb-result"></div>
     </div>
 
     <div class="flex mt50">
+      <h1>Convertisseur binaire réel</h1>
+
+      <div class="flex">
+        <label for="bf-binary-number">Nombre binaire à convertir</label>
+        <input type="text" id="bf-binary-number" placeholder="0 10000000 10010010000111111011000">
+      </div>
+
+      <div class="mt10" id="bf-result"></div>
+    </div>
+
+    <div class="flex mt50 mb50">
       <h1>Additionneur de réels en binaire</h1>
 
       <div class="flex">
@@ -52,13 +64,15 @@
         <span class="description">Vous pouvez utiliser une valeur NaN ou "Infinity"</span>
       </div>
 
-      <div class="mt25" id="add-result"></div>
+      <div class="mt10" id="add-result"></div>
     </div>
 
+    <!--
     <div class="flex mt50">
       <h1>Fonctions déterminants le nombre de bits de l'exposant</h1>
       <iframe src="https://www.geogebra.org/calculator/cerrkdfv?embed" width="100%" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
     </div>
+    -->
   </section>
 </body>
 </html>
