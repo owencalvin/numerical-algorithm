@@ -118,6 +118,34 @@ export class BinaryHelper {
   }
 
   /**
+   * Shift the binary number to the right
+   * @param b The binary number
+   * @param shiftValue The shift value
+   * @returns The shifted binary number
+   */
+  public shiftRight(b: string, shiftValue: number) {
+    // "000001010" >> 2 => "000000010"
+    // 1. Removes lasts <shiftValue> bits
+    // 2. Places <shiftValue> bits at 0 before
+
+    let res = b;
+    res = res.slice(0, -shiftValue);
+    res = "".padStart(shiftValue, "0") + res;
+
+    return res;
+  }
+
+  /**
+   * Shift the binary number to the left
+   * @param b The binary number
+   * @param shiftValue The shift value
+   * @returns The shifted binary number
+   */
+  public shiftLeft(b: string, shiftValue: number) {
+    return this.decimalToBinary(this.binaryToDecimal(b) * Math.pow(2, shiftValue));
+  }
+
+  /**
    * Add 2 bit together with the carry
    * @param x The first bit
    * @param y The second bit
@@ -145,7 +173,7 @@ export class BinaryHelper {
    * Add 2 binary numbers
    * @param b1 The first binary number
    * @param b2 The second binary number
-   * @returns The result of the addition
+   * @returns The result of the addition [binaryNumber, carryBit]
    */
   public binaryAddition(b1: string, b2: string) {
     let res = "";
@@ -165,7 +193,7 @@ export class BinaryHelper {
    * Substract 2 binary numbers
    * @param b1 The first binary number
    * @param b2 The second binary number
-   * @returns The result of the substraction
+   * @returns The result of the substraction [binaryNumber, carryBit]
    */
   public binarySubstraction(b1: string, b2: string) {
     const [bp1, bp2] = this.addMaxPadding(b1, b2);

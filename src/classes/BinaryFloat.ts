@@ -8,6 +8,7 @@ export class BinaryFloat {
   private _number = 0;
   private _binarySign: "1" | "0" = "0";
   private _binaryMantissa = "";
+  private _overflow = false;
   private _mantissaDotPosition = 0;
   private _binaryExponent = "";
   private _bias = 0;
@@ -31,6 +32,14 @@ export class BinaryFloat {
       this.bitsSize = bitsSize;
       this.number = numberOrBinary;
     }
+  }
+
+  static getInfinity(bitsSize: number) {
+    return new BinaryFloat(Infinity, bitsSize);
+  }
+
+  static getNaN(bitsSize: number) {
+    return new BinaryFloat(NaN, bitsSize);
   }
 
   /**
@@ -146,6 +155,7 @@ export class BinaryFloat {
 
   set binaryMantissa(value: string) {
     this._binaryMantissa = value;
+    this._overflow = value.length > this.mantissaBitsSize;
   }
 
   /**
@@ -188,6 +198,22 @@ export class BinaryFloat {
       return this.number;
     }
 
+    if (
+      this.binaryExponent.indexOf("0") === -1 &&
+      this.binaryMantissa.indexOf("0") === -1 &&
+      this.binarySign === "0"
+    ) {
+      return NaN;
+    }
+
+    if (
+      this.binaryExponent.indexOf("0") === -1 &&
+      this.binaryMantissa.indexOf("1") === -1 &&
+      this.binarySign === "0"
+    ) {
+      return Infinity;
+    }
+
     return this.computedSign * 2 ** this.computedExponent * this.computedMantissa;
   }
 
@@ -213,6 +239,10 @@ export class BinaryFloat {
 
   set binarySign(value: "0" | "1") {
     this._binarySign = value;
+  }
+
+  get overflow() {
+    return this._overflow;
   }
 
   /**
@@ -288,7 +318,7 @@ export class BinaryFloat {
     // Make sure that the mantissa matches the correct length (23 for 32 bits for example)
     binaryMantissa = binaryMantissa.padEnd(this.mantissaBitsSize, "0");
 
-    this._binaryMantissa = binaryMantissa;
+    this.binaryMantissa = binaryMantissa;
     this._mantissaDotPosition = mantissaDotPosition;
   }
 
@@ -322,7 +352,15 @@ export class BinaryFloat {
   add(bf2: BinaryFloat) {
     const bfRes = new BinaryFloat(1, this.bitsSize);
 
-    // Step 1: Determine the lowest mantissa between this and the second number
+    if (Number.isNaN(this.computedNumber) || Number.isNaN(bf2)) {
+      return BinaryFloat.getNaN(this.bitsSize);
+    }
+
+    if (this.computedNumber === Infinity || bf2.computedNumber === Infinity) {
+      return BinaryFloat.getInfinity(this.bitsSize);
+    }
+
+    // Step 1: Determine the lowest exponent between this and the second number
     let bfMinBinaryExponent: BinaryFloat = this;
     let bfMaxBinaryExponent: BinaryFloat = bf2;
     if (this._bh.binaryToDecimal(bf2.binaryExponent) < this._bh.binaryToDecimal(bfMinBinaryExponent.binaryExponent)) {
@@ -332,21 +370,28 @@ export class BinaryFloat {
 
     // Step 2: Shift the mantissa
     const shiftValue = bfMaxBinaryExponent.computedExponent - bfMinBinaryExponent.computedExponent;
-    const shiftedMinMantissa = this._bh.decimalToBinary(this._bh.binaryToDecimal("1" + bfMinBinaryExponent.binaryMantissa) >> shiftValue);
+    const shiftedMinMantissa = this._bh.shiftRight("1" + bfMinBinaryExponent.binaryMantissa, shiftValue);
     bfRes.binaryMantissa = shiftedMinMantissa;
     
     // Step 3: Put the same exponent
     bfRes.binaryExponent = bfMaxBinaryExponent.binaryExponent;
-    
+
     // Step 4: Add the mantissa and the shifted one
-    bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
+    if (bfMinBinaryExponent.computedSign === bfMaxBinaryExponent.computedSign) {
+      bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
+    } else {
+      bfRes.binaryMantissa = this._bh.binarySubstraction("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
+    }
 
     // Step 5: Normalise the mantissa
     if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
+      console.log(bfRes.binaryMantissa.length - bfRes.mantissaBitsSize);
+
       // Hide the first bit
       bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
     }
 
+    // Normalize if there is a carry
     if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 2) {
       // Hide the first bit
       bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
@@ -355,7 +400,7 @@ export class BinaryFloat {
       bfRes.binaryMantissa = bfRes.binaryMantissa.slice(0, -1);
 
       // Add 1 to the exponent
-      bfRes.binaryExponent = this._bh.decimalToBinary(this._bh.binaryToDecimal(this.binaryExponent) + 1);
+      bfRes.binaryExponent = this._bh.addNumberToBinary(bfRes.binaryExponent, 1)[0];
     }
 
     return bfRes;

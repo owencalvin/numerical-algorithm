@@ -14,6 +14,11 @@ function onChangeConverterFb() {
   }
   
   const bf = new BinaryFloat(floatingNumber, bitsSize);
+  
+  if (bf.overflow) {
+    fbResultElement.innerHTML = `<span class="color-red">Votre nombre binaire est trop grand pour être encodé en ${bitsSize} bits</span>`;
+    return;
+  }
 
   fbResultElement.innerHTML = `
     <div class="result-group">
