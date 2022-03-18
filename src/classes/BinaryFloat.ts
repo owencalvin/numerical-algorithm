@@ -83,6 +83,9 @@ export class BinaryFloat {
    * Get the exponent bits size with:
    * - The IEEE 754 2019 formula if the bits size is greater or equal to 128
    * - A custom formula if the bit size is less than 128 that matches the IEEE standard
+   * 
+   * Visualize the function on geogebra:
+   * https://www.geogebra.org/calculator/cerrkdfv
    */
   get exponentBitsSize() {
     if (this.bitsSize < 8) {
