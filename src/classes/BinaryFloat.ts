@@ -158,12 +158,8 @@ export class BinaryFloat {
     }
 
     const sign = this.binarySign === "1" ? -1 : 1;
-    let computedExponent = this._bh.binaryToDecimal(this.binaryExponent) - this.bias + 1;
+    const computedExponent = this._bh.binaryToDecimal(this.binaryExponent) - this.bias;
     const mantissa = this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
-
-    if (this.number > 0 && this.number < 1) {
-      computedExponent -= 1;
-    }
 
     return sign * 2 ** computedExponent * mantissa;
   }
@@ -283,8 +279,7 @@ export class BinaryFloat {
    */
   private calculateMantissaFloatPosition() {
     // "10011".length - 1 => 5 - 1 => 4
-    // (-1 because we have hidden the first bit)
-    this._mantissaFloatPosition = this.binaryIntegerMantissa.length - 1;
+    this._mantissaFloatPosition = this.binaryIntegerMantissa.length;
 
     // If the number is included in [0, 1[
     // then the position of the dot is calculated by finding the number of "jumps"
