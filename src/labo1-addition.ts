@@ -9,13 +9,22 @@ function onChangeAddition() {
   const bitsSize = Number(addBitSizeElement.value);
   const inputA = Number(addInputAElement.value);
   const inputB = Number(addInputBElement.value);
-  
+    
   if (addBitSizeElement.value === "" || addInputAElement.value === "" || addInputBElement.value === "") {
     addResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
     return;
   }
 
-  
+  if (bitsSize > 80) {
+    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être 80</span>`;
+    return;
+  }
+
+  if (inputA < 0 || inputB < 0) {
+    addResultElement.innerHTML = `<span class="color-grey">Nous ne supportons que les additions pour le moment</span>`;
+    return;
+  }
+
   const bfA = new BinaryFloat(inputA, bitsSize);
   const bfB = new BinaryFloat(inputB, bitsSize);
   const bfRes = bfA.add(bfB);

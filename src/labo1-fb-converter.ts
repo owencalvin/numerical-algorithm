@@ -7,6 +7,16 @@ const fbResultElement = document.getElementById("fb-result");
 function onChangeConverterFb() {
   const bitsSize = Number(fbBitsSizeElement.value);
   const floatingNumber = Number(fbFloatingNumberElement.value);
+
+  if (bitsSize < 8) {
+    fbResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être 8</span>`;
+    return;
+  }
+
+  if (bitsSize > 80) {
+    fbResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être 80</span>`;
+    return;
+  }
   
   if (fbBitsSizeElement.value === "" || fbFloatingNumberElement.value === "") {
     fbResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
