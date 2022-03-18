@@ -128,6 +128,10 @@ export class BinaryHelper {
     // 1. Removes lasts <shiftValue> bits
     // 2. Places <shiftValue> bits at 0 before
 
+    if (shiftValue < 1) {
+      return b;
+    }
+
     let res = b;
     res = res.slice(0, -shiftValue);
     res = "".padStart(shiftValue, "0") + res;
