@@ -1,7 +1,7 @@
 import { BinaryHelper } from "./BinaryHelper";
 
 /**
- * Code a floating number with a choosen bit size and IEEE 754
+ * Encode a floating number with a choosen bit size and IEEE 754
  */
 export class BinaryFloat {
   private _bitsSize = 32;
@@ -241,6 +241,9 @@ export class BinaryFloat {
     this._binarySign = value;
   }
 
+  /**
+   * True if the number cannot be encoded in <bitsSize> bits
+   */
   get overflow() {
     return this._overflow;
   }
