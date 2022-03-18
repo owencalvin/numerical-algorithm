@@ -306,7 +306,7 @@ export class BinaryFloat {
   private calculateBinaryExponent() {
     let exponent = this.mantissaFloatPosition + this.bias;
 
-    // If the number is 1 then all the bits of the exponent are equals to 0
+    // If the number is 0 then all the bits of the exponent are equals to 0
     if (this.number === 0) {
       exponent = 0;
     }
