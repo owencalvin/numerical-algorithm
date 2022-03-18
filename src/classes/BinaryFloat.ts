@@ -167,6 +167,9 @@ export class BinaryFloat {
     return sign * 2 ** computedExponent * mantissa;
   }
 
+  /**
+   * Get the margin of error
+   */
   get error() {    
     if (Number.isNaN(this.number) || this.number === Infinity || this.number === 0) {
       return 0;
