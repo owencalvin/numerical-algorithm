@@ -17,7 +17,7 @@ export class BinaryFloat {
   /**
    * The bit size to code the number
    */
-  get bitsSize(): number {
+  get bitsSize() {
     return this._bitsSize;
   }
 
@@ -36,7 +36,7 @@ export class BinaryFloat {
   /**
    * The float number to coded with IEEE 754
    */
-  get number(): number {
+  get number() {
     return this._number;
   }
 
@@ -54,7 +54,7 @@ export class BinaryFloat {
   /**
    * Get the mantissa bits size
    */
-  get mantissaBitsSize(): number {
+  get mantissaBitsSize() {
     if (this.bitsSize < 8) {
       return 0;
     }
@@ -67,7 +67,7 @@ export class BinaryFloat {
    * - The IEEE 754 2019 formula if the bits size is greater or equal to 128
    * - A custom formula if the bit size is less than 128 that matches the IEEE standard
    */
-  get exponentBitsSize(): number {
+  get exponentBitsSize() {
     if (this.bitsSize < 8) {
       return 0;
     }
@@ -99,7 +99,7 @@ export class BinaryFloat {
    * The decimal part of the number in binary that is coded in the mantissa
    * 19.59375 => "00111001100000000000000"
    */
-  get binaryDecimalMantissa(): string {
+  get binaryDecimalMantissa() {
     return this._binaryDecimalMantissa;
   }
 
@@ -118,21 +118,21 @@ export class BinaryFloat {
    * Get the exponent of the number in binary with the bias
    * mantissa(19.59375) => "10000010"
    */
-  get binaryExponent(): string {
+  get binaryExponent() {
     return this._binaryExponent;
   }
 
   /**
    * Get the full mantissa of the number
    */
-  get binaryMantissa(): string {
+  get binaryMantissa() {
     return this._binaryMantissa;
   }
 
   /**
    * Get the full number coded in binary with IEEE 754
    */
-  get binaryFloatingNumber(): string {
+  get binaryFloatingNumber() {
     return this.binarySign + this.binaryExponent + this.binaryMantissa;
   }
 
@@ -140,7 +140,7 @@ export class BinaryFloat {
    * Return the bias of the number based on the exponent bit size
    * b = 2 ^ (exponentBitsSize - 1) - 1
    */
-  get bias(): number {
+  get bias() {
     return this._bias;
   }
 
@@ -148,19 +148,27 @@ export class BinaryFloat {
    * The number that is coded in memory
    */
   get computedNumber() {
-    if (Number.isNaN(this.number) || this.number === Infinity) {
+    if (
+      Number.isNaN(this.number) ||
+      this.number === Infinity ||
+      this.number === 0
+    ) {
       return this.number;
     }
 
     const sign = this.binarySign === "1" ? -1 : 1;
-    const computedExponent = 2 ** (this._bh.binaryToDecimal(this.binaryExponent) - this.bias + 1);
+    let computedExponent = this._bh.binaryToDecimal(this.binaryExponent) - this.bias + 1;
     const mantissa = this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
 
-    return sign * computedExponent * mantissa;
+    if (this.number > 0 && this.number < 1) {
+      computedExponent -= 1;
+    }
+
+    return sign * 2 ** computedExponent * mantissa;
   }
 
   get error() {    
-    if (Number.isNaN(this.number) || this.number === Infinity) {
+    if (Number.isNaN(this.number) || this.number === Infinity || this.number === 0) {
       return 0;
     }
 
