@@ -78,6 +78,7 @@ export class BinaryFloat {
     }
 
     // A formula that matches the values for < 128
+    // ref: https://stackoverflow.com/a/62632260
     return Math.round((Math.log2(this.bitsSize) - 1) ** (3 / 2));
   }
 
