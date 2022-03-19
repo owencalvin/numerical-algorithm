@@ -407,10 +407,10 @@ export class BinaryFloat {
 
     // Step 4: 2's complement if negative
     if (bfMinBinaryExponent.computedSign === -1) {
-      bfMinBinaryExponent.binaryMantissa = this._bh.c2(bfMinBinaryExponent.binaryMantissa);
+      bfMinBinaryExponent.binaryMantissa = this._bh.c2(bfMinBinaryExponent.binaryMantissa).reverse().join("");
     }
     if (bfMaxBinaryExponent.computedSign === -1) {
-      bfMaxBinaryExponent.binaryMantissa = this._bh.c2(bfMaxBinaryExponent.binaryMantissa);
+      bfMaxBinaryExponent.binaryMantissa = this._bh.c2(bfMaxBinaryExponent.binaryMantissa).reverse().join("");
     }
 
     // Step 5: Add the mantissa and the shifted one

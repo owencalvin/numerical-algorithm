@@ -213,12 +213,17 @@ export class BinaryHelper {
    */
   public binarySubstraction(b1: string, b2: string) {
     const [bp1, bp2] = this.addMaxPadding(b1, b2);
-    return this.binaryAddition(bp1, this.c2(bp2));
+    return this.binaryAddition(bp1, this.c2(bp2).reverse().join(""));
   }
 
-  public c2(b: string): string {
+  /**
+   * Perform a 2's complement operation without the carry
+   * @param b The binary number
+   * @returns The 2's complement of the binary number [binaryNumber, carry]
+   */
+  public c2(b: string): string[] {
     b = this.invert(b);
-    return this.binaryAddition(b, "1").reverse().join("");
+    return this.addNumberToBinary(b, 1);
   }
 
   /**

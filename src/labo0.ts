@@ -41,7 +41,7 @@ function onChange() {
     }
   }
 
-  result.innerHTML = res ? `Résultat: ${res}` : "Résultat: ...";
+  result.innerHTML = res ? `Résultat: <span class="mono">${res}<span/>` : "Résultat: ...";
 }
 
 inputA.addEventListener("change", onChange);
