@@ -186,31 +186,45 @@ export class BinaryFloat {
     return this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
   }
 
+  get isNaN() {
+    const isNaNBinary = (
+      this.binaryExponent.indexOf("0") === -1 &&
+      this.binaryMantissa.indexOf("0") === -1 &&
+      this.binarySign === "0"
+    );
+
+    return Number.isNaN(this.number) || isNaNBinary;
+  }
+
+  get isInfinity() {
+    const isInfinityBinary = (
+      this.binaryExponent.indexOf("0") === -1 &&
+      this.binaryMantissa.indexOf("1") === -1 &&
+      this.binarySign === "0"
+    );
+
+    return this.number === Infinity || isInfinityBinary;
+  }
+
+  get isZero() {
+    const isZeroBinary = (
+      this.binaryExponent.indexOf("1") === -1 &&
+      this.binaryMantissa.indexOf("1") === -1 &&
+      this.binarySign === "0"
+    );
+
+    return this.number === 0 || isZeroBinary;
+  }
+
   /**
    * The number that is coded in memory
    */
   get computedNumber() {
-    if (
-      Number.isNaN(this.number) ||
-      this.number === Infinity ||
-      this.number === 0
-    ) {
-      return this.number;
-    }
-
-    if (
-      this.binaryExponent.indexOf("0") === -1 &&
-      this.binaryMantissa.indexOf("0") === -1 &&
-      this.binarySign === "0"
-    ) {
+    if (this.isZero) {
+      return 0;
+    } else if (this.isNaN) {
       return NaN;
-    }
-
-    if (
-      this.binaryExponent.indexOf("0") === -1 &&
-      this.binaryMantissa.indexOf("1") === -1 &&
-      this.binarySign === "0"
-    ) {
+    } else if (this.isInfinity) {
       return Infinity;
     }
 
@@ -355,11 +369,11 @@ export class BinaryFloat {
   add(bf2: BinaryFloat) {
     const bfRes = new BinaryFloat(1, this.bitsSize);
 
-    if (Number.isNaN(this.computedNumber) || Number.isNaN(bf2)) {
+    if (this.isNaN || bf2.isNaN) {
       return BinaryFloat.getNaN(this.bitsSize);
     }
 
-    if (this.computedNumber === Infinity || bf2.computedNumber === Infinity) {
+    if (this.isInfinity || bf2.isInfinity) {
       return BinaryFloat.getInfinity(this.bitsSize);
     }
 
@@ -369,6 +383,10 @@ export class BinaryFloat {
     if (this._bh.binaryToDecimal(bf2.binaryExponent) < this._bh.binaryToDecimal(bfMinBinaryExponent.binaryExponent)) {
       bfMinBinaryExponent = bf2;
       bfMaxBinaryExponent = this;
+    }
+
+    if (bfMinBinaryExponent.isZero) {
+      return bfMaxBinaryExponent;
     }
 
     // Step 2: Shift the mantissa
