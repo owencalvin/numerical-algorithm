@@ -369,10 +369,10 @@ export class BinaryFloat {
   add(bf2: BinaryFloat) {
     const bfRes = new BinaryFloat(1, this.bitsSize);
 
+    // Special cases
     if (this.isNaN || bf2.isNaN) {
       return BinaryFloat.getNaN(this.bitsSize);
     }
-
     if (this.isInfinity || bf2.isInfinity) {
       return BinaryFloat.getInfinity(this.bitsSize);
     }
@@ -384,42 +384,40 @@ export class BinaryFloat {
       bfMinBinaryExponent = bf2;
       bfMaxBinaryExponent = this;
     }
+    // Copy the number, do not set by reference
+    bfMaxBinaryExponent = new BinaryFloat(bfMaxBinaryExponent.computedNumber, this.bitsSize);
+    bfMinBinaryExponent = new BinaryFloat(bfMinBinaryExponent.computedNumber, this.bitsSize);
 
+    // If there is a 0 then return the non-zero number
     if (bfMinBinaryExponent.isZero) {
       return bfMaxBinaryExponent;
     }
 
+    // Add the hidden bit
+    bfMinBinaryExponent.binaryMantissa = "1" + bfMinBinaryExponent.binaryMantissa;
+    bfMaxBinaryExponent.binaryMantissa = "1" + bfMaxBinaryExponent.binaryMantissa;
+
     // Step 2: Shift the mantissa
     const shiftValue = bfMaxBinaryExponent.computedExponent - bfMinBinaryExponent.computedExponent;
-    const shiftedMinMantissa = this._bh.shiftRight("1" + bfMinBinaryExponent.binaryMantissa, shiftValue);
-    bfMinBinaryExponent = new BinaryFloat(bfMinBinaryExponent.computedNumber, this.bitsSize);
+    const shiftedMinMantissa = this._bh.shiftRight(bfMinBinaryExponent.binaryMantissa, shiftValue);
     bfMinBinaryExponent.binaryMantissa = shiftedMinMantissa;
-    bfRes.binaryMantissa = shiftedMinMantissa;
     
     // Step 3: Put the same exponent
     bfRes.binaryExponent = bfMaxBinaryExponent.binaryExponent;
 
-    // Step 4: Add the mantissa and the shifted one
-    if (bfMinBinaryExponent.computedSign === bfMaxBinaryExponent.computedSign) {
-      bfRes.binaryMantissa = this._bh.binaryAddition("1" + bfMaxBinaryExponent.binaryMantissa, bfRes.binaryMantissa).reverse().join("");
-    } else {
-      let minusBf = "1" + bfMaxBinaryExponent.binaryMantissa;
-      let baseBf = bfMinBinaryExponent.binaryMantissa;
-
-      if (bfMinBinaryExponent.computedSign === -1) {
-        baseBf = minusBf;
-        minusBf = bfMinBinaryExponent.binaryMantissa;
-      }
-
-      bfRes.binaryMantissa = this._bh.binarySubstraction(baseBf, minusBf).reverse().join("");
-
-      console.log(baseBf, minusBf, bfRes.binaryMantissa);
+    // Step 4: 2's complement if negative
+    if (bfMinBinaryExponent.computedSign === -1) {
+      bfMinBinaryExponent.binaryMantissa = this._bh.c2(bfMinBinaryExponent.binaryMantissa);
+    }
+    if (bfMaxBinaryExponent.computedSign === -1) {
+      bfMaxBinaryExponent.binaryMantissa = this._bh.c2(bfMaxBinaryExponent.binaryMantissa);
     }
 
-    // Step 5: Normalise the mantissa
-    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
-      console.log(bfRes.binaryMantissa.length - bfRes.mantissaBitsSize);
+    // Step 5: Add the mantissa and the shifted one
+    bfRes.binaryMantissa = this._bh.binaryAddition(bfMaxBinaryExponent.binaryMantissa, bfMinBinaryExponent.binaryMantissa).reverse().join("");
 
+    // Step 6: Normalise the mantissa
+    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
       // Hide the first bit
       bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
     }

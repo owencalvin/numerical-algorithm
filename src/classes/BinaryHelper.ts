@@ -146,7 +146,19 @@ export class BinaryHelper {
    * @returns The shifted binary number
    */
   public shiftLeft(b: string, shiftValue: number) {
-    return this.decimalToBinary(this.binaryToDecimal(b) * Math.pow(2, shiftValue));
+    // "000001010" << 2 => "00000101000"
+    // 1. Removes lasts <shiftValue> bits
+    // 2. Places <shiftValue> bits at 0 before
+
+    if (shiftValue < 1) {
+      return b;
+    }
+
+    let res = b;
+    res = res.slice(shiftValue);
+    res += "".padEnd(shiftValue, "0");
+
+    return res;
   }
 
   /**

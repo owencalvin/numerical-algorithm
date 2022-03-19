@@ -46,7 +46,7 @@ function onChangeConverterFb() {
     <div class="result-group">
       Signe:
       <span class="color-red mono">${bf.binarySign}</span>
-      <span class="mono">(${bf.computedSign})</span>
+      <span class="mono">(${bf.computedSign > 0 ? "+" : "-"})</span>
     </div>
     
     <div class="result-group">
