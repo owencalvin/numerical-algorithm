@@ -39,10 +39,10 @@ function onChangeAddition() {
     return;
   }
 
-  // if (inputA < 0 || inputB < 0) {
-  //   addResultElement.innerHTML = `<span class="color-red">Nous ne supportons que les additions pour le moment</span>`;
-  //   return;
-  // }
+  if (inputA < 0 || inputB < 0) {
+    addResultElement.innerHTML = `<span class="color-red">Nous ne supportons que les additions pour le moment</span>`;
+    return;
+  }
 
   const bfA = new BinaryFloat(inputA, bitsSize);
   const bfB = new BinaryFloat(inputB, bitsSize);
