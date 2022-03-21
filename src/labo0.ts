@@ -1,3 +1,12 @@
+/**
+ * Labo: 0 (Binary operations)
+ * Authors: Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+ * Team: 2
+ * School: HE-Arc
+ * Date: 21 mars 2022
+ * Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+ */
+
 import { BinaryHelper } from "./classes/BinaryHelper";
 
 const bh = new BinaryHelper();

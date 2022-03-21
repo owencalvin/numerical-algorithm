@@ -1,3 +1,12 @@
+/**
+ * Labo: 1 (Float to binary conversion)
+ * Authors: Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+ * Team: 2
+ * School: HE-Arc
+ * Date: 21 mars 2022
+ * Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+ */
+
 import { BinaryFloat } from "./classes/BinaryFloat";
 
 const addBitSizeElement = <HTMLInputElement>document.getElementById("add-bits-size");
@@ -9,6 +18,16 @@ function onChangeAddition() {
   const bitsSize = Number(addBitSizeElement.value);
   const inputA = Number(addInputAElement.value);
   const inputB = Number(addInputBElement.value);
+
+  if (bitsSize < 8) {
+    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être 8</span>`;
+    return;
+  }
+
+  if (bitsSize > 80) {
+    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être 80</span>`;
+    return;
+  }
     
   if (addBitSizeElement.value === "" || addInputAElement.value === "" || addInputBElement.value === "") {
     addResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
@@ -20,10 +39,10 @@ function onChangeAddition() {
     return;
   }
 
-  if (inputA < 0 || inputB < 0) {
-    addResultElement.innerHTML = `<span class="color-red">Nous ne supportons que les additions pour le moment</span>`;
-    return;
-  }
+  // if (inputA < 0 || inputB < 0) {
+  //   addResultElement.innerHTML = `<span class="color-red">Nous ne supportons que les additions pour le moment</span>`;
+  //   return;
+  // }
 
   const bfA = new BinaryFloat(inputA, bitsSize);
   const bfB = new BinaryFloat(inputB, bitsSize);

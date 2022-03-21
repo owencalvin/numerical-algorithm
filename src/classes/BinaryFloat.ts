@@ -1,3 +1,12 @@
+/**
+ * Labo: 1 (Float to binary conversion)
+ * Authors: Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+ * Team: 2
+ * School: HE-Arc
+ * Date: 21 mars 2022
+ * Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+ */
+
 import { BinaryHelper } from "./BinaryHelper";
 
 /**
@@ -425,6 +434,10 @@ export class BinaryFloat {
     }
     if (bfMaxBinaryExponent.computedSign === -1) {
       bfMaxBinaryExponent.binaryMantissa = this._bh.c2(bfMaxBinaryExponent.binaryMantissa).reverse().join("");
+
+      if (bfMaxBinaryExponent.computedSign !== bfMinBinaryExponent.computedSign) {
+        bfRes.binarySign = "1";
+      }
     }
 
     // Step 5: Add the mantissa and the shifted one
@@ -433,21 +446,20 @@ export class BinaryFloat {
       bfMinBinaryExponent.binaryMantissa,
     ).reverse().join("");
 
-    // Step 6: Determine the sign of the result
-    if (bfMaxBinaryExponent.computedSign !== bfMinBinaryExponent.computedSign) {
-      if (bfMaxBinaryExponent.computedSign === -1) {
-        bfRes.binarySign = "1";
-      }
-    }
-
     // Step 7: Normalize the mantissa
     // Hide the first bit
     bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
 
     // Normalize the mantissa if there is a carry
     if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
-      // Remove the last bit
+      // Round the last bit
+      const lastBit =  bfRes.binaryMantissa[bfRes.binaryMantissa.length - 1];
+      const beforeLastBit =  bfRes.binaryMantissa[bfRes.binaryMantissa.length - 2];
       bfRes.binaryMantissa = bfRes.binaryMantissa.slice(0, -1);
+
+      if (beforeLastBit === "1" && lastBit === "1") {
+        bfRes.binaryMantissa = this._bh.binaryAddition(bfRes.binaryMantissa, "1").reverse().join("");
+      }
 
       // Add 1 to the exponent
       bfRes.binaryExponent = this._bh.addNumberToBinary(bfRes.binaryExponent, 1)[0];
