@@ -70,6 +70,12 @@ export class BinaryHelper {
     return [b1, b2];
   }
 
+  /**
+   * Get the max length of two binaries numbers
+   * @param b1 The first binary number
+   * @param b2 The second binary number
+   * @returns The max length
+   */
   public getMaxLength(b1: string, b2: string) {
     if (b1.length > b2.length) {
       return b1.length;
