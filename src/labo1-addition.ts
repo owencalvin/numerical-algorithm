@@ -46,7 +46,6 @@ function onChangeAddition() {
   const bfRes = bfA.add(bfB);
   const getOverFlowError = (nb: string | number) => `<span class="color-red">${nb} est trop grand pour être encodé en ${bitsSize} bits</span>`;
 
-
   if (bfA.overflow) {
     addResultElement.innerHTML = getOverFlowError(bfA.number);
     return;

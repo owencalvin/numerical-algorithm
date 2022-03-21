@@ -11,11 +11,12 @@ import { BinaryFloat } from "./classes/BinaryFloat";
 
 const fbBitsSizeElement = <HTMLInputElement>document.getElementById("fb-bits-size");
 const fbFloatingNumberElement = <HTMLInputElement>document.getElementById("fb-floating-number");
+const fbFindAccurateBitsSize = <HTMLInputElement>document.getElementById("fb-find-accurate-bits-size");
 const fbResultElement = document.getElementById("fb-result");
 const minLength = 8;
 const maxLength = 256;
 
-function onChangeConverterFb() {
+function verifyInputs() {
   const bitsSize = Number(fbBitsSizeElement.value);
   const floatingNumber = Number(fbFloatingNumberElement.value);
 
@@ -41,6 +42,26 @@ function onChangeConverterFb() {
     return;
   }
 
+  return bf;
+}
+
+function onChangeConverterFb() {
+  const bf = verifyInputs();
+  updateView(bf);
+}
+
+function findAccurateBitSize() {
+  const bf = verifyInputs();
+
+  bf.findAccurateBitsSize();
+  bf.calculate();
+
+  fbBitsSizeElement.value = bf.bitsSize.toString();
+
+  updateView(bf);
+}
+
+function updateView(bf: BinaryFloat) {
   fbResultElement.innerHTML = `
     <div class="result-group">
       Taille en bits de l'exposant: ${bf.exponentBitsSize}
@@ -94,5 +115,6 @@ fbBitsSizeElement.addEventListener("change", onChangeConverterFb);
 fbBitsSizeElement.addEventListener("keyup", onChangeConverterFb);
 fbFloatingNumberElement.addEventListener("change", onChangeConverterFb);
 fbFloatingNumberElement.addEventListener("keyup", onChangeConverterFb);
+fbFindAccurateBitsSize.addEventListener("click", findAccurateBitSize);
 
 onChangeConverterFb();

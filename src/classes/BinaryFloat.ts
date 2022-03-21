@@ -22,8 +22,10 @@ export class BinaryFloat {
   private _binaryExponent = "";
   private _bias = 0;
   private _bh = new BinaryHelper();
+  private static _minBitSize = 8;
 
   constructor(numberOrBinary: string);
+  constructor(numberOrBinary: number);
   constructor(numberOrBinary: number, bitsSize: number);
   constructor(numberOrBinary: number | string, bitsSize?: number) {
     if (typeof numberOrBinary === "string") {
@@ -65,10 +67,7 @@ export class BinaryFloat {
   set number(value: number) {
     this._number = value;
 
-    this.calculateBinarySign();
-    this.calculateBias();
-    this.calculateBinaryMantissa();
-    this.calculateBinaryExponent();
+    this.calculate();
   }
 
   /**
@@ -81,8 +80,8 @@ export class BinaryFloat {
   set bitsSize(value: number) {
     this._bitsSize = value;
 
-    if (value < 8) {
-      this._bitsSize = 8;
+    if (value < BinaryFloat._minBitSize) {
+      this._bitsSize = BinaryFloat._minBitSize;
     }
   }
 
@@ -195,6 +194,10 @@ export class BinaryFloat {
     return this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
   }
 
+  get marginOfError() {
+    return Math.abs(this.number - this.computedNumber);
+  }
+
   get isNaN() {
     const isNaNBinary = (
       this.binaryExponent.indexOf("0") === -1 &&
@@ -279,9 +282,23 @@ export class BinaryFloat {
   }
 
   /**
+   * Calculate:
+   * - Binary sign
+   * - The bias
+   * - The binary mantissa
+   * - The binary exponent
+   */
+  calculate() {
+    this.calculateBinarySign();
+    this.calculateBias();
+    this.calculateBinaryMantissa();
+    this.calculateBinaryExponent();
+  }
+
+  /**
    * Determine the binary sign of the number
    */
-  private calculateBinarySign() {
+  calculateBinarySign() {
     this._binarySign = this.number < 0 ? "1" : "0";
   }
 
@@ -289,14 +306,14 @@ export class BinaryFloat {
    * Calculate the exponent bias based on the exponent bit size
    * b = 2 ^ (exponentBitsSize - 1) - 1;
    */
-  private calculateBias() {
+  calculateBias() {
     this._bias = 2 ** (this.exponentBitsSize - 1) - 1;
   }
 
   /**
    * Determine the binary mantissa and determine the dot position in the mantissa
    */
-  private calculateBinaryMantissa() {
+  calculateBinaryMantissa() {
     if (Number.isNaN(this.number)) {
       this._mantissaDotPosition = 0;
       this._binaryMantissa = "".padEnd(this.mantissaBitsSize, "1");
@@ -359,7 +376,7 @@ export class BinaryFloat {
    * Calculate the exponent in binary
    * e = binary(mantissaFloatPosition + bias)
    */
-  private calculateBinaryExponent() {
+  calculateBinaryExponent() {
     // If the number is NaN or Infinity then all the bits of the exponent are equals to 1
     if (Number.isNaN(this.number) || this.number === Infinity) {
       this._binaryExponent = "".padEnd(this.exponentBitsSize, "1");
@@ -461,5 +478,18 @@ export class BinaryFloat {
     }
 
     return bfRes;
+  }
+
+  /**
+   * Find the minimum bits size to match the number almost "perfectly"
+   * @param maxBitSize Default 256, the bits size limit
+   */
+  findAccurateBitsSize(maxBitSize = 256) {
+    this.bitsSize = BinaryFloat._minBitSize;
+    
+    while(this.bitsSize < maxBitSize && this.marginOfError !== 0) {
+      this.bitsSize++;
+      this.calculate();
+    }
   }
 }
