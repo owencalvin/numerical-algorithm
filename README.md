@@ -1,4 +1,12 @@
 # Labo 1 - Mathématiques spécifiques
+```
+Labo: 1 (Float to binary conversion)
+Authors: Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+Team: 2
+School: HE-Arc
+Date: 21 mars 2022
+Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+```
 
 ## Structure du projet
 - Code source: `src/classes/BinaryFloat.ts`
