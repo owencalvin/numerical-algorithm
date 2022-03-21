@@ -456,7 +456,6 @@ export class BinaryFloat {
       const lastBit =  bfRes.binaryMantissa[bfRes.binaryMantissa.length - 1];
       const beforeLastBit =  bfRes.binaryMantissa[bfRes.binaryMantissa.length - 2];
       bfRes.binaryMantissa = bfRes.binaryMantissa.slice(0, -1);
-
       if (beforeLastBit === "1" && lastBit === "1") {
         bfRes.binaryMantissa = this._bh.binaryAddition(bfRes.binaryMantissa, "1").reverse().join("");
       }
