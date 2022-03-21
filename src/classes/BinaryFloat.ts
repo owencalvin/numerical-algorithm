@@ -42,6 +42,10 @@ export class BinaryFloat {
     return new BinaryFloat(NaN, bitsSize);
   }
 
+  static getZero(bitsSize: number) {
+    return new BinaryFloat(0, bitsSize);
+  }
+
   /**
    * The float number to coded with IEEE 754
    */
@@ -216,6 +220,10 @@ export class BinaryFloat {
     return this.number === 0 || isZeroBinary;
   }
 
+  get binaryAbs() {
+    return this.binaryExponent + this.binaryMantissa;
+  }
+
   /**
    * The number that is coded in memory
    */
@@ -376,6 +384,9 @@ export class BinaryFloat {
     if (this.isInfinity || bf2.isInfinity) {
       return BinaryFloat.getInfinity(this.bitsSize);
     }
+    if (this.binaryAbs === bf2.binaryAbs && this.binarySign !== bf2.binarySign) {
+      return BinaryFloat.getZero(this.bitsSize);
+    }
 
     // Step 1: Determine the lowest exponent between this and the second number
     let bfMinBinaryExponent: BinaryFloat = this;
@@ -414,19 +425,24 @@ export class BinaryFloat {
     }
 
     // Step 5: Add the mantissa and the shifted one
-    bfRes.binaryMantissa = this._bh.binaryAddition(bfMaxBinaryExponent.binaryMantissa, bfMinBinaryExponent.binaryMantissa).reverse().join("");
+    bfRes.binaryMantissa = this._bh.binaryAddition(
+      bfMaxBinaryExponent.binaryMantissa,
+      bfMinBinaryExponent.binaryMantissa,
+    ).reverse().join("");
 
-    // Step 6: Normalise the mantissa
-    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
-      // Hide the first bit
-      bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
+    // Step 6: Determine the sign of the result
+    if (bfMaxBinaryExponent.computedSign !== bfMinBinaryExponent.computedSign) {
+      if (bfMaxBinaryExponent.computedSign === -1) {
+        bfRes.binarySign = "1";
+      }
     }
 
-    // Normalize if there is a carry
-    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 2) {
-      // Hide the first bit
-      bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
+    // Step 7: Normalize the mantissa
+    // Hide the first bit
+    bfRes.binaryMantissa = bfRes.binaryMantissa.substring(1);
 
+    // Normalize the mantissa if there is a carry
+    if (bfRes.binaryMantissa.length - bfRes.mantissaBitsSize === 1) {
       // Remove the last bit
       bfRes.binaryMantissa = bfRes.binaryMantissa.slice(0, -1);
 
