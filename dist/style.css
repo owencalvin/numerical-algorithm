@@ -3,10 +3,10 @@
 
 body {
   margin: 0;
-  padding-bottom: 50px;
+  padding: 0;
   padding-top: 20px;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 50px;
   display: flex;
 }
 
@@ -15,6 +15,10 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p {
+  text-align: justify;
 }
 
 input, select {
@@ -221,6 +225,10 @@ section {
 
 .mr100 {
   margin-right: 100px;
+}
+
+.pb50 {
+  padding-bottom: 50px;
 }
 
 .w800 {
