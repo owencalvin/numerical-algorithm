@@ -76,7 +76,7 @@
       <div class="mt10" id="add-result"></div>
     </div>
 
-    <div class="flex mt50 mb50">
+    <div class="flex mt50">
       <h1>Informations</h1>
       <a href="/docs" target="_blank">Documentation générée du code</a>
       <a href="https://www.geogebra.org/calculator/cerrkdfv" target="_blank">Fonction déterminants la taille de l'exposant et de la mantisse</a>
@@ -91,12 +91,39 @@
       </div>
     </div>
 
-    <!--
-    <div class="flex mt50">
-      <h1>Fonctions déterminants le nombre de bits de l'exposant</h1>
-      <iframe src="https://www.geogebra.org/calculator/cerrkdfv?embed" width="100%" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
+    <div class="mt50">
+      <h1>Contexte</h1>
+      <p>Dans le cadre de notre formation et plus précisément du cours de mathématiques spécifiques II, nous avons réalisé ce projet de programmation. Il constitue le laboratoire numéro 1 du cours. 
+        <br><br>Le but est de coder un convertisseur d'un nombre flottant en binaire. Le nombre de bits sur lesquels coder le flottant en binaire est variable, il peut être choisi sur l'application (il varie entre 8 et 80 bits). Nous avions pour contrainte de créer une page HTML montrant nos résultats. 
+        <br><br>En bonus, il fallait implémenter les opérations suivantes : l'addition, la soustraction, la multiplication la division et la puissance de nombres flottants binaires. Mais également, l'approximation du nombre PI en binaire selon une formule. De plus, laisser le choix du nombre de bits à l’utilisateur. 
+        </p>
+
+      <h1>Méthodologie de développement</h1>
+      <p>Pour ce laboratoire, nous avons utilisé la méthode dite : "Pair programming", nous avons utilisé les références du cours et avons effectué quelques recherches sur internet (voir références).  
+        <br><br>En ce qui concerne les technologies, nous avons codé le projet en TypeScript, car cela nous a facilité l’utilisation de types et permis d’utiliser une autocomplétion plus avancée durant la phase de programmation.
+        <br><br>Pour le calcul du nombre de bits de l'exposant, nous avons recherché une formule logarithmique qui respectait la norme IEEE-754. Nous avons trouvé cette formule sur Stack Overflow (voir références). Nous l’avons vérifié en utilisant Geo Gebra pour la visualisation du graphique.
+        <br><br>Pour vérifier nos encodages, nous avons utilisé un convertisseur en ligne (H-Schmidt) qui suivait la norme IEEE-754.</p>
+
+      <h1>Conclusion et perspectives</h1>
+      <p>Pour conclure, lors de ce travail nous avons pu appliquer les notions de codage des chiffres flottants vus en cours. Les fonctions que nous avons pu implémenter sont la conversion de nombre flottant en binaire (encodage/décodage) et l'addition de nombre binaire. 
+        <br><br>À l'avenir, nous pourrions ajouter les fonctions de soustractions, multiplication, division et la puissance ainsi que l'approximation de la valeur de PI.</p>
+
+      <h1>Références</h1>
+      <ul>
+        <li><a href="https://stackoverflow.com/questions/62631242/is-there-a-formula-to-find-the-numbers-of-bits-for-either-exponent-or-significan">Stack Overflow, consulté le 18.03.2022</a></li>
+        <li><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8766229">Standard IEEE, consulté le 17.03.2022</a></li>
+        <li><a href="https://fr.wikipedia.org/wiki/IEEE_754">Wikipédia, consulté le 18.03.2022</a></li>
+        <li><a href="https://www.doc.ic.ac.uk/~eedwards/compsys/float/">Ian Harries, consulté le 20.03.2022</a></li>
+        <li><a href="https://www.youtube.com/watch?v=RuKkePyo9zk">Computer Science, consulté le 17.03.2022</a> </li>
+        <li><a href="https://www.youtube.com/watch?v=aH11flclJDI">Computer Science, consulté le 17.03.2022</a></li>
+      </ul>
+      
+      <h2>Outils web</h2>
+      <ul>
+        <li><a href="https://www.geogebra.org/calculator/cerrkdfv">GeoGebra</a></li>
+        <li><a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html">Convertisseur (H-Schmidt)</a></li>
+      </ul>
     </div>
-    -->
   </section>
 </body>
 </html>
