@@ -103,6 +103,17 @@ section {
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-width: 100%;
+}
+
+*:disabled {
+  background: rgba(209, 209, 209, 0.808);
+  box-shadow: none;
+  cursor: auto;
+}
+
+*:disabled:hover {
+  box-shadow: none;
 }
 
 .mono {
@@ -112,6 +123,8 @@ section {
 
 .result-group {
   margin-top: 10px;
+  word-wrap: wrap;
+  word-break: break-all;
 }
 
 .a-active {

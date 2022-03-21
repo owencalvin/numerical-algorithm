@@ -45,20 +45,35 @@ export class BinaryFloat {
     }
   }
 
+  /**
+   * Get the infinity binary representation
+   * @param bitsSize The bit size of the number
+   * @returns The infinity binary representation
+   */
   static getInfinity(bitsSize: number) {
     return new BinaryFloat(Infinity, bitsSize);
   }
 
+  /**
+   * Get the NaN binary representation
+   * @param bitsSize The bit size of the number
+   * @returns The NaN binary representation
+   */
   static getNaN(bitsSize: number) {
     return new BinaryFloat(NaN, bitsSize);
   }
 
+  /**
+   * Get the zero binary representation
+   * @param bitsSize The bit size of the number
+   * @returns The zero binary representation
+   */
   static getZero(bitsSize: number) {
     return new BinaryFloat(0, bitsSize);
   }
 
   /**
-   * The float number to coded with IEEE 754
+   * The float number to encode with IEEE 754
    */
   get number() {
     return this._number;
@@ -71,7 +86,7 @@ export class BinaryFloat {
   }
 
   /**
-   * The bit size to code the number
+   * The bits size to code the number
    */
   get bitsSize() {
     return this._bitsSize;
@@ -86,7 +101,7 @@ export class BinaryFloat {
   }
 
   /**
-   * Get the mantissa bits size
+   * The mantissa bits size
    */
   get mantissaBitsSize() {
     if (this.bitsSize < 8) {
@@ -119,15 +134,18 @@ export class BinaryFloat {
     return Math.round((Math.log2(this.bitsSize) - 1) ** (3 / 2));
   }
 
+  /**
+   * The absolute value of the original number
+   */
   get positiveNumber() {
     return Math.abs(this.number);
   }
 
   /**
    * Calculate the position of the dot in the mantissa
-   *            float position
-   *                  |
-   *                  v
+   *                      float position
+   *                            |
+   *                            v
    * mantissa(19.59375) => "0011.1001100000000000000"
    */
   get mantissaDotPosition() {
@@ -135,10 +153,31 @@ export class BinaryFloat {
   }
 
   /**
-   * Get the exponent of the number in binary with the bias
+   * Return the bias of the number based on the exponent bits size
+   * b = 2 ^ (exponentBitsSize - 1) - 1
+   */
+  get bias() {
+    return this._bias;
+  }
+
+  /**
+   * The binary representation of the sign
+   * 0 if number >= 0
+   * 1 if number < 0
+   */
+  get binarySign(): "0" | "1" {
+    return this._binarySign;
+  }
+
+  set binarySign(value: "0" | "1") {
+    this._binarySign = value;
+  }
+
+  /**
+   * The exponent of the number in binary with the bias
    * mantissa(19.59375) => "10000010"
    */
-  get binaryExponent() {
+   get binaryExponent() {
     return this._binaryExponent;
   }
 
@@ -147,15 +186,7 @@ export class BinaryFloat {
   }
 
   /**
-   * Return the bias of the number based on the exponent bit size
-   * b = 2 ^ (exponentBitsSize - 1) - 1
-   */
-  get bias() {
-    return this._bias;
-  }
-
-  /**
-   * Get the full mantissa of the number
+   * The full mantissa of the number
    */
   get binaryMantissa() {
     return this._binaryMantissa;
@@ -167,7 +198,7 @@ export class BinaryFloat {
   }
 
   /**
-   * Get the full number coded in binary with IEEE 754
+   * The full number coded in binary with IEEE 754
    */
   get binaryFloatingNumber() {
     return this.binarySign + this.binaryExponent + this.binaryMantissa;
@@ -194,10 +225,10 @@ export class BinaryFloat {
     return this._bh.binaryToDecimal("1" + this.binaryMantissa) / 2 ** this.mantissaBitsSize;
   }
 
-  get marginOfError() {
-    return Math.abs(this.number - this.computedNumber);
-  }
-
+  /**
+   * Determine if the number is NaN
+   * @returns True if the number is NaN
+   */
   get isNaN() {
     const isNaNBinary = (
       this.binaryExponent.indexOf("0") === -1 &&
@@ -208,6 +239,10 @@ export class BinaryFloat {
     return Number.isNaN(this.number) || isNaNBinary;
   }
 
+  /**
+   * Determine if the number is represents the infinity
+   * @returns True if the number is Infinity
+   */
   get isInfinity() {
     const isInfinityBinary = (
       this.binaryExponent.indexOf("0") === -1 &&
@@ -218,6 +253,10 @@ export class BinaryFloat {
     return this.number === Infinity || isInfinityBinary;
   }
 
+  /**
+   * Determine if the number is zero
+   * @returns True if the number is zero
+   */
   get isZero() {
     const isZeroBinary = (
       this.binaryExponent.indexOf("1") === -1 &&
@@ -253,25 +292,12 @@ export class BinaryFloat {
   /**
    * Get the margin of error
    */
-  get error() {    
+  get marginOfError() {    
     if (Number.isNaN(this.number) || this.number === Infinity || this.number === 0) {
       return 0;
     }
 
     return Math.abs(this.number - this.computedNumber);
-  }
-
-  /**
-   * Return the binary representation of the sign
-   * 0 if number >= 0
-   * 1 if number < 0
-   */
-  get binarySign(): "0" | "1" {
-    return this._binarySign;
-  }
-
-  set binarySign(value: "0" | "1") {
-    this._binarySign = value;
   }
 
   /**

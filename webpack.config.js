@@ -7,10 +7,10 @@ module.exports = {
   mode: "production",
   cache: false,
   entry: {
-    labo0: "./src/labo0.ts",
-    "labo1-fb-converter": "./src/labo1-fb-converter.ts",
-    "labo1-bf-converter": "./src/labo1-bf-converter.ts",
-    "labo1-addition": "./src/labo1-addition.ts"
+    "AN2022_Labo0_Eq2": "./src/AN2022_Labo0_Eq2.ts",
+    "AN2022_Labo1_Eq2_fb_converter": "./src/AN2022_Labo1_Eq2_fb_converter.ts",
+    "AN2022_Labo1_Eq2_bf_converter": "./src/AN2022_Labo1_Eq2_bf_converter.ts",
+    "AN2022_Labo1_Eq2_addition": "./src/AN2022_Labo1_Eq2_addition.ts"
   },
   devtool: "inline-source-map",
   optimization: {
