@@ -81,10 +81,6 @@ export class BinaryFloat {
   set bitsSize(value: number) {
     this._bitsSize = value;
 
-    if (value > 80) {
-      this._bitsSize = 80;
-    }
-
     if (value < 8) {
       this._bitsSize = 8;
     }

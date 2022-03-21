@@ -13,29 +13,26 @@ const addBitSizeElement = <HTMLInputElement>document.getElementById("add-bits-si
 const addInputAElement = <HTMLInputElement>document.getElementById("add-input-a");
 const addInputBElement = <HTMLInputElement>document.getElementById("add-input-b");
 const addResultElement = document.getElementById("add-result");
+const minLength = 8;
+const maxLength = 256;
 
 function onChangeAddition() {
   const bitsSize = Number(addBitSizeElement.value);
   const inputA = Number(addInputAElement.value);
   const inputB = Number(addInputBElement.value);
 
-  if (bitsSize < 8) {
-    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être 8</span>`;
+  if (bitsSize < minLength) {
+    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être ${minLength}</span>`;
     return;
   }
 
-  if (bitsSize > 80) {
-    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être 80</span>`;
+  if (bitsSize > maxLength) {
+    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être ${maxLength}</span>`;
     return;
   }
     
   if (addBitSizeElement.value === "" || addInputAElement.value === "" || addInputBElement.value === "") {
     addResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
-    return;
-  }
-
-  if (bitsSize > 80) {
-    addResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être 80</span>`;
     return;
   }
 

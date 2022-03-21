@@ -12,9 +12,21 @@ import { BinaryFloat } from "./classes/BinaryFloat";
 const bfBinaryNumberElement = <HTMLInputElement>document.getElementById("bf-binary-number");
 const bfResultElement = document.getElementById("bf-result");
 const regexBinary = /^[01\s]+$/;
+const minLength = 8;
+const maxLength = 256;
 
 function onChangeConverterBf() {
   const binaryNumber = bfBinaryNumberElement.value;
+
+  if (binaryNumber.length < minLength && binaryNumber !== "") {
+    bfResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être ${minLength}</span>`;
+    return;
+  }
+
+  if (binaryNumber.length > maxLength) {
+    bfResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être ${maxLength}</span>`;
+    return;
+  }
   
   if (bfBinaryNumberElement.value === "" ) {
     bfResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;

@@ -12,18 +12,20 @@ import { BinaryFloat } from "./classes/BinaryFloat";
 const fbBitsSizeElement = <HTMLInputElement>document.getElementById("fb-bits-size");
 const fbFloatingNumberElement = <HTMLInputElement>document.getElementById("fb-floating-number");
 const fbResultElement = document.getElementById("fb-result");
+const minLength = 8;
+const maxLength = 256;
 
 function onChangeConverterFb() {
   const bitsSize = Number(fbBitsSizeElement.value);
   const floatingNumber = Number(fbFloatingNumberElement.value);
 
-  if (bitsSize < 8) {
-    fbResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être 8</span>`;
+  if (bitsSize < minLength) {
+    fbResultElement.innerHTML = `<span class="color-red">La taille des bits doit au minimum être ${minLength}</span>`;
     return;
   }
 
-  if (bitsSize > 80) {
-    fbResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être 80</span>`;
+  if (bitsSize > maxLength) {
+    fbResultElement.innerHTML = `<span class="color-red">La taille des bits doit au maximum être ${maxLength}</span>`;
     return;
   }
   
