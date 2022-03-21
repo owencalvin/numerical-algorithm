@@ -7,6 +7,9 @@
  * Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
  */
 
+/**
+ * Performs basic operations on binary numbers
+ */
 export class BinaryHelper {
   /**
    * Get n bit of 0 or 1
