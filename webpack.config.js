@@ -5,6 +5,7 @@ const path = require("path");
 
 module.exports = {
   mode: "production",
+  cache: false,
   entry: {
     labo0: "./src/labo0.ts",
     "labo1-fb-converter": "./src/labo1-fb-converter.ts",

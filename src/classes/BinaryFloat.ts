@@ -220,8 +220,11 @@ export class BinaryFloat {
     return this.number === 0 || isZeroBinary;
   }
 
+  /**
+   * Get the absolute value of the number in binary
+   */
   get binaryAbs() {
-    return this.binaryExponent + this.binaryMantissa;
+    return "0" + this.binaryExponent + this.binaryMantissa;
   }
 
   /**
