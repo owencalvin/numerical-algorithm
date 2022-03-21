@@ -8,5 +8,12 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node"
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "src/classes/BinaryFloat.ts",
+      "src/classes/BinaryHelper.ts"
+    ],
+    "out": "docs"
   }
 }

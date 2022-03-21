@@ -83,7 +83,14 @@ export class BinaryHelper {
    * @returns The binary representation of the decimal number
    */
   public decimalToBinary(decimal: number) {
-    return (decimal >>> 0).toString(2);
+    const originalNumber = decimal;
+    let binaryNumber = (Math.abs(decimal) >>> 0).toString(2);
+
+    if (originalNumber < 0) {
+      binaryNumber = this.c2(binaryNumber).reverse().join("");
+    }
+
+    return binaryNumber;
   }
 
   /**
