@@ -1,0 +1,90 @@
+<!--
+  Labo: 2 (Equation resolution)
+  Authors: Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+  Team: 2
+  School: HE-Arc
+  Date: 03 april 2022
+  Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+-->
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="AN2022_Labo2_Eq2.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <title>AN2022_Labo2_Eq2</title>
+</head>
+
+<body>
+  <nav>
+    <h1 class="ml10">Équipe 2</h1>
+    <a href="AN2022_Labo0_Eq2.html">Calculatrice binaire</a>
+    <a href="AN2022_Labo1_Eq2.html">Convertisseur réel binaire</a>
+    <a class="a-active" href="AN2022_Labo2_Eq2.html">Résolveur d'équation</a>
+  </nav>
+  <section>
+    <div id="er" class="flex">
+      <h1>Résolveur d'équation</h1>
+
+      <div class="flex">
+        <span>L'équation est: sin(x) - x / 13</span>
+        <!--
+          <label for="er-equation">Équation</label>
+          <input class="mono" type="text" id="er-equation" placeholder="sin(3x) = 0">
+          <span class="description"></span>
+        -->
+      </div>
+
+      <div class="flex mt25">
+        <label for="er-a">Première valeur de l'interval à tester</label>
+        <input class="mono" type="text" id="er-a" placeholder="1">
+      </div>
+
+      <div class="flex mt25">
+        <label for="er-b">Deuxième valeur de l'interval à tester</label>
+        <input class="mono" type="text" id="er-b" placeholder="2">
+      </div>
+
+      <div class="mt25" id="er-result"></div>
+    </div>
+
+    <div class="flex mt50">
+      <h1>Informations</h1>
+      <div class="description">
+        Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+      </div>
+      <div class="description">
+        Labo 2 - Résolveur d'équations
+      </div>
+      <div class="description">
+        Équipe 2 - Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+      </div>
+      <div class="description">
+        HE-Arc - avril 2022
+      </div>
+    </div>
+
+    <div id="ref" class="mt50 pb50">
+      <h1>Références</h1>
+      <ul>
+        <li>
+          <a href="https://stackoverflow.com/questions/62631242/is-there-a-formula-to-find-the-numbers-of-bits-for-either-exponent-or-significan">
+            Stack Overflow, consulté le 18.03.2022
+          </a>
+        </li>
+        <li>
+          <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8766229">Standard IEEE, consulté le 17.03.2022</a>
+        </li>
+        <li><a href="https://fr.wikipedia.org/wiki/IEEE_754">Wikipédia, consulté le 18.03.2022</a></li>
+        <li><a href="https://www.doc.ic.ac.uk/~eedwards/compsys/float/">Ian Harries, consulté le 20.03.2022</a></li>
+        <li><a href="https://www.youtube.com/watch?v=RuKkePyo9zk">Computer Science, consulté le 17.03.2022</a> </li>
+        <li><a href="https://www.youtube.com/watch?v=aH11flclJDI">Computer Science, consulté le 17.03.2022</a></li>
+      </ul>
+    </div>
+  </section>
+</body>
+
+</html>
