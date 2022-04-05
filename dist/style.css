@@ -87,6 +87,13 @@ a {
   color: rgb(4, 92, 255);
 }
 
+.plot * {
+  font-size: 0.8rem;
+  width: 100%;
+  font-weight: lighter;
+  font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+}
+
 a:visited {
   color: rgb(4, 92, 255);
 }
