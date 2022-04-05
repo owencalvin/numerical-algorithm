@@ -1,5 +1,12 @@
 export class Bisection {
-    static calculate(a: number, b: number, f: (x: number) => number) {
+    /**
+     * Determine the root of a function in a interval of [a, b].
+     * This function gives only one root in this interval, to determine all the roots in this interval use calculateAllRoots
+     * @param a The first value of the interval
+     * @param b The second value of the interval
+     * @param f The function
+     */
+    static calculateRoot(a: number, b: number, f: (x: number) => number) {
         let fA = f(a);
         let mNew = a + b;
         let mOld = 2 * mNew;
@@ -20,6 +27,14 @@ export class Bisection {
         return mNew;
     }
 
+    /**
+     * Determine all intervals of x in the function f that have images f(x) with opposite signs in an interval [a, b].
+     * The closer the step is to zero, the longer the calculation time will be but the more the result will be guaranteed.
+     * @param a The first value of the interval
+     * @param b The second value of the interval
+     * @param step The step that determines the precision
+     * @param f The function
+     */
     static calculateIntervals(a: number, b: number, step: number, f: (x: number) => number): number[][] {
         // Limit the complexity
         if (step < 0.0001) {
@@ -117,12 +132,20 @@ export class Bisection {
         return intervals;
     }
 
-    static calculateAll(a: number, b: number, step: number, f: (x: number) => number) {
+    /**
+     * Calculate all the roots of a function f, in the interval [a, b] with a specified step.
+     * The closer the step is to zero, the longer the calculation time will be but the more the result will be guaranteed.
+     * @param a The first value of the interval
+     * @param b The second value of the interval
+     * @param step The step that determines the precision
+     * @param f The function
+     */
+    static calculateAllRoots(a: number, b: number, step: number, f: (x: number) => number) {
         const roots = [];
         const intervals = this.calculateIntervals(a, b, step, f);
 
         for (const [a, b] of intervals) {
-            const x = this.calculate(a, b, f);
+            const x = this.calculateRoot(a, b, f);
             const fx = this.round(f(x));
 
             if (fx === 0) {
@@ -133,6 +156,10 @@ export class Bisection {
         return roots;
     }
 
+    /**
+     * Round the number to avoid values that are near 0 to be not equal to the exact zero.
+     * @param x The value to round
+     */
     static round(x: number) {
         return Math.round((x + Number.EPSILON) * 1000000000) / 1000000000;
     }

@@ -83,7 +83,7 @@ function onChangeEquation() {
   let roots: number[];
 
   try {
-    roots = Bisection.calculateAll(erA, erB, erStep, erEquation);
+    roots = Bisection.calculateAllRoots(erA, erB, erStep, erEquation);
     result = roots
         .map(
             (x, index) => `<p class="mono">x<sub class="mono">${index}</sub> ≈ ${x}</p>`
