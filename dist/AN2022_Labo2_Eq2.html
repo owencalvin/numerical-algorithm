@@ -50,7 +50,7 @@
 
       <div class="flex mt25">
         <label for="er-step">"Step"</label>
-        <input class="mono" type="number" id="er-step" placeholder="0.15" value="0.15" max="1" min="0.00001">
+        <input class="mono" type="number" id="er-step" placeholder="0.15" value="0.15" step="0.01" max="1" min="0.00001">
         <span class="description">Plus cette valeur est petite, plus on sera certain d'obtenir toutes les solutions</span>
         <span class="description">mais plus le temps de calcule sera long</span>
       </div>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="flex mt50">
-      <h1>Problématique</h1>
+      <h1>Problème</h1>
       <p>
         L'algorithme est limité par un "step", on voit que cette problématique existe également sur Geogebra.
         En faisant bouger <span class="mono color-green">C</span> ci-dessous dans Geogebra, vous allez voir qu'à partir d'une certaine valeur,
