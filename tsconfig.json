@@ -12,7 +12,8 @@
   "typedocOptions": {
     "entryPoints": [
       "src/classes/BinaryFloat.ts",
-      "src/classes/BinaryHelper.ts"
+      "src/classes/BinaryHelper.ts",
+      "src/classes/Bisection.ts"
     ],
     "out": "dist/docs"
   }

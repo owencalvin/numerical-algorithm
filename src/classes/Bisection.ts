@@ -1,3 +1,6 @@
+/**
+ * Determine the roots of functions with the bisection method
+ */
 export class Bisection {
     /**
      * Determine the root of a function in a interval of [a, b].
