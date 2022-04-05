@@ -66,10 +66,19 @@
       <h1>Problématique</h1>
       <p>
         L'algorithme est limité par un "step", on voit que cette problématique existe également sur Geogebra.
-        En faisant bouger C si dessous vous allez voir qu'à partir d'un certaine valeur, Geogebra n'est pas capable de determiner
-        les zeros de la fonction, car ceux-ci sont trop rapproché. Vous pouvez en faire experience sur notre programme en utilisant
-        la fonction <span class="mono color-green">Math.abs(Math.cos(x)) - 0.5</span> qui marche et <span class="mono color-red">Math.abs(Math.cos(x)) - 0.001</span> qui ne fonctionne plus.
-        Pour cela il faudrait augmenter la précision avec le champ précision, mais cela demande plus de temps de calcul.
+        En faisant bouger <span class="mono color-green">C</span> ci-dessous dans Geogebra, vous allez voir qu'à partir d'une certaine valeur,
+        Geogebra n'est pas capable de déterminer les zéros de la fonction, car ceux-ci sont trop rapprochés.
+        Vous pouvez en faire l'experience sur notre programme en utilisant ces fonctions avec un step à <span class="mono">0.15</span>:
+      </p>
+      <ul>
+        <li> <span class="mono color-green">Math.abs(Math.cos(x)) - 0.5</span> qui fonctionne</li>
+        <li><span class="mono color-orange">Math.abs(Math.cos(x)) - 0.01</span> qui ne donne que quelques zéros</li>
+        <li><span class="mono color-red">Math.abs(Math.cos(x)) - 0.001</span> qui ne donne aucuns zéros (alors qu'ils existent)</li>
+      </ul>
+      <p>
+        Pour que la deuxième et que la troisième fonction donnent tous les zéros il faudrait <span><a href="#er-step">diminuer le step avec le champ prévu à cet effet</a></span>
+        (par exemple <span class="mono">0.01</span> pour la deuxième fonction et <span class="mono">0.001</span> pour la troisième),
+        cela nécessitera plus de temps de calcul, mais le résultat sera plus garanti.
       </p>
       <p class="mt25">
         <span class="mono color-grey">Math.abs(Math.cos(x)) - C</span> sur Geogebra:

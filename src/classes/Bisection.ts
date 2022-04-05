@@ -1,4 +1,4 @@
-export class Dichotomy {
+export class Bisection {
     static calculate(a: number, b: number, f: (x: number) => number) {
         let fA = f(a);
         let mNew = a + b;
@@ -21,6 +21,12 @@ export class Dichotomy {
     }
 
     static calculateIntervals(a: number, b: number, step: number, f: (x: number) => number): number[][] {
+        // Limit the complexity
+        if (step < 0.0001) {
+            step = 0.0001;
+        }
+
+
         /**
          * intervalsCoordinates gives a list of coordinates with a f(x) that is alternatively positive and negatives
          * so it means that between each x values there is a root
@@ -128,6 +134,6 @@ export class Dichotomy {
     }
 
     static round(x: number) {
-        return Math.round((x + Number.EPSILON) * 10000000) / 10000000;
+        return Math.round((x + Number.EPSILON) * 1000000000) / 1000000000;
     }
 }

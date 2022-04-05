@@ -6,7 +6,7 @@
  * Date: 21 mars 2022
  * Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
  */
-import { Dichotomy } from "./classes/Dichotomy";
+import { Bisection } from "./classes/Bisection";
 
 const erEquationElement = <HTMLInputElement>document.getElementById("er-equation");
 const erAElement = <HTMLInputElement>document.getElementById("er-a");
@@ -62,7 +62,13 @@ function onChangeEquation() {
   const erStep = Number(erStepElement.value);
 
   if (Number.isNaN(erA) || Number.isNaN(erB) || Number.isNaN(erStep)) {
-    erResultElement.innerHTML = `<span class="color-grey">Les valeurs d'intervalle et de step doivent être des nombres</span>`;
+    erResultElement.innerHTML = `<span class="color-red">Les valeurs d'intervalle et de step doivent être des nombres</span>`;
+    removeGraph();
+    return;
+  }
+
+  if (erStep <= 0) {
+    erResultElement.innerHTML = `<span class="color-red">Le step doit être plus grand que 0</span>`;
     removeGraph();
     return;
   }
@@ -77,7 +83,7 @@ function onChangeEquation() {
   let roots: number[];
 
   try {
-    roots = Dichotomy.calculateAll(erA, erB, erStep, erEquation);
+    roots = Bisection.calculateAll(erA, erB, erStep, erEquation);
     result = roots
         .map(
             (x, index) => `<p class="mono">x<sub class="mono">${index}</sub> ≈ ${x}</p>`
@@ -93,9 +99,15 @@ function onChangeEquation() {
   displayGraph(erA, erB, roots);
 
   erResultElement.innerHTML = `
-    <div class="result-group">
-      Résultats: ${result}
-    </div>
+  <div class="result-group color-green">
+    <span class="color-grey">
+      <span class="mono">${roots.length}</span> zéros trouvées:
+    </span>
+    <details ${roots.length > 20 ? "" : "open"}>
+      <summary>Afficher/masquer tous les zéros</summary>
+      ${result}
+    </details>
+  </div>
   `;
 }
 
