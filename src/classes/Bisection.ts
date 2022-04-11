@@ -13,8 +13,9 @@ export class Bisection {
         let fA = f(a);
         let mNew = a + b;
         let mOld = 2 * mNew;
+        let error = Math.abs(mNew - mOld);
 
-        while (Math.abs(mNew - mOld) > Number.EPSILON) {
+        while (error > Number.EPSILON) {
             mOld = mNew;
             mNew = (a + b) / 2;
             const fM = f(mNew);
@@ -25,9 +26,11 @@ export class Bisection {
                 a = mNew;
                 fA = fM;
             }
+
+            error = Math.abs(mNew - mOld);
         }
 
-        return mNew;
+        return [mNew, error];
     }
 
     /**
@@ -144,15 +147,14 @@ export class Bisection {
      * @param f The function
      */
     static calculateAllRoots(a: number, b: number, step: number, f: (x: number) => number) {
-        const roots = [];
+        const roots: number[][] = [];
         const intervals = this.calculateIntervals(a, b, step, f);
 
         for (const [a, b] of intervals) {
-            const x = this.calculateRoot(a, b, f);
-            const fx = this.round(f(x));
+            const [x, error] = this.calculateRoot(a, b, f);
 
-            if (fx === 0) {
-                roots.push(this.round(x));
+            if (Math.abs(f(x)) <= Number.EPSILON * 1000) {
+                 roots.push([x, error]);
             }
         }
 
@@ -160,7 +162,7 @@ export class Bisection {
     }
 
     /**
-     * Round the number to avoid values that are near 0 to be not equal to the exact zero.
+     * Round the number to avoid values that are "near" 0 to be not equal to the exact zero.
      * @param x The value to round
      */
     static round(x: number) {

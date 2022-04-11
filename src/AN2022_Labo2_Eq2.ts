@@ -19,10 +19,10 @@ function removeGraph() {
   erPlotElement.style.display = 'none';
 }
 
-function displayGraph(a: number, b: number, roots: number[]) {
+function displayGraph(a: number, b: number, roots: number[][]) {
   erPlotElement.style.display = 'block';
 
-  const annotations = roots.map((x, index) => ({
+  const annotations = roots.map(([x, fx], index) => ({
     x,
     text: `x${index} ≈ ${x}`
   }));
@@ -80,13 +80,13 @@ function onChangeEquation() {
   }
 
   const erEquation = (x: number) => eval(erEquationElement.value);
-  let roots: number[];
+  let roots: number[][];
 
   try {
     roots = Bisection.calculateAllRoots(erA, erB, erStep, erEquation);
     result = roots
         .map(
-            (x, index) => `<p class="mono">x<sub class="mono">${index}</sub> ≈ ${x}</p>`
+            ([x, error], index) => `<p class="mono">x<sub class="mono">${index}</sub> ≈ ${x} ± ${error}</p>`
         )
         .join("");
   } catch (err) {
