@@ -10,6 +10,9 @@
 2. Lancez la commande `npm run dev`
 3. Les fichiers compilés se trouvent dans `dist`
 
+## Documentation du code
+La documentation du code est accessible sur le lien suivant https://math-spe.owencalvin.com/docs
+
 ## TypeScript
 Nous avons utilisé TypeScript avec Webpack, pour compiler et développer avec plus de facilité, cet environnement de travail nous offre une meilleure efficacité et cohérence en groupe
 
