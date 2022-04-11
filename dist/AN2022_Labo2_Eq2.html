@@ -63,27 +63,68 @@
     </div>
 
     <div class="flex mt50">
-      <h1>Problème</h1>
+      <h1>Contexte</h1>
       <p>
-        L'algorithme est limité par un "step", on voit que cette problématique existe également sur Geogebra.
-        En faisant bouger <span class="mono color-green">C</span> ci-dessous dans Geogebra, vous allez voir qu'à partir d'une certaine valeur,
-        Geogebra n'est pas capable de déterminer les zéros de la fonction, car ceux-ci sont trop rapprochés.
-        Vous pouvez en faire l'experience sur notre programme en utilisant ces fonctions avec un step à <span class="mono">0.15</span>:
+        Dans le cadre de notre formation et plus précisément du cours de mathématiques spécifiques II, nous avons réalisé ce projet de programmation. 
+        Il constitue le laboratoire numéro 2 du cours.
+      </p>
+      <p>
+        Le but est de coder un programme permettant la résolution d’équations dans un intervalle fixé (entre -100 et 100). 
+        Plus précisément, trouver les racines de 2 fonctions données. Cela, à l’aide de 3 méthodes. 
+        Nous avions le choix entre la méthode par dichotomie, la méthode de la tangente et celle du point fixe. 
+        Nous avons choisi la méthode de dichotomie.
+      </p>
+      <p>
+        Nous avions pour contrainte de créer une page HTML montrant nos résultats.
+      </p>
+      <p>
+        En bonus, il fallait implémenter une fonction qui permettait de déterminer la grandeur de l’erreur de notre algorithme.
+      </p>
+    </div>
+
+    <div class="flex mt50">
+      <h1>Méthodologie de développement</h1>
+      <p>
+        Pour ce laboratoire, nous avons utilisé la méthode dite : "Pair programming", nous avons utilisé les références du cours et notamment l’outil Geogebra.
+      </p>
+      <p>
+        En ce qui concerne les technologies, nous avons codé le projet en TypeScript, car 
+        cela nous a facilité l’utilisation de types et permis d’utiliser une autocomplétion plus avancée durant la phase de programmation.
+      </p>
+      <p>
+        L'algorithme est limité par un "step", on voit que cette problématique existe également sur Geogebra. 
+        En faisant bouger <span class="mono color-green">C</span> dans Geogebra (ci-dessous), vous allez voir qu'à partir d'une certaine valeur, 
+        Geogebra n'est pas capable de déterminer les zéros de la fonction, car ceux-ci sont trop rapprochés. 
+        Vous pouvez en faire l'expérience sur notre programme en utilisant ces fonctions avec un step à <span class="mono">0.15</span>:
       </p>
       <ul>
-        <li> <span class="mono color-green">Math.abs(Math.cos(x)) - 0.5</span> qui fonctionne</li>
-        <li><span class="mono color-orange">Math.abs(Math.cos(x)) - 0.01</span> qui ne donne que quelques zéros</li>
-        <li><span class="mono color-red">Math.abs(Math.cos(x)) - 0.001</span> qui ne donne aucuns zéros (alors qu'ils existent)</li>
+        <li><span class="mono color-green">|cos(x)| - 0.5</span> qui fonctionne</li>
+        <li><span class="mono color-orange">|cos(x)| - 0.01</span> qui ne donne que quelques zéros</li>
+        <li><span class="mono color-red">|cos(x)| - 0.001</span> qui ne donne aucun zéros (alors qu'ils existent)</li>
       </ul>
       <p>
-        Pour que la deuxième et que la troisième fonction donnent tous les zéros il faudrait <span><a href="#er-step">diminuer le step avec le champ prévu à cet effet</a></span>
-        (par exemple <span class="mono">0.01</span> pour la deuxième fonction et <span class="mono">0.001</span> pour la troisième),
-        cela nécessitera plus de temps de calcul, mais le résultat sera plus garanti.
+        Pour que la deuxième et que la troisième fonction donne tous les zéro il faudrait <span><a href="#er-step">diminuer le step avec le champ prévu à cet effet</a></span> 
+        (par exemple <span class="mono">0.01</span> pour la deuxième fonction et <span class="mono">0.001</span> pour la troisième), cela nécessitera plus de temps de calcul, 
+        mais le résultat sera plus garanti.
       </p>
       <p class="mt25">
         <span class="mono color-grey">Math.abs(Math.cos(x)) - C</span> sur Geogebra:
       </p>
       <iframe src="https://www.geogebra.org/calculator/fvzfg7sv?embed" width="800" height="600" allowfullscreen frameborder="0"></iframe>
+
+    </div>
+
+    <div class="flex mt50">
+      <h1>Conclusion et perspectives</h1>
+      <p>
+        Pour conclure, lors de ce travail nous avons pu appliquer les notions de résolutions d’équations vues en cours. 
+        Nous avons pu implémenter les fonctions demandées et également le bonus (calcul de l’erreur). 
+        De plus, nous avons donné la possibilité à l’utilisateur de choisir son propre intervalle et 
+        également de choisir sa propre fonction à résoudre et non une des 2 imposés initialement.
+      </p>
+      <p>
+        À l'avenir, nous pourrions ajouter les 2 autres méthodes de résolutions pour pouvoir les comparer entre elles.
+      </p>
     </div>
 
     <div class="flex mt50">
@@ -104,22 +145,12 @@
 
     <div id="ref" class="mt50 pb50">
       <h1>Références</h1>
-      <p class="color-grey">Aucune</p>
       <ul>
-        <!--
         <li>
-          <a href="https://stackoverflow.com/questions/62631242/is-there-a-formula-to-find-the-numbers-of-bits-for-either-exponent-or-significan">
-            Stack Overflow, consulté le 18.03.2022
+          <a href="https://www.geogebra.org/?lang=fr">
+            Geogebra
           </a>
         </li>
-        <li>
-          <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8766229">Standard IEEE, consulté le 17.03.2022</a>
-        </li>
-        <li><a href="https://fr.wikipedia.org/wiki/IEEE_754">Wikipédia, consulté le 18.03.2022</a></li>
-        <li><a href="https://www.doc.ic.ac.uk/~eedwards/compsys/float/">Ian Harries, consulté le 20.03.2022</a></li>
-        <li><a href="https://www.youtube.com/watch?v=RuKkePyo9zk">Computer Science, consulté le 17.03.2022</a> </li>
-        <li><a href="https://www.youtube.com/watch?v=aH11flclJDI">Computer Science, consulté le 17.03.2022</a></li>
-        -->
       </ul>
     </div>
   </section>
