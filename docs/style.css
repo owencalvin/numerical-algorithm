@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;600;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 50px;
+  display: flex;
+}
+
+* {
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p {
+  text-align: justify;
+}
+
+input, select {
+  background: rgb(226, 226, 226);
+  color: black;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  border: 4px solid transparent;
+  outline: none;
+  max-width: 550px;
+}
+
+button {
+  cursor: pointer;
+  background: rgb(4, 92, 255);
+  color: rgb(255, 255, 255);
+  box-shadow: -1px 11px 20px -5px rgba(4, 92, 255, 0.25);
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+
+button:hover {
+  box-shadow: -1px 11px 35px -5px rgba(4, 92, 255, 0.4);
+}
+
+button:active {
+  box-shadow: -1px 11px 15px -5px rgba(4, 92, 255, 0.5);
+}
+
+input:focus, select:focus {
+  border-color: rgb(4, 113, 255);
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+nav {
+  background: rgb(235, 235, 235);
+  border-radius: 20px;
+  margin-bottom: 40px;
+  width: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: calc(100vh - 40px);
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgb(4, 92, 255);
+}
+
+.plot * {
+  font-size: 0.8rem;
+  width: 100%;
+  font-weight: lighter;
+  font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+}
+
+a:visited {
+  color: rgb(4, 92, 255);
+}
+
+a:focus {
+  color: rgb(4, 92, 255);
+}
+
+nav a {
+  text-decoration: none;
+  margin-top: 20px;
+  font-size: 1.3rem;
+  padding: 10px 15px;
+}
+
+section {
+  margin-left: 350px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 100%;
+}
+
+*:disabled {
+  background: rgba(209, 209, 209, 0.808);
+  box-shadow: none;
+  cursor: auto;
+}
+
+*:disabled:hover {
+  box-shadow: none;
+}
+
+.mono {
+  font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+  font-weight: 700;
+}
+
+.result-group {
+  margin-top: 10px;
+  word-wrap: wrap;
+  word-break: break-all;
+}
+
+.a-active {
+  font-weight: 800;
+  text-decoration: none;
+  background: rgba(4, 113, 255, 0.1);
+  border-radius: 13px;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100vh;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt25 {
+  margin-top: 25px;
+}
+
+.mt50 {
+  margin-top: 50px;
+}
+
+.mt100 {
+  margin-top: 100px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mb25 {
+  margin-bottom: 25px;
+}
+
+.mb50 {
+  margin-bottom: 50px;
+}
+
+.mb100 {
+  margin-bottom: 100px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+
+.ml25 {
+  margin-left: 25px;
+}
+
+.ml50 {
+  margin-left: 50px;
+}
+
+.ml100 {
+  margin-left: 100px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.mr25 {
+  margin-right: 25px;
+}
+
+.mr50 {
+  margin-right: 50px;
+}
+
+.mr100 {
+  margin-right: 100px;
+}
+
+.pb50 {
+  padding-bottom: 50px;
+}
+
+.w800 {
+  max-width: 800px;
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.big-text {
+  font-size: 1.9em;
+}
+
+.color-red {
+  color: rgb(255, 45, 45);
+}
+
+.color-blue {
+  color: rgb(45, 94, 255);
+}
+
+.color-green {
+  color: rgb(28, 154, 44);
+}
+
+.color-orange {
+  color: rgb(255, 164, 45);
+}
+
+.color-grey {
+  color: rgb(160, 160, 160);
+}
+
+.description {
+  margin-top: 2px;
+  color: rgb(160, 160, 160);
+  font-size: 0.8rem;
+}
+
+::-moz-selection, ::selection {
+  color: white;
+  background: rgb(4, 92, 255);
+}
