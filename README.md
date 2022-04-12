@@ -1,4 +1,6 @@
 # Équipe 2 - Mathématiques spécifiques
+Visitez le site:
+https://owencalvin.github.io/numerical-algorithm/AN2022_Labo0_Eq2.html
 
 ## Développement
 1. Installez [Node.js (LTS)](https://nodejs.org/en/)
@@ -11,7 +13,7 @@
 3. Les fichiers compilés se trouvent dans `dist`
 
 ## Documentation du code
-La documentation du code est accessible sur le lien suivant https://math-spe.owencalvin.com/docs
+La documentation du code est accessible sur le lien suivant https://owencalvin.github.io/numerical-algorithm/docs
 
 ## TypeScript
 Nous avons utilisé TypeScript avec Webpack, pour compiler et développer avec plus de facilité, cet environnement de travail nous offre une meilleure efficacité et cohérence en groupe
@@ -29,7 +31,7 @@ Le CSS nous a permis de mieux appréhender et visualiser certains problèmes, on
 
 ## Tester le site
 Ouvrir le fichier `dist/AN2022_Labo1_Eq2.html`  
-Allez sur le site https://math-spe.owencalvin.com/AN2022_Labo1_Eq2.html
+Allez sur le site https://owencalvin.github.io/numerical-algorithm/AN2022_Labo1_Eq2.html
 
 # Labo 2
 ## Structure du projet
@@ -39,5 +41,4 @@ Allez sur le site https://math-spe.owencalvin.com/AN2022_Labo1_Eq2.html
 
 ## Tester le site
 Ouvrir le fichier `dist/AN2022_Labo2_Eq2.html`  
-Allez sur le site https://math-spe.owencalvin.com/AN2022_Labo2_Eq2.html
-
+Allez sur le site https://owencalvin.github.io/numerical-algorithm/AN2022_Labo2_Eq2.html
