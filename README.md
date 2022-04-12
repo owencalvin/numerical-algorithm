@@ -7,7 +7,7 @@
 
 ## Build
 1. Installez [Node.js (LTS)](https://nodejs.org/en/)
-2. Lancez la commande `npm run dev`
+2. Lancez la commande `npm run build`
 3. Les fichiers compilés se trouvent dans `dist`
 
 ## Documentation du code
