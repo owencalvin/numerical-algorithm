@@ -5,3 +5,4 @@ echo "DirectoryIndex index.html" > dist/docs/.htaccess
 git add .
 git commit
 git push
+git push gh
