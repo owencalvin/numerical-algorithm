@@ -1,6 +1,6 @@
 # Équipe 2 - Mathématiques spécifiques
 Visitez le site:  
-https://owencalvin.github.io/numerical-algorithm/AN2022_Labo0_Eq2.html
+https://owencalvin.github.io/numerical-algorithm/AN2022_Labo2_Eq2.html
 
 ## Développement
 1. Installez [Node.js (LTS)](https://nodejs.org/en/)
