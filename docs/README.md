@@ -1,5 +1,5 @@
 # Équipe 2 - Mathématiques spécifiques
-Visitez le site:
+Visitez le site:  
 https://owencalvin.github.io/numerical-algorithm/AN2022_Labo0_Eq2.html
 
 ## Développement
