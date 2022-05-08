@@ -11,7 +11,8 @@ module.exports = {
     "AN2022_Labo1_Eq2_fb_converter": "./src/AN2022_Labo1_Eq2_fb_converter.ts",
     "AN2022_Labo1_Eq2_bf_converter": "./src/AN2022_Labo1_Eq2_bf_converter.ts",
     "AN2022_Labo1_Eq2_addition": "./src/AN2022_Labo1_Eq2_addition.ts",
-    "AN2022_Labo2_Eq2": "./src/AN2022_Labo2_Eq2.ts"
+    "AN2022_Labo2_Eq2": "./src/AN2022_Labo2_Eq2.ts",
+    "AN2022_Labo3_SysLinEq": "./src/AN2022_Labo3_SysLinEq.ts"
   },
   devtool: "inline-source-map",
   optimization: {

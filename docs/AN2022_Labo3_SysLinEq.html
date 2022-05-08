@@ -1,0 +1,115 @@
+<!--
+  Labo: 2 (Equation resolution)
+  Authors: Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+  Team: 2
+  School: HE-Arc
+  Date: 03 april 2022
+  Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+-->
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://mauriciopoppe.github.io/function-plot/js/function-plot.js"></script>
+  <script src="AN2022_Labo3_SysLinEq.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <title>AN2022_Labo3_SysLinEq</title>
+</head>
+
+<body>
+  <nav>
+    <h1 class="ml10">Équipe 2</h1>
+    <a href="AN2022_Labo0_Eq2.html">Calculatrice binaire</a>
+    <a href="AN2022_Labo1_Eq2.html">Convertisseur réel binaire</a>
+    <a href="AN2022_Labo2_Eq2.html">Résolveur d'équation</a>
+    <a class="a-active" href="AN2022_Labo3_SysLinEq.html">Résolveur de système d'équations linéaires</a>
+  </nav>
+  <section>
+    <div id="er" class="flex">
+      <h1>Résolveur de système d'équations linéaires</h1>
+
+      <div class="flex">
+        <div class="description">
+          Cet outil permet de trouver les solutions d'un système
+          d'équations linéaires de la forme AX = B, avec A et B des matrices.
+        </div>
+        <div class="description">
+          Le fichier JSON représentant une matrice doit être de la forme :
+        </div>
+        <pre class="description mono">
+{
+  "dimension": 3,
+  "components": [
+    [ 1.0, -1.0, 2.0 ],
+    [ 3.0, 2.0, 1.0 ],
+    [ 2.0, -3.0, -2.0 ]
+  ]
+}
+        </pre>
+      </div>
+
+      <div class="flex">
+        <label for="er-matrixa">Matrice A</label>
+        <input class="mono" type="file" id="er-matrixa">
+        <span class="description">La fichier JSON doit respecter le format demandé</span>
+      </div>
+
+      <div class="flex mt25">
+        <label for="er-matrixb">Matrice B</label>
+        <input class="mono" type="file" id="er-matrixb">
+        <span class="description">La fichier JSON doit respecter le format demandé</span>
+      </div>
+
+      <div class="mt25" id="er-result"></div>
+
+      <div class="flex mt50">
+        <h1>Contexte</h1>
+        <p>TODO</p>
+      </div>
+  
+      <div class="flex mt50">
+        <h1>Méthodologie de développement</h1>
+        <p>TODO</p>
+      </div>
+
+      <div class="flex mt50">
+        <h1>Conclusion et perspectives</h1>
+        <p>TODO</p>
+      </div>
+
+      <div class="flex mt50">
+        <h1>Informations</h1>
+        <div class="description">
+          Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
+        </div>
+        <div class="description">
+          Labo 3 - Résolveur de système d'équations linéaires
+        </div>
+        <div class="description">
+          Équipe 2 - Owen Gombas, David Darmanger, Julien Vaucher, Clément Petignat
+        </div>
+        <div class="description">
+          HE-Arc - mai 2022
+        </div>
+      </div>
+
+      <div id="ref" class="mt50 pb50">
+        <h1>Références</h1>
+        <ul>
+          <li>
+            <a href="https://fr.wikipedia.org/wiki/%C3%89limination_de_Gauss-Jordan">
+              Wikipedia
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+</body>
+
+</html>

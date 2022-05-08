@@ -13,7 +13,9 @@
     "entryPoints": [
       "src/classes/BinaryFloat.ts",
       "src/classes/BinaryHelper.ts",
-      "src/classes/Bisection.ts"
+      "src/classes/Bisection.ts",
+      "src/classes/SquareMatrix.ts",
+      "src/classes/LinearEquationsSystem.ts",
     ],
     "out": "docs/docs"
   }
