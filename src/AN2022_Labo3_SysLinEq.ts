@@ -28,8 +28,13 @@ function readFile(file: any) {
 
 function findSolutions() {
   if(matrixA && matrixB) {
+
+    const start = new Date().getTime();
+
     let linEqSys = new LinearEquationsSystem(matrixA, matrixB);
     let solutions: number[] = linEqSys.solutions();
+
+    let elapsed = new Date().getTime() - start;
 
     // Add the results in the HTML
     if(solutions.length > 0) {
@@ -42,7 +47,7 @@ function findSolutions() {
       erResult.innerHTML = `
       <div class="result-group color-green">
         <span class="color-grey">
-          <span class="mono">${solutions.length}</span> solutions trouvées:
+          <span class="mono">${solutions.length}</span> solutions trouvées (en ${elapsed/1000} secondes):
         </span>
         <details ${solutions.length > 20 ? "" : "open"}>
           <summary>Afficher/masquer toutes les solutions</summary>
