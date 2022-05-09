@@ -36,13 +36,13 @@ export class LinearEquationsSystem {
   public solutions() {
     let solutions: number[] = [];
 
-    if(this._a.det() != 0.0) {
-      let matrix = Matrix.augment(this._a, this._b);
-      matrix = matrix.reducedRowEchelonForm();
+    this._a.augment(this._b);
+    this._a.reducedRowEchelonForm();
 
+    if(this._a.det != 0) {
       // Find the solution in the reduced row echelon matrix
-      for(let i = 0; i < matrix.m; i++) {
-        solutions[i] = matrix.components[i][matrix.n - 1];
+      for(let i = 0; i < this._a.m; i++) {
+        solutions[i] = this._a.components[i][this._a.n - 1];
       }
     }
     return solutions;
