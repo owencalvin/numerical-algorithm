@@ -10,8 +10,7 @@
 import { Matrix } from "./classes/Matrix";
 import { LinearEquationsSystem } from "./classes/LinearEquationsSystem";
 
-const erMatrixA = <HTMLInputElement>document.getElementById("er-matrixa");
-const erMatrixB = <HTMLInputElement>document.getElementById("er-matrixb");
+const erJson = <HTMLInputElement>document.getElementById("er-json");
 const erResult = <HTMLInputElement>document.getElementById("er-result");
 
 let matrixA: Matrix = null;
@@ -62,21 +61,26 @@ function findSolutions() {
   }
 }
 
+function convert(dim: number, components: number[]) {
+  let rows = new Array();
+  for(let i = 0; i < components.length / dim; i++) {
+    let row = new Array();
+    for(let j = 0; j < dim; j++) {
+      row.push(components[i * dim + j]);
+    }
+    rows.push(row);
+  }
+  return rows;
+}
+
 function onChangeMatrixA() {
   matrixA = null;
-  readFile(erMatrixA.files[0]).then(function(json: any) {
-    matrixA = new Matrix(json["components"]);
+  readFile(erJson.files[0]).then(function(json: any) {
+    const dim = json['n'];
+    matrixA = new Matrix(convert(dim, json["A"]));
+    matrixB = new Matrix(convert(1, json["B"]));
     findSolutions();
   });
 }
 
-function onChangeMatrixB() {
-  matrixB = null;
-  readFile(erMatrixB.files[0]).then(function(json: any) {
-    matrixB = new Matrix(json["components"]);
-    findSolutions();
-  });
-}
-
-erMatrixA.addEventListener("change", onChangeMatrixA);
-erMatrixB.addEventListener("change", onChangeMatrixB);
+erJson.addEventListener("change", onChangeMatrixA);
