@@ -161,7 +161,7 @@ export class Matrix {
 
         // Keep the pivot below the number of rows
         if(currentPivot + 1 < this._m)
-        currentPivot++;
+          currentPivot++;
         
         // Normalize the row of the current column with the biggest component
         this.mulitplyRow(colMaxRow, 1.0 / this._components[colMaxRow][colN]);
