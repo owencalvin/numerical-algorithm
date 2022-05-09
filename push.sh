@@ -1,4 +1,3 @@
-set -e
 npm run build
 npm run docs
 git add .

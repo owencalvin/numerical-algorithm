@@ -6,7 +6,7 @@
  * Date: 21 mars 2022
  * Course: Mathématiques spécifiques (Module 2234) - M. Stéphane Gobron
  */
-import { Bisection } from "./classes/Bisection";
+import {Bisection} from "./classes/Bisection";
 
 const erEquationElement = <HTMLInputElement>document.getElementById("er-equation");
 const erAElement = <HTMLInputElement>document.getElementById("er-a");
@@ -16,89 +16,89 @@ const erResultElement = document.getElementById("er-result");
 const erPlotElement = document.getElementById("er-plot");
 
 function removeGraph() {
-  erPlotElement.style.display = 'none';
+    erPlotElement.style.display = 'none';
 }
 
 function displayGraph(a: number, b: number, roots: number[][]) {
-  erPlotElement.style.display = 'block';
+    erPlotElement.style.display = 'block';
 
-  const annotations = roots.map(([x, fx], index) => ({
-    x,
-    text: `x${index} ≈ ${x}`
-  }));
+    const annotations = roots.map(([x, fx], index) => ({
+        x,
+        text: `x${index} ≈ ${x}`
+    }));
 
-  const parameters = {
-    target: '#er-plot',
-    data: [{
-      fn: erEquationElement.value.replace(/Math\./gi, "").replace(/\*\*/gi, "^")
-    }],
-    width: 800,
-    height: 500,
-    grid: false,
-    yAxis: { domain: [-1, 1] },
-    xAxis: { domain: [a, b] },
-    annotations
-  };
+    const parameters = {
+        target: '#er-plot',
+        data: [{
+            fn: erEquationElement.value.replace(/Math\./gi, "").replace(/\*\*/gi, "^")
+        }],
+        width: 800,
+        height: 500,
+        grid: false,
+        yAxis: {domain: [-1, 1]},
+        xAxis: {domain: [a, b]},
+        annotations
+    };
 
-  // @ts-ignore
-  functionPlot(parameters);
+    // @ts-ignore
+    functionPlot(parameters);
 }
 
 function onChangeEquation() {
-  let result = "";
+    let result = "";
 
-  if (
-    erAElement.value === "" ||
-    erBElement.value === "" ||
-    erStepElement.value === ""
-  ) {
-    erResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
-    removeGraph();
-    return;
-  }
+    if (
+        erAElement.value === "" ||
+        erBElement.value === "" ||
+        erStepElement.value === ""
+    ) {
+        erResultElement.innerHTML = `<span class="color-grey">Veuillez renseigner tous les champs</span>`;
+        removeGraph();
+        return;
+    }
 
-  const erA = Number(erAElement.value);
-  const erB = Number(erBElement.value);
-  const erStep = Number(erStepElement.value);
+    const erA = Number(erAElement.value);
+    const erB = Number(erBElement.value);
+    const erStep = Number(erStepElement.value);
 
-  if (Number.isNaN(erA) || Number.isNaN(erB) || Number.isNaN(erStep)) {
-    erResultElement.innerHTML = `<span class="color-red">Les valeurs d'intervalle et de step doivent être des nombres</span>`;
-    removeGraph();
-    return;
-  }
+    if (Number.isNaN(erA) || Number.isNaN(erB) || Number.isNaN(erStep)) {
+        erResultElement.innerHTML = `<span class="color-red">Les valeurs d'intervalle et de step doivent être des nombres</span>`;
+        removeGraph();
+        return;
+    }
 
-  if (erStep <= 0) {
-    erResultElement.innerHTML = `<span class="color-red">Le step doit être plus grand que 0</span>`;
-    removeGraph();
-    return;
-  }
+    if (erStep <= 0) {
+        erResultElement.innerHTML = `<span class="color-red">Le step doit être plus grand que 0</span>`;
+        removeGraph();
+        return;
+    }
 
-  if (erA >= erB) {
-    erResultElement.innerHTML = `<span class="color-red">La première valeur de l'intervalle doit être plus grande que la deuxième</span>`;
-    removeGraph();
-    return;
-  }
+    if (erA >= erB) {
+        erResultElement.innerHTML = `<span class="color-red">La première valeur de l'intervalle doit être plus grande que la deuxième</span>`;
+        removeGraph();
+        return;
+    }
 
-  const erEquation = (x: number) => eval(erEquationElement.value);
-  let roots: number[][];
+    const erEquation = (x: number) => eval(erEquationElement.value);
+    let roots: number[][];
 
-  try {
-    roots = Bisection.calculateAllRoots(erA, erB, erStep, erEquation);
-    result = roots
-        .map(
-            ([x, error], index) => `<p class="mono">x<sub class="mono">${index}</sub> ≈ ${x} ± ${error}</p>`
-        )
-        .join("");
-  } catch (err) {
-    console.log(err);
-    erResultElement.innerHTML = `<span class="color-red">Votre équation est invalide</span>`;
-    removeGraph();
-    return;
-  }
+    try {
+        roots = Bisection.calculateAllRoots(erA, erB, erStep, erEquation);
+        result = roots
+            .map(
+                ([x, error], index) => `<p class="mono">x<sub class="mono">${index}</sub> ≈ ${x} ± ${error}</p>`
+            )
+            .join("");
+    } catch (err) {
+        console.log(err);
+        erResultElement.innerHTML = `<span class="color-red">Votre équation est invalide</span>`;
+        removeGraph();
+        return;
+    }
 
-  displayGraph(erA, erB, roots);
+    displayGraph(erA, erB, roots);
 
-  erResultElement.innerHTML = `
+    erResultElement.innerHTML = `
   <div class="result-group color-green">
     <span class="color-grey">
       <span class="mono">${roots.length}</span> zéros trouvées:
