@@ -27,7 +27,7 @@ export class Matrix {
         this._isAugmented = isAugmented ?? false;
     }
 
-    private _m: number;
+    private readonly _m: number;
 
     /**
      * Return the number of rows of the matrix
@@ -47,12 +47,6 @@ export class Matrix {
 
     private _det: number;
 
-    /************************/
-    /*** Instance methods ***/
-    /************************/
-
-    /*** Getters ***/
-
     /**
      * Return the determinant of the matrix
      */
@@ -60,7 +54,7 @@ export class Matrix {
         return this._det;
     }
 
-    private _components: number[][];
+    private readonly _components: number[][];
 
     /**
      * Return the 2d array who's representing the matrix
@@ -116,14 +110,16 @@ export class Matrix {
     public augment(matrix: Matrix) {
 
         // Assure the matrix can be appended
-        if (this._m != matrix.m)
+        if (this._m != matrix.m) {
             throw "The matrices should have the same number of rows";
+        }
 
         for (let rowIdx = 0; rowIdx < this._m; rowIdx++) {
             for (let colIdx = this._m; colIdx < this._m + matrix.m; colIdx++) {
                 this._components[rowIdx][colIdx] = matrix.component(rowIdx, colIdx - this._m);
             }
         }
+
         this._n += matrix.n;
         this._isAugmented = true;
     }
