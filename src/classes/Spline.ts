@@ -149,7 +149,7 @@ export class Spline {
             add(pA);
             add(pB);
 
-            const nbInterpolationPoints = nbInterpolationPointsFn(pA, pB, pC, pD);
+            const nbInterpolationPoints = nbInterpolationPointsFn(pA, pB, pC, pD) + 2;
 
             for (let i = 2; i < nbInterpolationPoints; i++) {
                 const t = i / nbInterpolationPoints;
