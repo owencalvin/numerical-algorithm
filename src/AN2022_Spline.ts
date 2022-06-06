@@ -1,67 +1,77 @@
-import {Point2D, Spline} from "./classes/Spline";
+import {Spline} from "./classes/Spline";
+import {CanvasManager} from "./classes/CanvasManager";
 
+const nbControlPointsElement = document.getElementById("s-control-points") as HTMLInputElement;
+const minAngleElement = document.getElementById("s-angle") as HTMLInputElement;
+const minNormElement = document.getElementById("s-norm") as HTMLInputElement;
 
-function setupCanvas(canvas: HTMLCanvasElement, scaleFactor?: number) {
-    const pixelRatio = scaleFactor || window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    const ctx = canvas.getContext("2d");
+const drawingCanvasElement = document.getElementById("s-spline-canvas") as HTMLCanvasElement;
+const previewCanvasElement = document.getElementById("s-spline-canvas-preview") as HTMLCanvasElement;
 
-    canvas.style.width = canvas.width + 'px';
-    canvas.style.height = canvas.height + 'px';
+const drawingCanvasManager = new CanvasManager(drawingCanvasElement);
+const previewCanvasManager = new CanvasManager(previewCanvasElement);
+previewCanvasManager.isDrawing = true;
 
-    canvas.width = rect.width * pixelRatio;
-    canvas.height = rect.height * pixelRatio;
-
-    ctx.scale(pixelRatio, pixelRatio);
-
-    return ctx;
-}
-
-const canvas = document.getElementById("spline-canvas") as HTMLCanvasElement;
-const ctx = setupCanvas(canvas);
+let nbControlPoints = 4;
+let minAngle = 1;
+let minNorm = 20;
 
 const spline = new Spline();
-let drawing = false;
 
-function getPoint(e: MouseEvent): Point2D {
-    const rect = canvas.getBoundingClientRect();
+function draw() {
+    drawingCanvasManager.clear();
+    previewCanvasManager.clear();
 
-    return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-    };
-}
+    spline.draw(drawingCanvasManager.context, "black");
 
-function draw(e: MouseEvent) {
-    if (!drawing) return;
+    const simplifiedSpline = spline.copy().simplify(minNorm, minAngle);
+    const controlPoints = simplifiedSpline.controlPoints(spline.areas, nbControlPoints);
 
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    const point: Point2D = getPoint(e);
-    spline.addPoint(point);
-
-    spline.draw(ctx, "gray");
-    const simplifiedSpline = spline.copy().simplify(16, 1).translate(100, 0);
-    const controlPoints = simplifiedSpline.controlPoints(7);
-
-    simplifiedSpline.draw(ctx, "blue", 3);
-    simplifiedSpline.drawPoints(ctx, controlPoints);
+    simplifiedSpline.draw(previewCanvasManager.context, "blue", 3);
 
     const splineFromControlPoints = new Spline(controlPoints);
-    splineFromControlPoints.draw(ctx, "red", 3);
+    splineFromControlPoints.draw(previewCanvasManager.context, "red", 3);
+
+    simplifiedSpline.drawPoints(previewCanvasManager.context, controlPoints);
+    simplifiedSpline.drawPoints(previewCanvasManager.context, simplifiedSpline.points, "green", 3);
 }
 
-function enterDraw(e: MouseEvent) {
-    drawing = true;
+function mouseMove(e: MouseEvent) {
+    if (!drawingCanvasManager.isDrawing) return;
+
+    spline.addPoint(drawingCanvasManager.getPoint(e));
+    draw();
+}
+
+function mouseDown(e: MouseEvent) {
+    drawingCanvasManager.isDrawing = true;
     spline.clear();
-    draw(e);
+
+    mouseMove(e);
 }
 
-function leaveDraw(e: MouseEvent) {
-    drawing = false;
+function mouseUp(e: MouseEvent) {
+    drawingCanvasManager.isDrawing = false;
 }
 
-canvas.addEventListener("mousemove", draw);
-canvas.addEventListener("mousedown", enterDraw);
-canvas.addEventListener("mouseup", leaveDraw);
-document.addEventListener("mouseup", leaveDraw);
+drawingCanvasElement.addEventListener("mousemove", mouseMove);
+drawingCanvasElement.addEventListener("mousedown", mouseDown);
+drawingCanvasElement.addEventListener("mouseup", mouseUp);
+document.addEventListener("mouseup", mouseUp);
+
+function onChange() {
+    nbControlPoints = Number(nbControlPointsElement.value);
+    minAngle = Number(minAngleElement.value);
+    minNorm = Number(minNormElement.value);
+
+    draw();
+}
+
+nbControlPointsElement.addEventListener("change", onChange);
+minAngleElement.addEventListener("change", onChange);
+minNormElement.addEventListener("change", onChange);
+nbControlPointsElement.addEventListener("keyup", onChange);
+minAngleElement.addEventListener("keyup", onChange);
+minNormElement.addEventListener("keyup", onChange);
+
+onChange();

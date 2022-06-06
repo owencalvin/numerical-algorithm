@@ -118,21 +118,37 @@ export class Spline {
 
             const lastPoint = this._points[index - 1];
             const nextPoint = this._points[index + 1];
-            const vAB = new Vector2D(lastPoint, currentPoint);
+
+            const vBA = new Vector2D(currentPoint, lastPoint);
             const vBC = new Vector2D(currentPoint, nextPoint);
 
-            return vAB.angle(vBC);
+            return vBA.angle(vBC);
         });
     }
 
-    controlPoints(numberOfControlPoints: number) {
-        if (numberOfControlPoints < 2) {
-            numberOfControlPoints = 2;
-        }
+    get areas() {
+        return this._points.map((currentPoint, index) => {
+            if (index <= 0 || index >= this._points.length - 1) return Infinity;
 
-        const anglesWithIndexes = this.angles.map((angle, index) => [angle, index]);
+            const lastPoint = this._points[index - 1];
+            const nextPoint = this._points[index + 1];
 
-        anglesWithIndexes.sort((a, b) => {
+            const vBA = new Vector2D(currentPoint, lastPoint);
+            const vBC = new Vector2D(currentPoint, nextPoint);
+            const vAC = new Vector2D(lastPoint, nextPoint);
+
+            const s = (vAC.norm + vBA.norm + vBC.norm) / 2;
+
+            return Math.sqrt(s * (s - vAC.norm) * (s - vBA.norm) * (s - vBC.norm));
+        });
+    }
+
+    controlPoints(values: number[], numberOfControlPoints: number) {
+        numberOfControlPoints = Math.max(numberOfControlPoints, 2);
+
+        const valuesWithIndexes = this.areas.map((value, index) => [value, index]);
+
+        valuesWithIndexes.sort((a, b) => {
             if (Number.isNaN(b[0])) return -1;
 
             if (a[0] < b[0]) return 1;
@@ -140,8 +156,10 @@ export class Spline {
             return 0;
         });
 
-        return anglesWithIndexes
-            .slice(0, numberOfControlPoints + 1)
+        console.log(valuesWithIndexes);
+
+        return valuesWithIndexes
+            .slice(0, numberOfControlPoints)
             .sort((a, b) => {
                 if (a[1] < b[1]) return 1;
                 else if (a[1] > b[1]) return -1;
@@ -179,7 +197,7 @@ export class Spline {
         }
     }
 
-    drawPoints(ctx: CanvasRenderingContext2D, points: Point2D[], color = "black", radius = 5) {
+    drawPoints(ctx: CanvasRenderingContext2D, points: Point2D[] | readonly Point2D[], color = "black", radius = 5) {
         points.map((point) => {
             ctx.beginPath();
             ctx.lineCap = "round";
@@ -188,6 +206,21 @@ export class Spline {
             ctx.arc(point.x, point.y, radius, 0, 2 * Math.PI);
             ctx.fill();
         });
+    }
+
+    catmullRomInterpolation(p0: Point2D, p1: Point2D, p2: Point2D, p3: Point2D) {
+        const vBC = new Vector2D(p1, p2);
+        const vBA = new Vector2D(p1, p0);
+        // const angle = vBA.angle();
+    }
+
+    catmullRom(t: number, p1: number, p2: number, p3: number, p4: number) {
+        const a = 3 * p2 - p1 - 3 * p3 + p4;
+        const b = 2 * p1 - 5 * p2 + 4 * p3 - p4;
+        const c = (p3 - p1) * t;
+        const d = 2 * p2;
+        const final = a * t ** 3 + b * t ** 2 + c + d;
+        return 0.5 * final;
     }
 
     get points(): readonly Point2D[] {
