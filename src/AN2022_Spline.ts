@@ -1,4 +1,4 @@
-import {Point2D, Spline, Splines} from "./classes/Spline";
+import {Point2D, Spline} from "./classes/Spline";
 
 
 function setupCanvas(canvas: HTMLCanvasElement, scaleFactor?: number) {
@@ -20,7 +20,7 @@ function setupCanvas(canvas: HTMLCanvasElement, scaleFactor?: number) {
 const canvas = document.getElementById("spline-canvas") as HTMLCanvasElement;
 const ctx = setupCanvas(canvas);
 
-const splines = new Splines();
+const spline = new Spline();
 let drawing = false;
 
 function getPoint(e: MouseEvent): Point2D {
@@ -35,26 +35,25 @@ function getPoint(e: MouseEvent): Point2D {
 function draw(e: MouseEvent) {
     if (!drawing) return;
 
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
     const point: Point2D = getPoint(e);
-    splines.lastSpline.addPoint(point);
+    spline.addPoint(point);
 
-    if (splines.lastSpline.pointLength <= 0) return;
+    spline.draw(ctx, "gray");
+    const simplifiedSpline = spline.copy().simplify(16, 1).translate(100, 0);
+    const controlPoints = simplifiedSpline.controlPoints(7);
 
-    ctx.beginPath();
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "black";
-    ctx.moveTo(splines.lastSpline.beforeLastPoint.x, splines.lastSpline.beforeLastPoint.y);
-    ctx.lineTo(splines.lastSpline.lastPoint.x, splines.lastSpline.lastPoint.y);
-    ctx.closePath();
-    ctx.stroke();
+    simplifiedSpline.draw(ctx, "blue", 3);
+    simplifiedSpline.drawPoints(ctx, controlPoints);
 
-    console.log(point);
+    const splineFromControlPoints = new Spline(controlPoints);
+    splineFromControlPoints.draw(ctx, "red", 3);
 }
 
 function enterDraw(e: MouseEvent) {
     drawing = true;
-    splines.createNewSpline();
+    spline.clear();
     draw(e);
 }
 
