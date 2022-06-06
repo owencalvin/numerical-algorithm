@@ -6,11 +6,9 @@ import {Point2D} from "./classes/Point2D";
 const nbControlPointsElement = document.getElementById("s-nb-control-points") as HTMLInputElement;
 const minAngleElement = document.getElementById("s-angle") as HTMLInputElement;
 const minNormElement = document.getElementById("s-norm") as HTMLInputElement;
-const tElement = document.getElementById("s-t") as HTMLInputElement;
 const nbInterpolationPointsElement = document.getElementById("s-interpolation-points") as HTMLInputElement;
 
 const drawingCanvasElement = document.getElementById("s-drawing") as HTMLCanvasElement;
-
 const simplifiedCanvasElement = document.getElementById("s-simplified") as HTMLCanvasElement;
 const controlPointsCanvasElement = document.getElementById("s-control-points") as HTMLCanvasElement;
 const simplifiedInterpolationElement = document.getElementById("s-simplified-interpolation") as HTMLCanvasElement;
@@ -30,7 +28,6 @@ const spline = new Spline();
 let nbControlPoints = 4;
 let minAngle = 1;
 let minNorm = 20;
-let t = 0.5;
 let nbInterpolationPoints = 3;
 const interpolationFn = (pA: Point2D, pB: Point2D, pC: Point2D) => {
     if (nbInterpolationPoints >= 0) return nbInterpolationPoints;
@@ -110,11 +107,9 @@ drawingCanvasElement.addEventListener("mouseup", mouseUp);
 document.addEventListener("mouseup", mouseUp);
 
 function onChange() {
-    console.log("change");
     nbControlPoints = Number(nbControlPointsElement.value);
     minAngle = Number(minAngleElement.value);
     minNorm = Number(minNormElement.value);
-    t = Number(tElement.value);
     nbInterpolationPoints = Number(nbInterpolationPointsElement.value);
 
     update();
@@ -123,13 +118,11 @@ function onChange() {
 nbControlPointsElement.addEventListener("change", onChange);
 minAngleElement.addEventListener("change", onChange);
 minNormElement.addEventListener("change", onChange);
-tElement.addEventListener("change", onChange);
 nbInterpolationPointsElement.addEventListener("change", onChange);
 
 nbControlPointsElement.addEventListener("keyup", onChange);
 minAngleElement.addEventListener("keyup", onChange);
 minNormElement.addEventListener("keyup", onChange);
-tElement.addEventListener("keyup", onChange);
 nbInterpolationPointsElement.addEventListener("keyup", onChange);
 
 onChange();
