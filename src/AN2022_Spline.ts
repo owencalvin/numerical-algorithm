@@ -9,6 +9,7 @@ const minNormElement = document.getElementById("s-norm") as HTMLInputElement;
 const nbInterpolationPointsElement = document.getElementById("s-interpolation-points") as HTMLInputElement;
 
 const drawingCanvasElement = document.getElementById("s-drawing") as HTMLCanvasElement;
+const drawingPointsCanvasElement = document.getElementById("s-drawing-points") as HTMLCanvasElement;
 const simplifiedCanvasElement = document.getElementById("s-simplified") as HTMLCanvasElement;
 const controlPointsCanvasElement = document.getElementById("s-control-points") as HTMLCanvasElement;
 const simplifiedInterpolationElement = document.getElementById("s-simplified-interpolation") as HTMLCanvasElement;
@@ -17,6 +18,7 @@ const simplifiedInterpolationDoneElement = document.getElementById("s-simplified
 const controlPointsInterpolationDoneElement = document.getElementById("s-control-points-interpolation-done") as HTMLCanvasElement;
 
 const drawingCanvasManager = new CanvasManager(drawingCanvasElement);
+const drawingPointsCanvasManager = new CanvasManager(drawingPointsCanvasElement);
 const simplifiedManager = new CanvasManager(simplifiedCanvasElement);
 const controlPointsManager = new CanvasManager(controlPointsCanvasElement);
 const simplifiedInterpolationManager = new CanvasManager(simplifiedInterpolationElement);
@@ -51,6 +53,7 @@ function clearAll() {
     controlPointsInterpolationManager.clear();
     simplifiedInterpolationDoneManager.clear();
     controlPointsInterpolationDoneManager.clear();
+    drawingPointsCanvasManager.clear();
 }
 
 function update() {
@@ -58,26 +61,29 @@ function update() {
 
     drawingCanvasManager.drawLine(spline.points, "black", 3);
 
+    drawingPointsCanvasManager.drawLine(spline.points, "black", 3);
+    drawingPointsCanvasManager.drawPoints(spline.points, 0.5, "pink", "pink");
+
     const simplifiedSpline = spline.copy().simplify(minNorm, minAngle);
     const controlPoints = simplifiedSpline.controlPoints(spline.areas, nbControlPoints);
-    simplifiedManager.drawLine(simplifiedSpline.points, "blue", 3);
-    simplifiedManager.drawPoints(simplifiedSpline.points, 3, "green", "green");
-    simplifiedManager.drawPoints(controlPoints, 5, "green", "black", 2);
+    simplifiedManager.drawLine(simplifiedSpline.points, "black", 3);
+    simplifiedManager.drawPoints(simplifiedSpline.points, 3, "pink", "pink");
+    simplifiedManager.drawPoints(controlPoints, 5, "pink", "black", 2);
 
     const controlPointsSpline = new Spline(controlPoints);
-    controlPointsManager.drawLine(controlPointsSpline.points, "red", 3);
-    controlPointsManager.drawPoints(controlPointsSpline.points, 5, "green", "black", 2);
+    controlPointsManager.drawLine(controlPointsSpline.points, "black", 3);
+    controlPointsManager.drawPoints(controlPointsSpline.points, 5, "pink", "black", 2);
 
     const interpolatedSimplifiedSpline = simplifiedSpline.copy().catmullRomInterpolation(interpolationFn);
     simplifiedInterpolationManager.drawLine(interpolatedSimplifiedSpline.points, "black", 3);
     simplifiedInterpolationManager.drawPoints(interpolatedSimplifiedSpline.points, 2, "red", "red");
-    simplifiedInterpolationManager.drawPoints(simplifiedSpline.points, 3, "green", "green");
-    simplifiedInterpolationManager.drawPoints(controlPoints, 5, "green", "black", 2);
+    simplifiedInterpolationManager.drawPoints(simplifiedSpline.points, 3, "pink", "pink");
+    simplifiedInterpolationManager.drawPoints(controlPoints, 5, "pink", "black", 2);
 
     const interpolatedControlPointsSpline = controlPointsSpline.copy().catmullRomInterpolation(interpolationFn);
     controlPointsInterpolationManager.drawLine(interpolatedControlPointsSpline.points, "black", 3);
     controlPointsInterpolationManager.drawPoints(interpolatedControlPointsSpline.points, 2, "red", "red");
-    controlPointsInterpolationManager.drawPoints(controlPoints, 5, "green", "black", 2);
+    controlPointsInterpolationManager.drawPoints(controlPoints, 5, "pink", "black", 2);
 
     controlPointsInterpolationDoneManager.drawLine(interpolatedControlPointsSpline.points, "black", 3);
     simplifiedInterpolationDoneManager.drawLine(interpolatedSimplifiedSpline.points, "black", 3);
