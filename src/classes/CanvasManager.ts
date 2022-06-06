@@ -1,4 +1,5 @@
-import {Point2D} from "./Spline";
+import {Spline} from "./Spline";
+import {Point2D} from "./Point2D";
 
 export class CanvasManager {
     private _canvas: HTMLCanvasElement;
@@ -56,5 +57,52 @@ export class CanvasManager {
             x: e.clientX - rect.left,
             y: e.clientY - rect.top
         };
+    }
+
+    drawPoint(
+        point: Point2D,
+        radius = 5,
+        fillColor = "black",
+        strokeColor = "black",
+        lineWidth = 0
+    ) {
+        this._context.beginPath();
+        this._context.lineWidth = lineWidth;
+        this._context.lineCap = "round";
+        this._context.fillStyle = fillColor;
+        this._context.strokeStyle = strokeColor;
+        this._context.arc(point.x, point.y, radius, 0, 2 * Math.PI);
+        this._context.fill();
+        this._context.stroke();
+        this._context.closePath();
+    }
+
+    drawPoints(
+        points: Point2D[] | readonly Point2D[],
+        radius = 5,
+        fillColor = "black",
+        strokeColor = "black",
+        lineWidth = 0
+    ) {
+        points.forEach((point) => this.drawPoint(point, radius, fillColor, strokeColor, lineWidth));
+    }
+
+    drawLine(
+        points: Point2D[] | readonly Point2D[],
+        strokeColor = "black",
+        lineWidth = 1
+    ) {
+        points.forEach((point, index) => {
+            if (index >= points.length - 1) return;
+
+            this._context.beginPath();
+            this._context.lineWidth = lineWidth;
+            this._context.lineCap = "round";
+            this._context.strokeStyle = strokeColor;
+            this._context.moveTo(point.x, point.y);
+            this._context.lineTo(points[index + 1].x, points[index + 1].y);
+            this._context.stroke();
+            this._context.closePath();
+        });
     }
 }

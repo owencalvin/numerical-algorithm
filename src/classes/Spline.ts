@@ -1,83 +1,31 @@
-export interface Point2D {
-    x: number;
-    y: number;
-}
-
-export class Vector2D {
-    private _x: number;
-    private _y: number;
-
-    constructor(point: Point2D);
-    constructor(start: Point2D, end: Point2D);
-    constructor(start: Point2D, end?: Point2D) {
-        if (end) {
-            this._x = end.x - start.x;
-            this._y = end.y - start.y;
-        } else {
-            this._x = start.x;
-            this._y = start.y;
-        }
-    }
-
-    get norm() {
-        return Math.sqrt(this._x ** 2 + this._y ** 2);
-    }
-
-    get x() {
-        return this._x;
-    }
-
-    get y() {
-        return this._y;
-    }
-
-    normal() {
-        return new Vector2D({
-            x: -this._y,
-            y: this._x
-        });
-    }
-
-    dotProduct(vector: Vector2D) {
-        return this._x * vector._x + this._y * vector._y;
-    }
-
-    angle(vector: Vector2D) {
-        return Math.acos(this.dotProduct(vector) / (this.norm * vector.norm));
-    }
-
-    multiply(factor: number) {
-        return new Vector2D({
-            x: factor * this._x,
-            y: factor * this._y
-        });
-    }
-
-    add(point: Vector2D) {
-        return new Vector2D({
-            x: this._x + point._x,
-            y: this._y + point._y
-        });
-    }
-
-    substract(point: Vector2D) {
-        return this.add(this.multiply(-1));
-    }
-
-    copy() {
-        return new Vector2D({
-            x: this._x,
-            y: this._y
-        });
-    }
-
-}
+import {Vector2D} from "./Vector2D";
+import {Point2D} from "./Point2D";
 
 export class Spline {
     private _points: Point2D[];
 
     constructor(points: Point2D[] = []) {
         this._points = points;
+    }
+
+    get points(): readonly Point2D[] {
+        return this._points;
+    }
+
+    get pointLength() {
+        return this._points.length;
+    }
+
+    get lastPoint() {
+        return this._points[this.pointLength - 1];
+    }
+
+    get beforeLastPoint() {
+        return this._points[this.pointLength - 2];
+    }
+
+    findPoint(point: Point2D) {
+        return this._points.find((p2) => point.x == p2.x && point.y == p2.y);
     }
 
     addPoint(point: Point2D) {
@@ -114,7 +62,7 @@ export class Spline {
 
     get angles() {
         return this._points.map((currentPoint, index) => {
-            if (index <= 0 || index >= this._points.length - 1) return Infinity;
+            if (index + 1 <= 1 || index + 1 >= this._points.length) return Infinity;
 
             const lastPoint = this._points[index - 1];
             const nextPoint = this._points[index + 1];
@@ -128,7 +76,7 @@ export class Spline {
 
     get areas() {
         return this._points.map((currentPoint, index) => {
-            if (index <= 0 || index >= this._points.length - 1) return Infinity;
+            if (index + 1 <= 1 || index + 1 >= this._points.length) return Infinity;
 
             const lastPoint = this._points[index - 1];
             const nextPoint = this._points[index + 1];
@@ -156,8 +104,6 @@ export class Spline {
             return 0;
         });
 
-        console.log(valuesWithIndexes);
-
         return valuesWithIndexes
             .slice(0, numberOfControlPoints)
             .sort((a, b) => {
@@ -183,59 +129,59 @@ export class Spline {
         return new Spline(this._points);
     }
 
-    draw(ctx: CanvasRenderingContext2D, color = "black", lineWidth = 3) {
-        for (let i = 0; i < this._points.length - 1; i++) {
-            ctx.beginPath();
-            ctx.lineWidth = lineWidth;
-            ctx.lineCap = "round";
-            ctx.strokeStyle = color;
-            ctx.fillStyle = color;
-            ctx.moveTo(this._points[i].x, this._points[i].y);
-            ctx.lineTo(this._points[i + 1].x, this._points[i + 1].y);
-            ctx.closePath();
-            ctx.stroke();
-        }
+    catmullRomInterpolation(
+        tFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D, index: number, nbInterpolationPoint: number) => number,
+        nbInterpolationPointsFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D) => number
+    ) {
+        const lastPoint = this._points[this._points.length - 1];
+        this._points = this._points.reduce<Point2D[]>((prev, pC, index) => {
+            if (index + 1 <= 2 || index + 1 >= this._points.length) return prev;
+
+            const add = (py: Point2D) => {
+                if (!prev.find((px) => px.x === py.x && px.y === py.y)) {
+                    prev.push(py);
+                }
+            };
+
+            const pA = this._points[index - 2];
+            const pB = this._points[index - 1];
+            const pD = this._points[index + 1];
+
+            add(pA);
+            add(pB);
+
+            const nbInterpolationPoints = nbInterpolationPointsFn(pA, pB, pC, pD);
+
+            for (let i = nbInterpolationPoints; i >= 0; i--) {
+                const t = tFn(pA, pB, pC, pD, i, nbInterpolationPoints);
+
+                const point = {
+                    x: Spline.catmullRom(t, pA.x, pB.x, pC.x, pD.x),
+                    y: Spline.catmullRom(t, pA.y, pB.y, pC.y, pD.y)
+                };
+
+                prev.push(point);
+            }
+
+            add(pC);
+
+            return prev;
+        }, []);
+
+        this._points = [
+            ...this._points,
+            lastPoint
+        ];
+
+        return this;
     }
 
-    drawPoints(ctx: CanvasRenderingContext2D, points: Point2D[] | readonly Point2D[], color = "black", radius = 5) {
-        points.map((point) => {
-            ctx.beginPath();
-            ctx.lineCap = "round";
-            ctx.fillStyle = color;
-            ctx.strokeStyle = color;
-            ctx.arc(point.x, point.y, radius, 0, 2 * Math.PI);
-            ctx.fill();
-        });
-    }
-
-    catmullRomInterpolation(p0: Point2D, p1: Point2D, p2: Point2D, p3: Point2D) {
-        const vBC = new Vector2D(p1, p2);
-        const vBA = new Vector2D(p1, p0);
-        // const angle = vBA.angle();
-    }
-
-    catmullRom(t: number, p1: number, p2: number, p3: number, p4: number) {
-        const a = 3 * p2 - p1 - 3 * p3 + p4;
-        const b = 2 * p1 - 5 * p2 + 4 * p3 - p4;
-        const c = (p3 - p1) * t;
-        const d = 2 * p2;
+    static catmullRom(t: number, mA: number, mB: number, mC: number, mD: number) {
+        const a = 3 * mB - mA - 3 * mC + mD;
+        const b = 2 * mA - 5 * mB + 4 * mC - mD;
+        const c = (mC - mA) * t;
+        const d = 2 * mB;
         const final = a * t ** 3 + b * t ** 2 + c + d;
         return 0.5 * final;
-    }
-
-    get points(): readonly Point2D[] {
-        return this._points;
-    }
-
-    get pointLength() {
-        return this._points.length;
-    }
-
-    get lastPoint() {
-        return this._points[this.pointLength - 1];
-    }
-
-    get beforeLastPoint() {
-        return this._points[this.pointLength - 2];
     }
 }

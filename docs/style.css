@@ -156,6 +156,10 @@ section {
   flex-direction: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -182,6 +186,10 @@ section {
 
 .h100 {
   height: 100vh;
+}
+
+.m10 {
+  margin: 10px;
 }
 
 .mt10 {

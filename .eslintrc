@@ -12,6 +12,7 @@
   "rules": {
     "semi": "error",
     "@typescript-eslint/no-this-alias": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "for-direction": "off"
   }
 }
