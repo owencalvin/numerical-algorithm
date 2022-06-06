@@ -34,8 +34,8 @@
         <div class="flex">
             <div class="flex">
                 <div class="flex mt25">
-                    <label for="s-control-points">Nombre de points de contrôle</label>
-                    <input class="mono" type="number" id="s-control-points" min="2" placeholder="4" value="4">
+                    <label for="s-nb-control-points">Nombre de points de contrôle</label>
+                    <input class="mono" type="number" id="s-nb-control-points" min="2" placeholder="4" value="4">
                     <span class="description">Il en faut minimum 2 (début et fin)</span>
                 </div>
 
@@ -68,25 +68,47 @@
                 <div class="description">
 
                 </div>
-                <div class="flex flex-wrap flex-row">
+                <div class="flex">
                     <div class="flex m10">
-                        <span class="description color-green">Dessinez ci-dessous</span>
-                        <canvas style="width: 400px; height: 400px" height="400px" width="400px" id="s-spline-canvas"></canvas>
+                        <span class="color-green description">Dessinez ci-dessous</span>
+                        <canvas style="width: 350px; height: 350px" class="border-green" height="350px" width="350px"
+                                id="s-drawing"></canvas>
                     </div>
-                    <div class="flex m10">
-                        <span class="description">Simplification / Points de contrôles</span>
-                        <canvas style="width: 400px; height: 400px" height="400px" width="400px"
-                                id="s-spline-canvas-preview"></canvas>
+                    <div class="flex flex-row">
+                        <div class="flex m10">
+                            <span style="width: 350px" class="description color-blue">Simplification et points de contrôle</span>
+                            <canvas style="width: 350px; height: 350px" height="350px" width="350px"
+                                    id="s-simplified"></canvas>
+                        </div>
+                        <div class="flex m10">
+                            <span style="width: 350px" class="description color-orange">Spline à partir des points de contrôles</span>
+                            <canvas style="width: 350px; height: 350px" height="350px" width="350px"
+                                    id="s-control-points"></canvas>
+                        </div>
                     </div>
-                    <div class="flex m10">
-                        <span class="description">Interpolation (Catmull-Rom)</span>
-                        <canvas style="width: 400px; height: 400px" height="400px" width="400px"
-                                id="s-spline-canvas-reconstruction"></canvas>
+                    <div class="flex flex-row">
+                        <div class="flex m10">
+                            <span style="width: 350px" class="description color-blue">Interpolation sur la simplification</span>
+                            <canvas style="width: 350px; height: 350px" height="350px" width="350px"
+                                    id="s-simplified-interpolation"></canvas>
+                        </div>
+                        <div class="flex m10">
+                            <span style="width: 350px" class="description color-orange">Interpolation sur les points de contrôle</span>
+                            <canvas style="width: 350px; height: 350px" height="350px" width="350px"
+                                    id="s-control-points-interpolation"></canvas>
+                        </div>
                     </div>
-                    <div class="flex m10">
-                        <span class="description">Dessin final reconstruit</span>
-                        <canvas style="width: 400px; height: 400px" height="400px" width="400px"
-                                id="s-spline-canvas-reconstruction-done"></canvas>
+                    <div class="flex flex-row">
+                        <div class="flex m10">
+                            <span style="width: 350px" class="description color-blue">Dessin final reconstruit à partir de l'interpolation sur la simplification</span>
+                            <canvas style="width: 350px; height: 350px" class="border-green" height="350px" width="350px"
+                                    id="s-simplified-interpolation-done"></canvas>
+                        </div>
+                        <div class="flex m10">
+                            <span style="width: 350px" class="description color-orange">Dessin final reconstruit à partir de l'interpolation sur les points de contrôles</span>
+                            <canvas style="width: 350px; height: 350px" class="border-green" height="350px" width="350px"
+                                    id="s-control-points-interpolation-done"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,6 +146,11 @@
                 <li>
                     <a href="https://en.wikipedia.org/wiki/Centripetal_Catmull–Rom_spline">
                         Catmull-Rom spline
+                    </a>
+                </li>
+                <li>
+                    <a href="https://lucidar.me/fr/mathematics/catmull-rom-splines/">
+                        Catmull-Rom spline (© Philippe Lucidarme)
                     </a>
                 </li>
             </ul>

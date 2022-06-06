@@ -273,6 +273,12 @@ section {
   font-size: 1.9em;
 }
 
+.description {
+  margin-top: 2px;
+  color: rgb(160, 160, 160);
+  font-size: 0.8rem;
+}
+
 .color-red {
   color: rgb(255, 45, 45);
 }
@@ -293,10 +299,24 @@ section {
   color: rgb(160, 160, 160);
 }
 
-.description {
-  margin-top: 2px;
-  color: rgb(160, 160, 160);
-  font-size: 0.8rem;
+.border-red {
+  border-color: rgb(255, 45, 45);
+}
+
+.border-blue {
+  border-color: rgb(45, 94, 255);
+}
+
+.border-green {
+  border-color: rgb(28, 154, 44);
+}
+
+.border-orange {
+  border-color: rgb(255, 164, 45);
+}
+
+.border-grey {
+  border-color: rgb(160, 160, 160);
 }
 
 ::-moz-selection, ::selection {
