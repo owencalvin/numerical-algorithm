@@ -73,12 +73,13 @@ function update() {
 
     const interpolatedSimplifiedSpline = simplifiedSpline.copy().catmullRomInterpolation(interpolationFn);
     simplifiedInterpolationManager.drawLine(interpolatedSimplifiedSpline.points, "black", 3);
-    simplifiedInterpolationManager.drawPoints(interpolatedSimplifiedSpline.points, 3, "red", "red");
+    simplifiedInterpolationManager.drawPoints(interpolatedSimplifiedSpline.points, 2, "red", "red");
+    simplifiedInterpolationManager.drawPoints(simplifiedSpline.points, 3, "green", "green");
     simplifiedInterpolationManager.drawPoints(controlPoints, 5, "green", "black", 2);
 
     const interpolatedControlPointsSpline = controlPointsSpline.copy().catmullRomInterpolation(interpolationFn);
     controlPointsInterpolationManager.drawLine(interpolatedControlPointsSpline.points, "black", 3);
-    controlPointsInterpolationManager.drawPoints(interpolatedControlPointsSpline.points, 3, "red", "red");
+    controlPointsInterpolationManager.drawPoints(interpolatedControlPointsSpline.points, 2, "red", "red");
     controlPointsInterpolationManager.drawPoints(controlPoints, 5, "green", "black", 2);
 
     controlPointsInterpolationDoneManager.drawLine(interpolatedControlPointsSpline.points, "black", 3);
