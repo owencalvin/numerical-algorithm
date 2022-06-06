@@ -66,6 +66,7 @@ export class CanvasManager {
         strokeColor = "black",
         lineWidth = 0
     ) {
+        if (!point) return;
         this._context.beginPath();
         this._context.lineWidth = lineWidth;
         this._context.lineCap = "round";

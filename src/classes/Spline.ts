@@ -130,7 +130,7 @@ export class Spline {
     }
 
     catmullRomInterpolation(
-        tFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D, index: number, nbInterpolationPoint: number) => number,
+        tFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D, i: number, nbInterpolationPoints: number) => number,
         nbInterpolationPointsFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D) => number
     ) {
         const lastPoint = this._points[this._points.length - 1];
@@ -151,8 +151,9 @@ export class Spline {
             add(pB);
 
             const nbInterpolationPoints = nbInterpolationPointsFn(pA, pB, pC, pD);
+            console.log(nbInterpolationPoints);
 
-            for (let i = nbInterpolationPoints; i >= 0; i--) {
+            for (let i = 2; i < nbInterpolationPoints; i++) {
                 const t = tFn(pA, pB, pC, pD, i, nbInterpolationPoints);
 
                 const point = {
@@ -160,7 +161,10 @@ export class Spline {
                     y: Spline.catmullRom(t, pA.y, pB.y, pC.y, pD.y)
                 };
 
-                prev.push(point);
+                prev = [
+                    ...prev,
+                    point,
+                ];
             }
 
             add(pC);

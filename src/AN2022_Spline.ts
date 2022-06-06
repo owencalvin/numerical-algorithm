@@ -6,6 +6,7 @@ const nbControlPointsElement = document.getElementById("s-control-points") as HT
 const minAngleElement = document.getElementById("s-angle") as HTMLInputElement;
 const minNormElement = document.getElementById("s-norm") as HTMLInputElement;
 const tElement = document.getElementById("s-t") as HTMLInputElement;
+const nbInterpolationPointsElement = document.getElementById("s-interpolation-points") as HTMLInputElement;
 
 const drawingCanvasElement = document.getElementById("s-spline-canvas") as HTMLCanvasElement;
 const previewCanvasElement = document.getElementById("s-spline-canvas-preview") as HTMLCanvasElement;
@@ -21,6 +22,7 @@ let nbControlPoints = 4;
 let minAngle = 1;
 let minNorm = 20;
 let t = 0.5;
+let nbInterpolationPoints = 3;
 
 const spline = new Spline();
 
@@ -41,15 +43,17 @@ function draw() {
     previewCanvasManager.drawPoints(controlPoints, 5, "green", "black", 2);
 
     const reconstructedSpline = splineFromControlPoints.copy().catmullRomInterpolation(
-        () => t,
+        (pA, pB, pC, pD, i, nbInterpolationPoints) => i / nbInterpolationPoints,
         (pA, pB, pC) => {
+            if (nbInterpolationPoints >= 0) return nbInterpolationPoints;
+
             const vBC = new Vector2D(pB, pC);
             const vBA = new Vector2D(pB, pA);
             const angle = vBA.angle(vBC);
 
             // norm greater -> more points
             // angle greater -> more points
-            const normFactor = 0.5 * vBC.norm;
+            const normFactor = 0.02 * vBC.norm;
             const angleFactor = 10 * (angle / Math.PI);
             return Math.ceil(normFactor * angleFactor);
         }
@@ -86,10 +90,12 @@ drawingCanvasElement.addEventListener("mouseup", mouseUp);
 document.addEventListener("mouseup", mouseUp);
 
 function onChange() {
+    console.log("change");
     nbControlPoints = Number(nbControlPointsElement.value);
     minAngle = Number(minAngleElement.value);
     minNorm = Number(minNormElement.value);
     t = Number(tElement.value);
+    nbInterpolationPoints = Number(nbInterpolationPointsElement.value);
 
     draw();
 }
@@ -98,9 +104,12 @@ nbControlPointsElement.addEventListener("change", onChange);
 minAngleElement.addEventListener("change", onChange);
 minNormElement.addEventListener("change", onChange);
 tElement.addEventListener("change", onChange);
+nbInterpolationPointsElement.addEventListener("change", onChange);
+
 nbControlPointsElement.addEventListener("keyup", onChange);
 minAngleElement.addEventListener("keyup", onChange);
 minNormElement.addEventListener("keyup", onChange);
 tElement.addEventListener("keyup", onChange);
+nbInterpolationPointsElement.addEventListener("keyup", onChange);
 
 onChange();
