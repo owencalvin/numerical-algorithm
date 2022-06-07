@@ -134,7 +134,9 @@ export class Spline {
     ) {
         const lastPoint = this._points[this._points.length - 1];
         this._points = this._points.reduce<Point2D[]>((prev, pC, index) => {
-            if (index + 1 <= 2 || index + 1 >= this._points.length) return prev;
+            let pA = pC;
+            let pB = pC;
+            let pD = pC;
 
             const add = (py: Point2D) => {
                 if (!prev.find((px) => px.x === py.x && px.y === py.y)) {
@@ -142,9 +144,9 @@ export class Spline {
                 }
             };
 
-            const pA = this._points[index - 2];
-            const pB = this._points[index - 1];
-            const pD = this._points[index + 1];
+            if (index >= 2) pA = this._points[index - 2];
+            if (index >= 1) pB = this._points[index - 1];
+            if (index >= this._points.length) pD = this._points[index + 1];
 
             add(pA);
             add(pB);
