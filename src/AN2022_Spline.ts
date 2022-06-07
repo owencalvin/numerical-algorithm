@@ -2,6 +2,7 @@ import {Spline} from "./classes/Spline";
 import {CanvasManager} from "./classes/CanvasManager";
 import {Vector2D} from "./classes/Vector2D";
 import {Point2D} from "./classes/Point2D";
+import {Polygon} from "./classes/Polygon";
 
 const nbControlPointsElement = document.getElementById("s-nb-control-points") as HTMLInputElement;
 const minAngleElement = document.getElementById("s-angle") as HTMLInputElement;
@@ -31,18 +32,25 @@ let nbControlPoints = 4;
 let minAngle = 1;
 let minNorm = 20;
 let nbInterpolationPoints = 3;
-const interpolationFn = (pA: Point2D, pB: Point2D, pC: Point2D) => {
+const interpolationFn = (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D, spline: Spline) => {
     if (nbInterpolationPoints >= 0) return nbInterpolationPoints;
 
-    const vBC = new Vector2D(pB, pC);
-    const vBA = new Vector2D(pB, pA);
-    const angle = vBA.angle(vBC);
+    const polygon = new Polygon(pA, pB, pC, pD);
+    const areas = spline.areas.filter((x) =>  {
+        return Math.abs(x) != Infinity && !Number.isNaN(x);
+    }).sort().reverse();
 
-    // norm greater -> more points
-    // angle greater -> more points
-    const normFactor = 0.02 * vBC.norm;
-    const angleFactor = 10 * (angle / Math.PI);
-    return Math.ceil(normFactor * angleFactor);
+    let res = polygon.area() / areas[0];
+
+    if (Number.isNaN(res)) res = 0;
+    if (Math.abs(res) >= Infinity) res = 0;
+
+    res *= 5;
+
+    res = Math.max(res, 0);
+    res = Math.min(res, 100);
+
+    return Math.ceil(res);
 };
 
 function clearAll() {

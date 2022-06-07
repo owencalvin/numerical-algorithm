@@ -67,4 +67,13 @@ export class Vector2D {
             y: this._y
         });
     }
+
+    static area(previousPoint: Point2D, currentPoint: Point2D, nextPoint: Point2D) {
+        const vBA = new Vector2D(currentPoint, previousPoint);
+        const vBC = new Vector2D(currentPoint, nextPoint);
+        const vAC = new Vector2D(previousPoint, nextPoint);
+
+        const s = (vAC.norm + vBA.norm + vBC.norm) / 2;
+        return Math.sqrt(s * (s - vAC.norm) * (s - vBA.norm) * (s - vBC.norm));
+    }
 }

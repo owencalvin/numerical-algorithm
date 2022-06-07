@@ -1,5 +1,6 @@
 import {Vector2D} from "./Vector2D";
 import {Point2D} from "./Point2D";
+import {Polygon} from "./Polygon";
 
 export class Spline {
     private _points: Point2D[];
@@ -29,7 +30,10 @@ export class Spline {
     }
 
     addPoint(point: Point2D) {
-        this._points.push(point);
+        this._points = [
+            ...this._points,
+            point
+        ];
     }
 
     clear() {
@@ -78,16 +82,11 @@ export class Spline {
         return this._points.map((currentPoint, index) => {
             if (index + 1 <= 1 || index + 1 >= this._points.length) return Infinity;
 
-            const lastPoint = this._points[index - 1];
+            const previousPoint = this._points[index - 1];
             const nextPoint = this._points[index + 1];
 
-            const vBA = new Vector2D(currentPoint, lastPoint);
-            const vBC = new Vector2D(currentPoint, nextPoint);
-            const vAC = new Vector2D(lastPoint, nextPoint);
-
-            const s = (vAC.norm + vBA.norm + vBC.norm) / 2;
-
-            return Math.sqrt(s * (s - vAC.norm) * (s - vBA.norm) * (s - vBC.norm));
+            const polygon = new Polygon(previousPoint, currentPoint, nextPoint);
+            return polygon.area();
         });
     }
 
@@ -130,28 +129,37 @@ export class Spline {
     }
 
     catmullRomInterpolation(
-        nbInterpolationPointsFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D) => number
+        nbInterpolationPointsFn: (pA: Point2D, pB: Point2D, pC: Point2D, pD: Point2D, spline: Spline) => number
     ) {
-        const lastPoint = this._points[this._points.length - 1];
-        this._points = this._points.reduce<Point2D[]>((prev, pC, index) => {
-            let pA = pC;
-            let pB = pC;
-            let pD = pC;
+        if (this._points.length < 3) return this;
 
+        this._points = this._points.reduce<Point2D[]>((prev, pC, index) => {
             const add = (py: Point2D) => {
-                if (!prev.find((px) => px.x === py.x && px.y === py.y)) {
+                if (!prev.find((px) => px?.x === py?.x && px?.y === py?.y)) {
                     prev.push(py);
                 }
             };
 
-            if (index >= 2) pA = this._points[index - 2];
-            if (index >= 1) pB = this._points[index - 1];
-            if (index >= this._points.length) pD = this._points[index + 1];
+            if (index <= 0) return prev;
+
+            let pA: Point2D;
+            let pB: Point2D = this._points[index - 1];
+            let pD: Point2D;
+            if (index == 1) {
+                pA = this._points[index - 1];
+                pD = this._points[index + 1];
+            } else if (index > 1 && index < this._points.length - 1) {
+                pA = this._points[index - 2];
+                pD = this._points[index + 1];
+            } else if (index >= this._points.length - 1) {
+                pA = this._points[index - 2];
+                pD = this._points[index];
+            }
 
             add(pA);
             add(pB);
 
-            const nbInterpolationPoints = nbInterpolationPointsFn(pA, pB, pC, pD) + 2;
+            const nbInterpolationPoints = nbInterpolationPointsFn(pA, pB, pC, pD, this) + 2;
 
             for (let i = 2; i < nbInterpolationPoints; i++) {
                 const t = i / nbInterpolationPoints;
@@ -171,11 +179,6 @@ export class Spline {
 
             return prev;
         }, []);
-
-        this._points = [
-            ...this._points,
-            lastPoint
-        ];
 
         return this;
     }
