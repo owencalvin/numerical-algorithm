@@ -34,9 +34,9 @@
         <div class="flex">
             <div class="flex">
                 <div class="flex mt25">
-                    <label for="s-nb-control-points">Nombre de points de contrôle</label>
-                    <input class="mono" type="number" id="s-nb-control-points" min="2" placeholder="4" value="4">
-                    <span class="description">Il en faut minimum 2 (début et fin)</span>
+                    <label for="s-norm">Distance minimale entre deux points à garder à la simplification</label>
+                    <input class="mono" type="number" id="s-norm" min="2" placeholder="20" value="20">
+                    <span class="description">La distance est en pixels</span>
                 </div>
 
                 <div class="flex mt25">
@@ -46,9 +46,9 @@
                 </div>
 
                 <div class="flex mt25">
-                    <label for="s-norm">Distance minimale entre deux points à garder à la simplification</label>
-                    <input class="mono" type="number" id="s-norm" min="2" placeholder="20" value="20">
-                    <span class="description">La distance est en pixels</span>
+                    <label for="s-nb-control-points">Nombre de points de contrôle</label>
+                    <input class="mono" type="number" id="s-nb-control-points" min="2" placeholder="4" value="4">
+                    <span class="description">Il en faut minimum 2 (début et fin)</span>
                 </div>
 
                 <div class="flex mt25">
@@ -101,13 +101,21 @@
                     </div>
                     <div class="flex flex-row">
                         <div class="flex m10">
-                            <span style="width: 350px" class="description color-blue">Dessin final reconstruit à partir de l'interpolation sur la simplification</span>
-                            <canvas style="width: 350px; height: 350px" class="border-green" height="350px" width="350px"
+                            <div style="width: 350px">
+                                <div class="description color-blue">Dessin final reconstruit à partir de l'interpolation sur la simplification </div>
+                                <div class="description color-blue" id="s-simplified-percentage"></div>
+                            </div>
+                            <canvas style="width: 350px; height: 350px" class="border-green" height="350px"
+                                    width="350px"
                                     id="s-simplified-interpolation-done"></canvas>
                         </div>
                         <div class="flex m10">
-                            <span style="width: 350px" class="description color-orange">Dessin final reconstruit à partir de l'interpolation sur les points de contrôles</span>
-                            <canvas style="width: 350px; height: 350px" class="border-green" height="350px" width="350px"
+                            <div style="width: 350px">
+                                <div class="description color-orange">Dessin final reconstruit à partir de l'interpolation sur les points de contrôles</div>
+                                <div class="description color-orange" id="s-control-points-percentage"></div>
+                            </div>
+                            <canvas style="width: 350px; height: 350px" class="border-green" height="350px"
+                                    width="350px"
                                     id="s-control-points-interpolation-done"></canvas>
                         </div>
                     </div>

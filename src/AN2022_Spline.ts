@@ -8,6 +8,8 @@ const nbControlPointsElement = document.getElementById("s-nb-control-points") as
 const minAngleElement = document.getElementById("s-angle") as HTMLInputElement;
 const minNormElement = document.getElementById("s-norm") as HTMLInputElement;
 const nbInterpolationPointsElement = document.getElementById("s-interpolation-points") as HTMLInputElement;
+const simplifiedPercentageElement = document.getElementById("s-simplified-percentage") as HTMLInputElement;
+const controlPointsPercentageElement = document.getElementById("s-control-points-percentage") as HTMLInputElement;
 
 const drawingCanvasElement = document.getElementById("s-drawing") as HTMLCanvasElement;
 const drawingPointsCanvasElement = document.getElementById("s-drawing-points") as HTMLCanvasElement;
@@ -95,6 +97,11 @@ function update() {
 
     controlPointsInterpolationDoneManager.drawLine(interpolatedControlPointsSpline.points, "black", 3);
     simplifiedInterpolationDoneManager.drawLine(interpolatedSimplifiedSpline.points, "black", 3);
+
+    if (spline.points.length > 0) {
+        controlPointsPercentageElement.innerHTML = "(" + (100 - controlPointsSpline.points.length / spline.points.length * 100).toFixed(2).toString() + "% de compression)";
+        simplifiedPercentageElement.innerHTML = "(" + (100 - simplifiedSpline.points.length / spline.points.length * 100).toFixed(2).toString() + "% de compression)";
+    }
 }
 
 function mouseMove(e: MouseEvent) {
